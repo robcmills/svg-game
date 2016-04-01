@@ -8,7 +8,7 @@ export const toRad = (deg) => deg * (Math.PI / 180)
 export const COS_60 = Math.cos(toRad(60))
 export const SIN_60 = Math.sin(toRad(60))
 
-const Hex = ({ className, radius, x, y }) => {
+const Hex = ({ className, radius, style, x, y }) => {
   const adjacent = radius * COS_60
   const opposite = radius * SIN_60
   const points = _.map([
@@ -23,6 +23,7 @@ const Hex = ({ className, radius, x, y }) => {
     <polygon
       className={classNames(styles.hex, className)}
       points={points}
+      style={style}
     />
   )
 }
@@ -30,6 +31,7 @@ const Hex = ({ className, radius, x, y }) => {
 Hex.propTypes = {
   className: PropTypes.string,
   radius: PropTypes.number,
+  style: PropTypes.object,
   x: PropTypes.number,
   y: PropTypes.number,
 }
