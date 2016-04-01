@@ -19,8 +19,9 @@
     "__BASENAME__" : false
   },
   "rules": {
-    "semi" : [2, "never"],
+    "comma-dangle": "off",
     "max-len": [2, 120, 2],
+    "semi": [2, "never"],
     "flow-vars/define-flow-type": 1,
     "flow-vars/use-flow-type": 1
   }

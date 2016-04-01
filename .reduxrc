@@ -1,8 +1,1 @@
-{
-  "sourceBase":"src",
-  "testBase":"tests",
-  "smartPath":"containers",
-  "dumbPath":"components",
-  "fileCasing":"pascal"
-}
-
+{"sourceBase":"./src","testBase":"./tests","smartPath":"./src/containers","dumbPath":"./src/components","fileCasing":"pascal"}

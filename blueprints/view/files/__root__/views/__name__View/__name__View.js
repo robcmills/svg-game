@@ -1,10 +1,8 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 
-type Props = {
-
-};
 export class <%= pascalEntityName %> extends React.Component {
-  props: Props;
+  static propTypes = {
+  };
 
   render () {
     return (
