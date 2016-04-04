@@ -52,12 +52,12 @@ export default reduxForm({
   form: 'hexViewForm',
   fields: fields,
   initialValues: {
-    svgWidth: 300,
-    svgHeight: 300,
+    svgWidth: 500,
+    svgHeight: 500,
     viewBoxMinX: 0,
     viewBoxMinY: 0,
-    viewBoxWidth: 300,
-    viewBoxHeight: 300,
+    viewBoxWidth: 500,
+    viewBoxHeight: 500,
   },
 }, null, null,
 )(HexView)
