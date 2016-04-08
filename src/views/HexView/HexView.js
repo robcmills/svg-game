@@ -1,7 +1,9 @@
 import React, { PropTypes } from 'react'
 import { reduxForm } from 'redux-form'
+import { bindActionCreators } from 'redux'
 import _ from 'lodash'
 
+import * as actions from './hex-view-action-creators'
 import { Map, Svg } from 'components'
 import map1 from 'data/maps/map1'
 // import styles from './hex-view.scss'
@@ -9,6 +11,7 @@ import map1 from 'data/maps/map1'
 class HexView extends React.Component {
   static propTypes = {
     fields: PropTypes.object,
+    loadMap: PropTypes.func.isRequired,
   };
 
   render () {
@@ -37,6 +40,10 @@ class HexView extends React.Component {
       </div>
     )
   }
+
+  componentDidMount () {
+    this.props.loadMap({ map: map1 })
+  }
 }
 
 const fields = [
@@ -59,5 +66,8 @@ export default reduxForm({
     viewBoxWidth: 500,
     viewBoxHeight: 500,
   },
-}, null, null,
+}, null,
+(dispatch) => bindActionCreators({
+  loadMap: actions.loadMap,
+}, dispatch),
 )(HexView)

@@ -2,9 +2,8 @@
 import React, { PropTypes } from 'react'
 import _ from 'lodash'
 
+import { HEX_RADIUS, SIN_60 } from 'data/constants'
 import { Hex } from 'components'
-import { SIN_60 } from 'components/Hex/hex'
-import { HEX_RADIUS } from 'data/hex-types'
 import hexStyles from 'styles/hex-styles.scss'
 
 const Map = ({ data, x, y }) => {

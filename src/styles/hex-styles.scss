@@ -1,13 +1,27 @@
+.air {
+	fill: DeepSkyBlue;
+}
+.earth {
+	fill: Green;
+}
 .empty {
 	opacity: 0;
+}
+.fire {
+	fill: Red;
 }
 .neutral {
 	fill: Silver;
 }
 .neutral2 {
-	fill: Gainsboro;
+	fill: LightGray;
 }
-.sea {
-  fill: DeepSkyBlue;
-  stroke: White;
+.neutral3 {
+	fill: DarkGray;
+}
+.stone {
+	fill: DimGray;
+}
+.water {
+  fill: Blue;
 }
