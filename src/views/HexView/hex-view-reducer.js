@@ -4,6 +4,7 @@ import * as actionTypes from './hex-view-action-types'
 
 const initialState = {
   map: [],
+  showNumbers: false,
 }
 
 export default createReducer(initialState, {
@@ -11,6 +12,12 @@ export default createReducer(initialState, {
     return {
       ...state,
       map,
+    }
+  },
+  [actionTypes.TOGGLE_NUMBERS]: (state) => {
+    return {
+      ...state,
+      showNumbers: !state.showNumbers,
     }
   },
 })

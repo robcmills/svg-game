@@ -8,3 +8,11 @@ export function loadMap ({ map }) {
     })
   }
 }
+
+export function toggleNumbers () {
+  return (dispatch) => {
+    dispatch({
+      type: actionTypes.TOGGLE_NUMBERS,
+    })
+  }
+}
