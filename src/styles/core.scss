@@ -8,8 +8,7 @@
     box-sizing: border-box;
   }
 
-  html,
-  body {
+  html, body, #root {
     margin: 0;
     padding: 0;
     height: 100%;
@@ -20,4 +19,8 @@
   *:after {
     box-sizing: inherit;
   }
+}
+
+.root {
+  height: 100%;
 }

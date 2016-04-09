@@ -35,10 +35,10 @@ export default class Root extends React.Component {
   render () {
     return (
       <Provider store={this.props.store}>
-        <div style={{ height: '100%' }}>
+        <span>
           {this.content}
           {this.devTools}
-        </div>
+        </span>
       </Provider>
     )
   }

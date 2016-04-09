@@ -6,7 +6,8 @@ import _ from 'lodash'
 import * as actions from './hex-view-action-creators'
 import { Map, Svg } from 'components'
 import map1 from 'data/maps/map1'
-// import styles from './hex-view.scss'
+import { HEX_RADIUS } from 'data/constants'
+import styles from './hex-view.scss'
 
 class HexView extends React.Component {
   static propTypes = {
@@ -17,8 +18,6 @@ class HexView extends React.Component {
   render () {
     const {
       fields: {
-        svgHeight,
-        svgWidth,
         viewBoxHeight,
         viewBoxWidth,
         viewBoxMinX,
@@ -29,13 +28,12 @@ class HexView extends React.Component {
       [viewBoxMinX, viewBoxMinY, viewBoxWidth, viewBoxHeight], 'value'
     )
     return (
-      <div>
-        <h1>HexView</h1>
+      <div className={styles.root}>
         <Svg
-          height={svgHeight.value}
+          height={HEX_RADIUS * 22}
           viewBox={viewBox[0] ? viewBox.join(',') : null}
-          width={svgWidth.value}>
-          <Map data={map1} x={100} y={100} />
+          width={HEX_RADIUS * 19}>
+          <Map data={map1} x={HEX_RADIUS * 2} y={HEX_RADIUS * 2} />
         </Svg>
       </div>
     )
