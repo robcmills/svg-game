@@ -4,11 +4,15 @@ import { bindActionCreators } from 'redux'
 import _ from 'lodash'
 
 import mapStateToSelectors from 'utils/map-state-to-selectors'
-import { showNumbersSelector } from './hex-view-selectors'
+import {
+  mapSelector,
+  shapesSelector,
+  showNumbersSelector
+} from './hex-view-selectors'
 import * as actions from './hex-view-action-creators'
-import { Map, Numbers, Svg } from 'components'
+import { Map, Numbers, Shapes, Svg } from 'components'
 import map1 from 'data/maps/map1'
-// import shapes1 from 'data/shapes1'
+import shapes1 from 'data/maps/shapes1'
 import { HEX_RADIUS } from 'data/constants'
 import styles from './hex-view.scss'
 
@@ -16,6 +20,9 @@ class HexView extends React.Component {
   static propTypes = {
     fields: PropTypes.object,
     loadMap: PropTypes.func.isRequired,
+    loadShapes: PropTypes.func.isRequired,
+    map: PropTypes.array,
+    shapes: PropTypes.array,
     showNumbers: PropTypes.bool,
     toggleNumbers: PropTypes.func.isRequired,
   };
@@ -28,11 +35,14 @@ class HexView extends React.Component {
         viewBoxMinX,
         viewBoxMinY,
       },
+      map,
+      shapes,
       showNumbers,
     } = this.props
     const viewBox = _.map(
       [viewBoxMinX, viewBoxMinY, viewBoxWidth, viewBoxHeight], 'value'
     )
+    const offset = HEX_RADIUS * 2
     return (
       <div className={styles.root}>
         <a onClick={this.handleShowNumbersClick}>{`${showNumbers ? 'Hide' : 'Show'} numbers`}</a>
@@ -41,8 +51,9 @@ class HexView extends React.Component {
           viewBox={viewBox[0] ? viewBox.join(',') : null}
           width={HEX_RADIUS * 19}>
           <g>
-            <Map data={map1} x={HEX_RADIUS * 2} y={HEX_RADIUS * 2} />
-            {showNumbers && <Numbers data={map1} x={HEX_RADIUS * 2} y={HEX_RADIUS * 2} />}
+            <Map data={map} x={offset} y={offset} />
+            <Shapes data={shapes} x={offset} y={offset} />
+            {showNumbers && <Numbers data={map} x={offset} y={offset} />}
           </g>
         </Svg>
       </div>
@@ -51,7 +62,7 @@ class HexView extends React.Component {
 
   componentDidMount () {
     this.props.loadMap({ map: map1 })
-    // this.props.loadShapes({ shapes: shapes1 })
+    this.props.loadShapes({ shapes: shapes1 })
   }
 
   handleKeydown = (event) => {
@@ -86,10 +97,13 @@ export default reduxForm({
   },
 },
 mapStateToSelectors({
+  map: mapSelector,
+  shapes: shapesSelector,
   showNumbers: showNumbersSelector,
 }),
 (dispatch) => bindActionCreators({
   loadMap: actions.loadMap,
+  loadShapes: actions.loadShapes,
   toggleNumbers: actions.toggleNumbers,
 }, dispatch),
 )(HexView)

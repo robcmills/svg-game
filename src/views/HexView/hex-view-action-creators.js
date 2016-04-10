@@ -9,6 +9,15 @@ export function loadMap ({ map }) {
   }
 }
 
+export function loadShapes ({ shapes }) {
+  return (dispatch) => {
+    dispatch({
+      type: actionTypes.LOAD_SHAPES,
+      payload: { shapes },
+    })
+  }
+}
+
 export function toggleNumbers () {
   return (dispatch) => {
     dispatch({
