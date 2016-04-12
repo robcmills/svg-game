@@ -1,4 +1,7 @@
+import { elements } from 'data/constants'
+
 export default [
+  // white
   {
     color: 'white',
     shape: 'circle',
@@ -108,5 +111,31 @@ export default [
     shape: 'triangle',
     xIndex: 3,
     yIndex: 2,
+  },
+
+  // elements
+  {
+    color: elements.air,
+    shape: 'element',
+    xIndex: 0,
+    yIndex: 6,
+  },
+  {
+    color: elements.fire,
+    shape: 'element',
+    xIndex: 5,
+    yIndex: 6,
+  },
+  {
+    color: elements.earth,
+    shape: 'element',
+    xIndex: 0,
+    yIndex: 16,
+  },
+  {
+    color: elements.water,
+    shape: 'element',
+    xIndex: 5,
+    yIndex: 16,
   },
 ]
