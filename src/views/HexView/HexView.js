@@ -50,27 +50,29 @@ class HexView extends React.Component {
     const offset = HEX_RADIUS * 2
     return (
       <div className={styles.root}>
-        <Svg
-          height={HEX_RADIUS * 22}
-          viewBox={viewBox[0] ? viewBox.join(',') : null}
-          width={HEX_RADIUS * 19}>
-          <g>
-            <Map
-              data={map}
-              onHexClick={this.handleHexClick}
-              x={offset}
-              y={offset}
-            />
-            <Shapes
-              data={shapes}
-              onShapeClick={this.handleShapeClick}
-              selectedShape={selectedShape}
-              x={offset}
-              y={offset}
-            />
-            {showNumbers && <Numbers data={map} x={offset} y={offset} />}
-          </g>
-        </Svg>
+        <div className={styles.svgWrap}>
+          <Svg
+            height={HEX_RADIUS * 22}
+            viewBox={viewBox[0] ? viewBox.join(',') : null}
+            width={HEX_RADIUS * 19}>
+            <g>
+              <Map
+                data={map}
+                onHexClick={this.handleHexClick}
+                x={offset}
+                y={offset}
+              />
+              <Shapes
+                data={shapes}
+                onShapeClick={this.handleShapeClick}
+                selectedShape={selectedShape}
+                x={offset}
+                y={offset}
+              />
+              {showNumbers && <Numbers data={map} x={offset} y={offset} />}
+            </g>
+          </Svg>
+        </div>
         <div>
           <a onClick={this.handleShowNumbersClick}>
             {`${showNumbers ? 'Hide' : 'Show'} numbers`}
