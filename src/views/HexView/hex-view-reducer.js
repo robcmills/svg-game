@@ -1,4 +1,5 @@
 import { createReducer } from 'utils/create-reducer'
+import _ from 'lodash'
 
 import * as actionTypes from './hex-view-action-types'
 
@@ -20,6 +21,17 @@ export default createReducer(initialState, {
     return {
       ...state,
       shapes,
+    }
+  },
+  [actionTypes.MOVE_SELECTED_SHAPE]: (state, { xIndex, yIndex }) => {
+    const newShapes = _.cloneDeep(state.shapes)
+    const selectedShape = _.find(newShapes, state.selectedShape)
+    _.set(selectedShape, 'xIndex', xIndex)
+    _.set(selectedShape, 'yIndex', yIndex)
+    return {
+      ...state,
+      shapes: newShapes,
+      selectedShape: null,
     }
   },
   [actionTypes.SET_SELECTED_SHAPE]: (state, { xIndex, yIndex }) => {

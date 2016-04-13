@@ -7,7 +7,7 @@ import { colorLuminance } from 'utils/color'
 import { Triangle } from 'components'
 import styles from './shapes.scss'
 
-const Shapes = ({ data, onClick, selectedShape, x, y }) => {
+const Shapes = ({ data, onShapeClick, selectedShape, x, y }) => {
   return (
     <g>
       {
@@ -22,7 +22,7 @@ const Shapes = ({ data, onClick, selectedShape, x, y }) => {
             fill = SELECTED_COLOR
           }
           return (
-            <g key={i} onClick={() => onClick({ shape, xIndex, yIndex })}>
+            <g key={i} onClick={() => onShapeClick({ shape, xIndex, yIndex })}>
             {
               shape === 'circle' &&
                 <circle
@@ -81,7 +81,7 @@ const Shapes = ({ data, onClick, selectedShape, x, y }) => {
 
 Shapes.propTypes = {
   data: PropTypes.array,
-  onClick: PropTypes.func.isRequired,
+  onShapeClick: PropTypes.func.isRequired,
   selectedShape: PropTypes.object,
   x: PropTypes.number,
   y: PropTypes.number,

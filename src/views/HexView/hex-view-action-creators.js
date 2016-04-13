@@ -18,6 +18,15 @@ export function loadShapes ({ shapes }) {
   }
 }
 
+export function moveSelectedShape ({ xIndex, yIndex }) {
+  return (dispatch) => {
+    dispatch({
+      type: actionTypes.MOVE_SELECTED_SHAPE,
+      payload: { xIndex, yIndex },
+    })
+  }
+}
+
 export function setSelectedShape ({ xIndex, yIndex }) {
   return (dispatch) => {
     dispatch({

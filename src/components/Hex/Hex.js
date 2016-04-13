@@ -5,7 +5,7 @@ import _ from 'lodash'
 import { COS_60, SIN_60 } from 'data/constants'
 import styles from './hex.scss'
 
-const Hex = ({ className, radius, style, x, y }) => {
+const Hex = ({ className, onClick, radius, style, x, y }) => {
   const adjacent = radius * COS_60
   const opposite = radius * SIN_60
   const points = _.map([
@@ -19,6 +19,7 @@ const Hex = ({ className, radius, style, x, y }) => {
   return (
     <polygon
       className={classNames(styles.hex, className)}
+      onClick={onClick}
       points={points}
       style={style}
     />
@@ -27,6 +28,7 @@ const Hex = ({ className, radius, style, x, y }) => {
 
 Hex.propTypes = {
   className: PropTypes.string,
+  onClick: PropTypes.func.isRequired,
   radius: PropTypes.number,
   style: PropTypes.object,
   x: PropTypes.number,

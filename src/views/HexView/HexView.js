@@ -14,7 +14,7 @@ import * as actions from './hex-view-action-creators'
 import { Map, Numbers, Shapes, Svg } from 'components'
 import map1 from 'data/maps/map1'
 import shapes1 from 'data/maps/shapes1'
-import { HEX_RADIUS } from 'data/constants'
+import { elements, HEX_RADIUS } from 'data/constants'
 import styles from './hex-view.scss'
 
 class HexView extends React.Component {
@@ -23,6 +23,7 @@ class HexView extends React.Component {
     loadMap: PropTypes.func.isRequired,
     loadShapes: PropTypes.func.isRequired,
     map: PropTypes.array,
+    moveSelectedShape: PropTypes.func.isRequired,
     selectedShape: PropTypes.object,
     setSelectedShape: PropTypes.func.isRequired,
     shapes: PropTypes.array,
@@ -49,16 +50,20 @@ class HexView extends React.Component {
     const offset = HEX_RADIUS * 2
     return (
       <div className={styles.root}>
-        <a onClick={this.handleShowNumbersClick}>{`${showNumbers ? 'Hide' : 'Show'} numbers`}</a>
         <Svg
           height={HEX_RADIUS * 22}
           viewBox={viewBox[0] ? viewBox.join(',') : null}
           width={HEX_RADIUS * 19}>
           <g>
-            <Map data={map} x={offset} y={offset} />
+            <Map
+              data={map}
+              onHexClick={this.handleHexClick}
+              x={offset}
+              y={offset}
+            />
             <Shapes
               data={shapes}
-              onClick={this.handleShapeClick}
+              onShapeClick={this.handleShapeClick}
               selectedShape={selectedShape}
               x={offset}
               y={offset}
@@ -66,6 +71,11 @@ class HexView extends React.Component {
             {showNumbers && <Numbers data={map} x={offset} y={offset} />}
           </g>
         </Svg>
+        <div>
+          <a onClick={this.handleShowNumbersClick}>
+            {`${showNumbers ? 'Hide' : 'Show'} numbers`}
+          </a>
+        </div>
       </div>
     )
   }
@@ -80,8 +90,13 @@ class HexView extends React.Component {
     // console.log('handleKeydown', event)
   };
 
+  handleHexClick = ({ xIndex, yIndex }) => {
+    if (this.isValidMove({ xIndex, yIndex })) {
+      this.props.moveSelectedShape({ xIndex, yIndex })
+    }
+  };
+
   handleShapeClick = ({ shape, xIndex, yIndex }) => {
-    console.log('handleShapeClick', shape)
     if (_.indexOf(['circle', 'square', 'triangle'], shape) > -1) {
       this.props.setSelectedShape({ xIndex, yIndex })
     }
@@ -89,6 +104,19 @@ class HexView extends React.Component {
 
   handleShowNumbersClick = () => {
     this.props.toggleNumbers()
+  }
+
+  isValidMove = ({ xIndex, yIndex }) => {
+    let isValid = true
+    const { map, selectedShape } = this.props
+    if (_.isEqual({ xIndex, yIndex }, selectedShape)) {
+      isValid = false
+    }
+    const isElement = _.indexOf(elements, map[yIndex][xIndex]) > -1
+    if (isElement) { // temporary logic
+      isValid = false
+    }
+    return isValid
   }
 }
 
@@ -122,6 +150,7 @@ mapStateToSelectors({
 (dispatch) => bindActionCreators({
   loadMap: actions.loadMap,
   loadShapes: actions.loadShapes,
+  moveSelectedShape: actions.moveSelectedShape,
   setSelectedShape: actions.setSelectedShape,
   toggleNumbers: actions.toggleNumbers,
 }, dispatch),

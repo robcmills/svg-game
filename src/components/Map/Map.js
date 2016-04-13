@@ -5,7 +5,7 @@ import { HEX_RADIUS, SIN_60 } from 'data/constants'
 import { Hex } from 'components'
 import hexStyles from 'styles/hex-styles.scss'
 
-const Map = ({ data, x, y }) => {
+const Map = ({ data, onHexClick, x, y }) => {
   return (
     <g>
       {
@@ -15,6 +15,7 @@ const Map = ({ data, x, y }) => {
             return (
               <Hex
                 className={hexStyles[hexType]}
+                onClick={() => onHexClick({ xIndex, yIndex })}
                 radius={HEX_RADIUS}
                 x={HEX_RADIUS * 3 * xIndex + (isEvenRow ? 0 : HEX_RADIUS * 1.5) + x}
                 y={SIN_60 * HEX_RADIUS * yIndex + y}
@@ -29,6 +30,7 @@ const Map = ({ data, x, y }) => {
 
 Map.propTypes = {
   data: PropTypes.array,
+  onHexClick: PropTypes.func.isRequired,
   x: PropTypes.number,
   y: PropTypes.number,
 }

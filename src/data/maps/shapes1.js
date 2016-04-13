@@ -1,4 +1,4 @@
-import { elements } from 'data/constants'
+import { elementColors } from 'data/constants'
 
 export default [
   // white
@@ -115,25 +115,25 @@ export default [
 
   // elements
   {
-    color: elements.air,
+    color: elementColors.air,
     shape: 'element',
     xIndex: 0,
     yIndex: 6,
   },
   {
-    color: elements.fire,
+    color: elementColors.fire,
     shape: 'element',
     xIndex: 5,
     yIndex: 6,
   },
   {
-    color: elements.earth,
+    color: elementColors.earth,
     shape: 'element',
     xIndex: 0,
     yIndex: 16,
   },
   {
-    color: elements.water,
+    color: elementColors.water,
     shape: 'element',
     xIndex: 5,
     yIndex: 16,

@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 export const HEX_RADIUS = 20
 export const SHAPE_RADIUS = HEX_RADIUS / 2
 export const SHAPE_STROKE_WIDTH = HEX_RADIUS / 10
@@ -19,16 +21,21 @@ export const colors = {
   SlateBlue: '#6A5ACD',
 }
 
-export const elements = {
+export const elementColors = {
   air: colors.DeepSkyBlue,
   earth: colors.Green,
-  empty: 0,
   fire: colors.Red,
+  stone: colors.DimGray,
+  water: colors.Blue,
+}
+
+export const elements = _.keys(elementColors)
+
+export const hexColors = {
+  empty: 0,
   neutral: colors.Silver,
   neutral2: colors.LightGray,
   neutral3: colors.DarkGray,
-  stone: colors.DimGray,
-  water: colors.Blue,
 }
 
 export const SELECTED_COLOR = colors.SlateBlue
