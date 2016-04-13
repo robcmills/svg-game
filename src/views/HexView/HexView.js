@@ -6,6 +6,7 @@ import _ from 'lodash'
 import mapStateToSelectors from 'utils/map-state-to-selectors'
 import {
   mapSelector,
+  selectedShapeSelector,
   shapesSelector,
   showNumbersSelector
 } from './hex-view-selectors'
@@ -22,6 +23,8 @@ class HexView extends React.Component {
     loadMap: PropTypes.func.isRequired,
     loadShapes: PropTypes.func.isRequired,
     map: PropTypes.array,
+    selectedShape: PropTypes.object,
+    setSelectedShape: PropTypes.func.isRequired,
     shapes: PropTypes.array,
     showNumbers: PropTypes.bool,
     toggleNumbers: PropTypes.func.isRequired,
@@ -36,6 +39,7 @@ class HexView extends React.Component {
         viewBoxMinY,
       },
       map,
+      selectedShape,
       shapes,
       showNumbers,
     } = this.props
@@ -52,7 +56,13 @@ class HexView extends React.Component {
           width={HEX_RADIUS * 19}>
           <g>
             <Map data={map} x={offset} y={offset} />
-            <Shapes data={shapes} x={offset} y={offset} />
+            <Shapes
+              data={shapes}
+              onClick={this.handleShapeClick}
+              selectedShape={selectedShape}
+              x={offset}
+              y={offset}
+            />
             {showNumbers && <Numbers data={map} x={offset} y={offset} />}
           </g>
         </Svg>
@@ -68,6 +78,13 @@ class HexView extends React.Component {
   handleKeydown = (event) => {
     // todo
     // console.log('handleKeydown', event)
+  };
+
+  handleShapeClick = ({ shape, xIndex, yIndex }) => {
+    console.log('handleShapeClick', shape)
+    if (_.indexOf(['circle', 'square', 'triangle'], shape) > -1) {
+      this.props.setSelectedShape({ xIndex, yIndex })
+    }
   };
 
   handleShowNumbersClick = () => {
@@ -98,12 +115,14 @@ export default reduxForm({
 },
 mapStateToSelectors({
   map: mapSelector,
+  selectedShape: selectedShapeSelector,
   shapes: shapesSelector,
   showNumbers: showNumbersSelector,
 }),
 (dispatch) => bindActionCreators({
   loadMap: actions.loadMap,
   loadShapes: actions.loadShapes,
+  setSelectedShape: actions.setSelectedShape,
   toggleNumbers: actions.toggleNumbers,
 }, dispatch),
 )(HexView)

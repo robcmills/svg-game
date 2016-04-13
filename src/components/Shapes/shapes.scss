@@ -1,2 +1,6 @@
 .shape {
+	&:hover {
+		cursor: pointer;
+		fill: SlateBlue;
+	}
 }

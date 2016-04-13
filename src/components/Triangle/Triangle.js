@@ -3,7 +3,7 @@ import _ from 'lodash'
 
 import { COS_60, SIN_60 } from 'data/constants'
 
-const Triangle = ({ fill, stroke, strokeWidth, r, x, y }) => {
+const Triangle = ({ className, fill, stroke, strokeWidth, r, x, y }) => {
   const adjacent = r * COS_60
   const opposite = r * SIN_60
   const points = _.map([
@@ -13,6 +13,7 @@ const Triangle = ({ fill, stroke, strokeWidth, r, x, y }) => {
   ], (coord) => `${x + coord[0]},${y + coord[1]}`).join(' ')
   return (
     <polygon
+      className={className}
       fill={fill}
       stroke={stroke}
       strokeWidth={strokeWidth}
@@ -22,6 +23,7 @@ const Triangle = ({ fill, stroke, strokeWidth, r, x, y }) => {
 }
 
 Triangle.propTypes = {
+  className: PropTypes.string,
   fill: PropTypes.string,
   stroke: PropTypes.string,
   strokeWidth: PropTypes.number,

@@ -12,6 +12,11 @@ export const mapSelector = createSelector(
 	(hexView) => hexView.map
 )
 
+export const selectedShapeSelector = createSelector(
+	hexViewSelector,
+	(hexView) => hexView.selectedShape
+)
+
 export const shapesSelector = createSelector(
 	hexViewSelector,
 	(hexView) => hexView.shapes

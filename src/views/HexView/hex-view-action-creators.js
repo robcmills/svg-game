@@ -18,6 +18,15 @@ export function loadShapes ({ shapes }) {
   }
 }
 
+export function setSelectedShape ({ xIndex, yIndex }) {
+  return (dispatch) => {
+    dispatch({
+      type: actionTypes.SET_SELECTED_SHAPE,
+      payload: { xIndex, yIndex },
+    })
+  }
+}
+
 export function toggleNumbers () {
   return (dispatch) => {
     dispatch({

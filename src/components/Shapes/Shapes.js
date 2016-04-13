@@ -1,25 +1,33 @@
 import React, { PropTypes } from 'react'
 import _ from 'lodash'
 
-import { SHAPE_RADIUS, SHAPE_STROKE_WIDTH, SQUARE_DIM } from 'data/constants'
+import { SELECTED_COLOR, SHAPE_RADIUS, SHAPE_STROKE_WIDTH, SQUARE_DIM } from 'data/constants'
 import { xIndexToX, yIndexToY } from 'utils/hex'
 import { colorLuminance } from 'utils/color'
 import { Triangle } from 'components'
 import styles from './shapes.scss'
 
-const Shapes = ({ data, x, y }) => {
+const Shapes = ({ data, onClick, selectedShape, x, y }) => {
   return (
     <g>
       {
         _.map(data, ({ color, shape, xIndex, yIndex }, i) => {
           const isEvenRow = yIndex % 2 === 0
+          let fill = color
+          if (
+            selectedShape &&
+            selectedShape.xIndex === xIndex &&
+            selectedShape.yIndex === yIndex
+          ) {
+            fill = SELECTED_COLOR
+          }
           return (
-            <g key={i}>
+            <g key={i} onClick={() => onClick({ shape, xIndex, yIndex })}>
             {
               shape === 'circle' &&
                 <circle
                   className={styles.shape}
-                  fill={color}
+                  fill={fill}
                   stroke={color === 'white' ? 'black' : 'white'}
                   strokeWidth={SHAPE_STROKE_WIDTH}
                   r={SHAPE_RADIUS}
@@ -30,7 +38,8 @@ const Shapes = ({ data, x, y }) => {
             {
               shape === 'square' &&
                 <rect
-                  fill={color}
+                  className={styles.shape}
+                  fill={fill}
                   stroke={color === 'white' ? 'black' : 'white'}
                   strokeWidth={SHAPE_STROKE_WIDTH}
                   height={SQUARE_DIM}
@@ -42,7 +51,8 @@ const Shapes = ({ data, x, y }) => {
             {
               shape === 'triangle' &&
                 <Triangle
-                  fill={color}
+                  className={styles.shape}
+                  fill={fill}
                   stroke={color === 'white' ? 'black' : 'white'}
                   strokeWidth={SHAPE_STROKE_WIDTH}
                   r={SHAPE_RADIUS}
@@ -71,6 +81,8 @@ const Shapes = ({ data, x, y }) => {
 
 Shapes.propTypes = {
   data: PropTypes.array,
+  onClick: PropTypes.func.isRequired,
+  selectedShape: PropTypes.object,
   x: PropTypes.number,
   y: PropTypes.number,
 }
