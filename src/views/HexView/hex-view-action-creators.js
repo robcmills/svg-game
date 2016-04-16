@@ -1,5 +1,14 @@
 import * as actionTypes from './hex-view-action-types'
 
+export function giveElementToPlayer (payload) {
+  return (dispatch) => {
+    dispatch({
+      type: actionTypes.GIVE_ELEMENT_TO_PLAYER,
+      payload,
+    })
+  }
+}
+
 export function loadMap ({ map }) {
   return (dispatch) => {
     dispatch({

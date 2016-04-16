@@ -11,6 +11,17 @@ const initialState = {
 }
 
 export default createReducer(initialState, {
+  [actionTypes.GIVE_ELEMENT_TO_PLAYER]: (state, { playerColor, element }) => {
+    const newPlayers = _.cloneDeep(state.players)
+    const player = _.find(newPlayers, 'color', playerColor)
+    player.elements.push(element)
+    const newShapes = _.reject(state.shapes, { element })
+    return {
+      ...state,
+      shapes: newShapes,
+      players: newPlayers,
+    }
+  },
   [actionTypes.LOAD_MAP]: (state, { map }) => {
     return {
       ...state,

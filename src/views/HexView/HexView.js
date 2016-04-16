@@ -20,6 +20,7 @@ import styles from './hex-view.scss'
 class HexView extends React.Component {
   static propTypes = {
     fields: PropTypes.object,
+    giveElementToPlayer: PropTypes.func.isRequired,
     loadMap: PropTypes.func.isRequired,
     loadShapes: PropTypes.func.isRequired,
     map: PropTypes.array,
@@ -120,12 +121,12 @@ class HexView extends React.Component {
 
   handleShapeClick = ({ shape }) => {
     const { xIndex, yIndex } = shape
-    const { moveSelectedShape, selectedShape } = this.props
+    const { giveElementToPlayer, moveSelectedShape, selectedShape } = this.props
     const isElementShape = this.isElementShape({ shape })
     if (isElementShape && selectedShape && this.isValidMove({ xIndex, yIndex })) {
       moveSelectedShape({ xIndex, yIndex })
-      // const player = selectedShape.color
-      // giveElementToPlayer({ player, element })
+      const playerColor = selectedShape.color
+      giveElementToPlayer({ playerColor, element: shape.element })
       return
     }
     if (!isElementShape) {
@@ -193,6 +194,7 @@ mapStateToSelectors({
   showNumbers: showNumbersSelector,
 }),
 (dispatch) => bindActionCreators({
+  giveElementToPlayer: actions.giveElementToPlayer,
   loadMap: actions.loadMap,
   loadShapes: actions.loadShapes,
   moveSelectedShape: actions.moveSelectedShape,
