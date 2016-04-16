@@ -3,7 +3,6 @@ import _ from 'lodash'
 
 import { SELECTED_COLOR, SHAPE_RADIUS, SHAPE_STROKE_WIDTH, SQUARE_DIM } from 'data/constants'
 import { xIndexToX, yIndexToY } from 'utils/hex'
-import { colorLuminance } from 'utils/color'
 import { Triangle } from 'components'
 import styles from './shapes.scss'
 
@@ -59,17 +58,6 @@ const Shapes = ({ data, onShapeClick, selectedShape, x, y }) => {
                   r={SHAPE_RADIUS}
                   x={xIndexToX({ xIndex, isEvenRow }) + x}
                   y={yIndexToY({ yIndex }) + y}
-                />
-            }
-            {
-              type === 'element' &&
-                <circle
-                  fill={color}
-                  stroke={colorLuminance(color, -0.2)}
-                  strokeWidth={SHAPE_STROKE_WIDTH}
-                  r={SHAPE_RADIUS}
-                  cx={xIndexToX({ xIndex, isEvenRow }) + x}
-                  cy={yIndexToY({ yIndex }) + y}
                 />
             }
             </g>

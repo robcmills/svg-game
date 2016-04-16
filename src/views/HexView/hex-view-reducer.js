@@ -22,17 +22,14 @@ export default createReducer(initialState, {
       players: newPlayers,
     }
   },
+  [actionTypes.LOAD_ELEMENTS]: (state, { elements }) => {
+    return { ...state, elements }
+  },
   [actionTypes.LOAD_MAP]: (state, { map }) => {
-    return {
-      ...state,
-      map,
-    }
+    return { ...state, map }
   },
   [actionTypes.LOAD_SHAPES]: (state, { shapes }) => {
-    return {
-      ...state,
-      shapes,
-    }
+    return { ...state, shapes }
   },
   [actionTypes.MOVE_SELECTED_SHAPE]: (state, { xIndex, yIndex }) => {
     const newShapes = _.cloneDeep(state.shapes)

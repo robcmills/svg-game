@@ -8,6 +8,11 @@ export const showNumbersSelector = createSelector(
 	(hexView) => hexView.showNumbers
 )
 
+export const elementsSelector = createSelector(
+	hexViewSelector,
+	(hexView) => hexView.elements
+)
+
 export const mapSelector = createSelector(
 	hexViewSelector,
 	(hexView) => hexView.map

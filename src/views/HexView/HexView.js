@@ -5,22 +5,24 @@ import _ from 'lodash'
 
 import mapStateToSelectors from 'utils/map-state-to-selectors'
 import {
+  elementsSelector,
   mapSelector,
   selectedShapeSelector,
   shapesSelector,
   showNumbersSelector
 } from './hex-view-selectors'
 import * as actions from './hex-view-action-creators'
-import { Map, Numbers, Shapes, Svg } from 'components'
-import map1 from 'data/maps/map1'
-import shapes1 from 'data/maps/shapes1'
+import { Elements, Map, Numbers, Shapes, Svg } from 'components'
+import { elements1, map1, shapes1 } from 'data/maps/map1'
 import { elementNames, HEX_RADIUS } from 'data/constants'
 import styles from './hex-view.scss'
 
 class HexView extends React.Component {
   static propTypes = {
+    elements: PropTypes.array,
     fields: PropTypes.object,
     giveElementToPlayer: PropTypes.func.isRequired,
+    loadElements: PropTypes.func.isRequired,
     loadMap: PropTypes.func.isRequired,
     loadShapes: PropTypes.func.isRequired,
     map: PropTypes.array,
@@ -34,6 +36,7 @@ class HexView extends React.Component {
 
   render () {
     const {
+      elements,
       fields: {
         viewBoxHeight,
         viewBoxWidth,
@@ -70,6 +73,13 @@ class HexView extends React.Component {
                 x={offset}
                 y={offset}
               />
+              <Elements
+                elements={elements}
+                onElementClick={this.handleElementClick}
+                selectedShape={selectedShape}
+                x={offset}
+                y={offset}
+              />
               {showNumbers && <Numbers data={map} x={offset} y={offset} />}
             </g>
           </Svg>
@@ -86,6 +96,7 @@ class HexView extends React.Component {
   componentDidMount () {
     this.props.loadMap({ map: map1 })
     this.props.loadShapes({ shapes: shapes1 })
+    this.props.loadElements({ elements: elements1 })
   }
 
   getHex = ({ xIndex, yIndex }) => {
@@ -101,6 +112,9 @@ class HexView extends React.Component {
   handleKeydown = (event) => {
     // todo
     // console.log('handleKeydown', event)
+  };
+
+  handleElementClick = ({ element }) => {
   };
 
   handleHexClick = ({ xIndex, yIndex }) => {
@@ -188,6 +202,7 @@ export default reduxForm({
   },
 },
 mapStateToSelectors({
+  elements: elementsSelector,
   map: mapSelector,
   selectedShape: selectedShapeSelector,
   shapes: shapesSelector,
@@ -195,6 +210,7 @@ mapStateToSelectors({
 }),
 (dispatch) => bindActionCreators({
   giveElementToPlayer: actions.giveElementToPlayer,
+  loadElements: actions.loadElements,
   loadMap: actions.loadMap,
   loadShapes: actions.loadShapes,
   moveSelectedShape: actions.moveSelectedShape,

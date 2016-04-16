@@ -9,6 +9,15 @@ export function giveElementToPlayer (payload) {
   }
 }
 
+export function loadElements ({ elements }) {
+  return (dispatch) => {
+    dispatch({
+      type: actionTypes.LOAD_ELEMENTS,
+      payload: { elements },
+    })
+  }
+}
+
 export function loadMap ({ map }) {
   return (dispatch) => {
     dispatch({
