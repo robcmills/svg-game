@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect'
+import _ from 'lodash'
 
 export const hexViewSelector = (state) => state.views.hexView
 
@@ -12,12 +13,13 @@ export const mapSelector = createSelector(
 	(hexView) => hexView.map
 )
 
-export const selectedShapeSelector = createSelector(
-	hexViewSelector,
-	(hexView) => hexView.selectedShape
-)
-
 export const shapesSelector = createSelector(
 	hexViewSelector,
 	(hexView) => hexView.shapes
 )
+
+export const selectedShapeSelector = createSelector(
+	shapesSelector,
+	(shapes) => _.find(shapes, 'selected')
+)
+

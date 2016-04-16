@@ -5,7 +5,7 @@ import * as actionTypes from './hex-view-action-types'
 
 const initialState = {
   map: [],
-  selectedShape: null,
+  players: [{ color: 'white', elements: [] }, { color: 'black', elements: [] }],
   shapes: [],
   showNumbers: false,
 }
@@ -25,19 +25,22 @@ export default createReducer(initialState, {
   },
   [actionTypes.MOVE_SELECTED_SHAPE]: (state, { xIndex, yIndex }) => {
     const newShapes = _.cloneDeep(state.shapes)
-    const selectedShape = _.find(newShapes, state.selectedShape)
-    _.set(selectedShape, 'xIndex', xIndex)
-    _.set(selectedShape, 'yIndex', yIndex)
+    const selectedShape = _.find(newShapes, 'selected')
+    _.assign(selectedShape, { xIndex, yIndex, selected: false })
     return {
       ...state,
       shapes: newShapes,
-      selectedShape: null,
     }
   },
   [actionTypes.SELECT_SHAPE]: (state, { xIndex, yIndex }) => {
+    const newShapes = _.map(_.cloneDeep(state.shapes), (shape) => {
+      shape.selected = shape.type !== 'element' &&
+        shape.xIndex === xIndex && shape.yIndex === yIndex
+      return shape
+    })
     return {
       ...state,
-      selectedShape: { xIndex, yIndex },
+      shapes: newShapes,
     }
   },
   [actionTypes.TOGGLE_NUMBERS]: (state) => {

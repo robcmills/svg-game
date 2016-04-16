@@ -11,7 +11,8 @@ const Shapes = ({ data, onShapeClick, selectedShape, x, y }) => {
   return (
     <g>
       {
-        _.map(data, ({ color, shape, xIndex, yIndex }, i) => {
+        _.map(data, (shape, i) => {
+          const { color, type, xIndex, yIndex } = shape
           const isEvenRow = yIndex % 2 === 0
           let fill = color
           if (
@@ -22,9 +23,9 @@ const Shapes = ({ data, onShapeClick, selectedShape, x, y }) => {
             fill = SELECTED_COLOR
           }
           return (
-            <g key={i} onClick={() => onShapeClick({ shape, xIndex, yIndex })}>
+            <g key={i} onClick={() => onShapeClick({ shape })}>
             {
-              shape === 'circle' &&
+              type === 'circle' &&
                 <circle
                   className={styles.shape}
                   fill={fill}
@@ -36,7 +37,7 @@ const Shapes = ({ data, onShapeClick, selectedShape, x, y }) => {
                 />
             }
             {
-              shape === 'square' &&
+              type === 'square' &&
                 <rect
                   className={styles.shape}
                   fill={fill}
@@ -49,7 +50,7 @@ const Shapes = ({ data, onShapeClick, selectedShape, x, y }) => {
                 />
             }
             {
-              shape === 'triangle' &&
+              type === 'triangle' &&
                 <Triangle
                   className={styles.shape}
                   fill={fill}
@@ -61,7 +62,7 @@ const Shapes = ({ data, onShapeClick, selectedShape, x, y }) => {
                 />
             }
             {
-              shape === 'element' &&
+              type === 'element' &&
                 <circle
                   fill={color}
                   stroke={colorLuminance(color, -0.2)}

@@ -87,6 +87,16 @@ class HexView extends React.Component {
     this.props.loadShapes({ shapes: shapes1 })
   }
 
+  getHex = ({ xIndex, yIndex }) => {
+    const { map } = this.props
+    return _.get(map, `[${yIndex}][${xIndex}]`)
+  }
+
+  getShape = ({ xIndex, yIndex }) => {
+    const { shapes } = this.props
+    return _.find(shapes, { xIndex, yIndex })
+  }
+
   handleKeydown = (event) => {
     // todo
     // console.log('handleKeydown', event)
@@ -103,13 +113,22 @@ class HexView extends React.Component {
       return
     }
     const shape = this.getShape({ xIndex, yIndex })
-    if (shape && !this.isElement({ shape })) {
+    if (shape && !this.isElementShape({ shape })) {
       selectShape({ xIndex, yIndex })
     }
   };
 
-  handleShapeClick = ({ shape, xIndex, yIndex }) => {
-    if (!this.isElement({ shape })) {
+  handleShapeClick = ({ shape }) => {
+    const { xIndex, yIndex } = shape
+    const { moveSelectedShape, selectedShape } = this.props
+    const isElementShape = this.isElementShape({ shape })
+    if (isElementShape && selectedShape && this.isValidMove({ xIndex, yIndex })) {
+      moveSelectedShape({ xIndex, yIndex })
+      // const player = selectedShape.color
+      // giveElementToPlayer({ player, element })
+      return
+    }
+    if (!isElementShape) {
       this.props.selectShape({ xIndex, yIndex })
     }
   };
@@ -118,34 +137,30 @@ class HexView extends React.Component {
     this.props.toggleNumbers()
   }
 
-  isElement = ({ shape }) => _.indexOf(elementNames, shape.type) > -1
+  isElementHex = ({ hex }) => _.indexOf(elementNames, hex) > -1
 
-  getHex = ({ xIndex, yIndex }) => {
-    const { map } = this.props
-    return _.get(map, `[${yIndex}][${xIndex}]`)
-  }
-  getShape = ({ xIndex, yIndex }) => {
-    const { shapes } = this.props
-    return _.find(shapes, { xIndex, yIndex })
-  }
+  isElementShape = ({ shape }) => shape.type === 'element'
 
   isValidMove = ({ xIndex, yIndex }) => {
+    const { selectedShape } = this.props
+    if (!selectedShape) {
+      throw new Error('A shape must be selected when calling isValidMove')
+    }
+    if (_.isEqual({ xIndex, yIndex }, selectedShape)) {
+      return false // is selected shape
+    }
     const hex = this.getHex({ xIndex, yIndex })
     if (hex === 'empty') {
       return false
     }
+    if (this.isElementHex({ hex })) { // todo && !player.elements contains element
+      return false
+    }
     const shape = this.getShape({ xIndex, yIndex })
-    if (shape && !this.isElement({ shape })) {
+    if (shape && !this.isElementShape({ shape })) { // todo isEnemyShape
       return false
     }
-    const { selectedShape } = this.props
-    if (_.isEqual({ xIndex, yIndex }, selectedShape)) {
-      return false // is selected shape
-    }
-    const isElement = _.indexOf(elementNames, hex) > -1
-    if (isElement) { // temporary logic
-      return false
-    }
+    // todo shape movements
     return true
   }
 }
