@@ -4,13 +4,15 @@ import _ from 'lodash'
 import { SHAPE_RADIUS, SHAPE_STROKE_WIDTH } from 'data/constants'
 import { xIndexToX, yIndexToY } from 'utils/hex'
 import { colorLuminance } from 'utils/color'
-// import styles from './shapes.scss'
 
 const Elements = ({ elements, onElementClick, selectedShape, x, y }) => {
+  const blackElements = _.filter(elements, 'ownedBy', 'black')
+  const whiteElements = _.filter(elements, 'ownedBy', 'white')
+  const freeElements = _.difference(elements, blackElements, whiteElements)
   return (
     <g>
       {
-        _.map(elements, (element, i) => {
+        _.map(freeElements, (element, i) => {
           const { color, xIndex, yIndex } = element
           const isEvenRow = yIndex % 2 === 0
           return (

@@ -110,6 +110,14 @@ class HexView extends React.Component {
   };
 
   handleElementClick = ({ element }) => {
+    const { xIndex, yIndex } = element
+    const { giveElementToPlayer, moveSelectedShape, selectedShape } = this.props
+    if (selectedShape && this.isValidMove({ xIndex, yIndex })) {
+      const playerColor = selectedShape.color
+      giveElementToPlayer({ playerColor, element })
+      moveSelectedShape({ xIndex, yIndex })
+      return
+    }
   };
 
   handleHexClick = ({ xIndex, yIndex }) => {
@@ -126,17 +134,11 @@ class HexView extends React.Component {
     if (shape) {
       selectShape({ shape })
     }
+    // todo : if element
   };
 
   handleShapeClick = ({ shape }) => {
     const { selectShape, unSelectShape } = this.props
-    // const isElementShape = this.isElementShape({ shape })
-    // if (selectedShape && this.isValidMove({ xIndex, yIndex })) {
-      // moveSelectedShape({ xIndex, yIndex })
-      // const playerColor = selectedShape.color
-      // giveElementToPlayer({ playerColor, element: shape.element })
-      // return
-    // }
     // todo : respect turn order
     shape.selected ? unSelectShape({ shape }) : selectShape({ shape })
   };
@@ -146,8 +148,6 @@ class HexView extends React.Component {
   }
 
   isElementHex = ({ hex }) => _.indexOf(elementNames, hex) > -1
-
-  isElementShape = ({ shape }) => shape.type === 'element'
 
   isValidMove = ({ xIndex, yIndex }) => {
     const { selectedShape } = this.props

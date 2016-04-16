@@ -5,21 +5,18 @@ import * as actionTypes from './hex-view-action-types'
 
 const initialState = {
   map: [],
-  players: [{ color: 'white', elements: [] }, { color: 'black', elements: [] }],
   shapes: [],
   showNumbers: false,
 }
 
 export default createReducer(initialState, {
   [actionTypes.GIVE_ELEMENT_TO_PLAYER]: (state, { playerColor, element }) => {
-    const newPlayers = _.cloneDeep(state.players)
-    const player = _.find(newPlayers, 'color', playerColor)
-    player.elements.push(element)
-    const newShapes = _.reject(state.shapes, { element })
+    const newElements = _.cloneDeep(state.elements)
+    const elementToGive = _.find(newElements, { type: element.type })
+    elementToGive.ownedBy = playerColor
     return {
       ...state,
-      shapes: newShapes,
-      players: newPlayers,
+      elements: newElements,
     }
   },
   [actionTypes.LOAD_ELEMENTS]: (state, { elements }) => {
