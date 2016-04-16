@@ -34,7 +34,7 @@ export default createReducer(initialState, {
       selectedShape: null,
     }
   },
-  [actionTypes.SET_SELECTED_SHAPE]: (state, { xIndex, yIndex }) => {
+  [actionTypes.SELECT_SHAPE]: (state, { xIndex, yIndex }) => {
     return {
       ...state,
       selectedShape: { xIndex, yIndex },

@@ -29,7 +29,7 @@ export const elementColors = {
   water: colors.Blue,
 }
 
-export const elements = _.keys(elementColors)
+export const elementNames = _.keys(elementColors)
 
 export const hexColors = {
   empty: 0,

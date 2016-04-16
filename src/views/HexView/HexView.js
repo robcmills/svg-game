@@ -14,7 +14,7 @@ import * as actions from './hex-view-action-creators'
 import { Map, Numbers, Shapes, Svg } from 'components'
 import map1 from 'data/maps/map1'
 import shapes1 from 'data/maps/shapes1'
-import { elements, HEX_RADIUS } from 'data/constants'
+import { elementNames, HEX_RADIUS } from 'data/constants'
 import styles from './hex-view.scss'
 
 class HexView extends React.Component {
@@ -25,7 +25,7 @@ class HexView extends React.Component {
     map: PropTypes.array,
     moveSelectedShape: PropTypes.func.isRequired,
     selectedShape: PropTypes.object,
-    setSelectedShape: PropTypes.func.isRequired,
+    selectShape: PropTypes.func.isRequired,
     shapes: PropTypes.array,
     showNumbers: PropTypes.bool,
     toggleNumbers: PropTypes.func.isRequired,
@@ -93,14 +93,24 @@ class HexView extends React.Component {
   };
 
   handleHexClick = ({ xIndex, yIndex }) => {
-    if (this.isValidMove({ xIndex, yIndex })) {
-      this.props.moveSelectedShape({ xIndex, yIndex })
+    const {
+      selectedShape,
+      moveSelectedShape,
+      selectShape,
+    } = this.props
+    if (selectedShape && this.isValidMove({ xIndex, yIndex })) {
+      moveSelectedShape({ xIndex, yIndex })
+      return
+    }
+    const shape = this.getShape({ xIndex, yIndex })
+    if (shape && this.isNotElement({ shape: shape.shape })) {
+      selectShape({ xIndex, yIndex })
     }
   };
 
   handleShapeClick = ({ shape, xIndex, yIndex }) => {
-    if (_.indexOf(['circle', 'square', 'triangle'], shape) > -1) {
-      this.props.setSelectedShape({ xIndex, yIndex })
+    if (this.isNotElement({ shape })) {
+      this.props.selectShape({ xIndex, yIndex })
     }
   };
 
@@ -108,17 +118,36 @@ class HexView extends React.Component {
     this.props.toggleNumbers()
   }
 
+  isNotElement = ({ shape }) => _.indexOf(['circle', 'square', 'triangle'], shape) > -1
+
+  getHex = ({ xIndex, yIndex }) => {
+    const { map } = this.props
+    return _.get(map, `[${yIndex}][${xIndex}]`)
+  }
+  getShape = ({ xIndex, yIndex }) => {
+    const { shapes } = this.props
+    return _.find(shapes, { xIndex, yIndex })
+  }
+
   isValidMove = ({ xIndex, yIndex }) => {
-    let isValid = true
-    const { map, selectedShape } = this.props
+    const hex = this.getHex({ xIndex, yIndex })
+    if (hex === 'empty') {
+      return false
+    }
+    const shape = this.getShape({ xIndex, yIndex })
+    if (shape) {
+      // todo : unless control element
+      return false
+    }
+    const { selectedShape } = this.props
     if (_.isEqual({ xIndex, yIndex }, selectedShape)) {
-      isValid = false
+      return false // is selected shape
     }
-    const isElement = _.indexOf(elements, map[yIndex][xIndex]) > -1
+    const isElement = _.indexOf(elementNames, hex) > -1
     if (isElement) { // temporary logic
-      isValid = false
+      return false
     }
-    return isValid
+    return true
   }
 }
 
@@ -153,7 +182,7 @@ mapStateToSelectors({
   loadMap: actions.loadMap,
   loadShapes: actions.loadShapes,
   moveSelectedShape: actions.moveSelectedShape,
-  setSelectedShape: actions.setSelectedShape,
+  selectShape: actions.selectShape,
   toggleNumbers: actions.toggleNumbers,
 }, dispatch),
 )(HexView)

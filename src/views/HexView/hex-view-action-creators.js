@@ -27,10 +27,10 @@ export function moveSelectedShape ({ xIndex, yIndex }) {
   }
 }
 
-export function setSelectedShape ({ xIndex, yIndex }) {
+export function selectShape ({ xIndex, yIndex }) {
   return (dispatch) => {
     dispatch({
-      type: actionTypes.SET_SELECTED_SHAPE,
+      type: actionTypes.SELECT_SHAPE,
       payload: { xIndex, yIndex },
     })
   }
