@@ -51,7 +51,7 @@ class HexView extends React.Component {
       <div className={styles.root}>
         <div className={styles.svgWrap}>
           <Svg
-            height={HEX_RADIUS * 22}
+            height={HEX_RADIUS * 24}
             viewBox={viewBox[0] ? viewBox.join(',') : null}
             width={HEX_RADIUS * 19}>
             <g>
@@ -187,11 +187,11 @@ export default reduxForm({
   fields: fields,
   initialValues: {
     svgWidth: 500,
-    svgHeight: 500,
+    svgHeight: 550,
     viewBoxMinX: 0,
     viewBoxMinY: 0,
     viewBoxWidth: 500,
-    viewBoxHeight: 500,
+    viewBoxHeight: 550,
   },
 },
 mapStateToSelectors({
