@@ -40,10 +40,9 @@ export default createReducer(initialState, {
       shapes: newShapes,
     }
   },
-  [actionTypes.SELECT_SHAPE]: (state, { xIndex, yIndex }) => {
+  [actionTypes.SELECT_SHAPE]: (state, { shape: { xIndex, yIndex } }) => {
     const newShapes = _.map(_.cloneDeep(state.shapes), (shape) => {
-      shape.selected = shape.type !== 'element' &&
-        shape.xIndex === xIndex && shape.yIndex === yIndex
+      shape.selected = shape.xIndex === xIndex && shape.yIndex === yIndex
       return shape
     })
     return {
@@ -55,6 +54,16 @@ export default createReducer(initialState, {
     return {
       ...state,
       showNumbers: !state.showNumbers,
+    }
+  },
+  [actionTypes.UNSELECT_SHAPE]: (state, { shape: { xIndex, yIndex } }) => {
+    const newShapes = _.map(_.cloneDeep(state.shapes), (shape) => {
+      shape.selected = false
+      return shape
+    })
+    return {
+      ...state,
+      shapes: newShapes,
     }
   },
 })

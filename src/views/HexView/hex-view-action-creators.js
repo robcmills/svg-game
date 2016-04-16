@@ -45,11 +45,11 @@ export function moveSelectedShape ({ xIndex, yIndex }) {
   }
 }
 
-export function selectShape ({ xIndex, yIndex }) {
+export function selectShape (payload) {
   return (dispatch) => {
     dispatch({
       type: actionTypes.SELECT_SHAPE,
-      payload: { xIndex, yIndex },
+      payload,
     })
   }
 }
@@ -58,6 +58,15 @@ export function toggleNumbers () {
   return (dispatch) => {
     dispatch({
       type: actionTypes.TOGGLE_NUMBERS,
+    })
+  }
+}
+
+export function unSelectShape (payload) {
+  return (dispatch) => {
+    dispatch({
+      type: actionTypes.UNSELECT_SHAPE,
+      payload,
     })
   }
 }

@@ -4,13 +4,7 @@ import { bindActionCreators } from 'redux'
 import _ from 'lodash'
 
 import mapStateToSelectors from 'utils/map-state-to-selectors'
-import {
-  elementsSelector,
-  mapSelector,
-  selectedShapeSelector,
-  shapesSelector,
-  showNumbersSelector
-} from './hex-view-selectors'
+import * as selectors from './hex-view-selectors'
 import * as actions from './hex-view-action-creators'
 import { Elements, Map, Numbers, Shapes, Svg } from 'components'
 import { elements1, map1, shapes1 } from 'data/maps/map1'
@@ -32,6 +26,7 @@ class HexView extends React.Component {
     shapes: PropTypes.array,
     showNumbers: PropTypes.bool,
     toggleNumbers: PropTypes.func.isRequired,
+    unSelectShape: PropTypes.func.isRequired,
   };
 
   render () {
@@ -128,24 +123,22 @@ class HexView extends React.Component {
       return
     }
     const shape = this.getShape({ xIndex, yIndex })
-    if (shape && !this.isElementShape({ shape })) {
-      selectShape({ xIndex, yIndex })
+    if (shape) {
+      selectShape({ shape })
     }
   };
 
   handleShapeClick = ({ shape }) => {
-    const { xIndex, yIndex } = shape
-    const { giveElementToPlayer, moveSelectedShape, selectedShape } = this.props
-    const isElementShape = this.isElementShape({ shape })
-    if (isElementShape && selectedShape && this.isValidMove({ xIndex, yIndex })) {
-      moveSelectedShape({ xIndex, yIndex })
-      const playerColor = selectedShape.color
-      giveElementToPlayer({ playerColor, element: shape.element })
-      return
-    }
-    if (!isElementShape) {
-      this.props.selectShape({ xIndex, yIndex })
-    }
+    const { selectShape, unSelectShape } = this.props
+    // const isElementShape = this.isElementShape({ shape })
+    // if (selectedShape && this.isValidMove({ xIndex, yIndex })) {
+      // moveSelectedShape({ xIndex, yIndex })
+      // const playerColor = selectedShape.color
+      // giveElementToPlayer({ playerColor, element: shape.element })
+      // return
+    // }
+    // todo : respect turn order
+    shape.selected ? unSelectShape({ shape }) : selectShape({ shape })
   };
 
   handleShowNumbersClick = () => {
@@ -161,7 +154,7 @@ class HexView extends React.Component {
     if (!selectedShape) {
       throw new Error('A shape must be selected when calling isValidMove')
     }
-    if (_.isEqual({ xIndex, yIndex }, selectedShape)) {
+    if (selectedShape.xIndex === xIndex && selectedShape.yIndex === yIndex) {
       return false // is selected shape
     }
     const hex = this.getHex({ xIndex, yIndex })
@@ -202,11 +195,11 @@ export default reduxForm({
   },
 },
 mapStateToSelectors({
-  elements: elementsSelector,
-  map: mapSelector,
-  selectedShape: selectedShapeSelector,
-  shapes: shapesSelector,
-  showNumbers: showNumbersSelector,
+  elements: selectors.elementsSelector,
+  map: selectors.mapSelector,
+  selectedShape: selectors.selectedShapeSelector,
+  shapes: selectors.shapesSelector,
+  showNumbers: selectors.showNumbersSelector,
 }),
 (dispatch) => bindActionCreators({
   giveElementToPlayer: actions.giveElementToPlayer,
@@ -216,5 +209,6 @@ mapStateToSelectors({
   moveSelectedShape: actions.moveSelectedShape,
   selectShape: actions.selectShape,
   toggleNumbers: actions.toggleNumbers,
+  unSelectShape: actions.unSelectShape,
 }, dispatch),
 )(HexView)
