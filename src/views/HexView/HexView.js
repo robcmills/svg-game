@@ -103,13 +103,13 @@ class HexView extends React.Component {
       return
     }
     const shape = this.getShape({ xIndex, yIndex })
-    if (shape && this.isNotElement({ shape: shape.shape })) {
+    if (shape && !this.isElement({ shape })) {
       selectShape({ xIndex, yIndex })
     }
   };
 
   handleShapeClick = ({ shape, xIndex, yIndex }) => {
-    if (this.isNotElement({ shape })) {
+    if (!this.isElement({ shape })) {
       this.props.selectShape({ xIndex, yIndex })
     }
   };
@@ -118,7 +118,7 @@ class HexView extends React.Component {
     this.props.toggleNumbers()
   }
 
-  isNotElement = ({ shape }) => _.indexOf(['circle', 'square', 'triangle'], shape) > -1
+  isElement = ({ shape }) => _.indexOf(elementNames, shape.type) > -1
 
   getHex = ({ xIndex, yIndex }) => {
     const { map } = this.props
@@ -135,8 +135,7 @@ class HexView extends React.Component {
       return false
     }
     const shape = this.getShape({ xIndex, yIndex })
-    if (shape) {
-      // todo : unless control element
+    if (shape && !this.isElement({ shape })) {
       return false
     }
     const { selectedShape } = this.props
