@@ -16,7 +16,6 @@ class HexView extends React.Component {
     blackElements: PropTypes.array,
     elements: PropTypes.array,
     fields: PropTypes.object,
-    giveElementToPlayer: PropTypes.func.isRequired,
     loadElements: PropTypes.func.isRequired,
     loadMap: PropTypes.func.isRequired,
     loadShapes: PropTypes.func.isRequired,
@@ -60,10 +59,12 @@ class HexView extends React.Component {
             width={HEX_RADIUS * 19}>
             <g>
               <Map
+                blackElements={blackElements}
                 hexes={map}
                 onHexClick={this.handleHexClick}
                 x={offset}
                 y={offset}
+                whiteElements={whiteElements}
               />
               <Shapes
                 shapes={shapes}
@@ -117,13 +118,7 @@ class HexView extends React.Component {
 
   handleElementClick = ({ element }) => {
     const { xIndex, yIndex } = element
-    const { giveElementToPlayer, moveSelectedShape, selectedShape } = this.props
-    if (selectedShape && this.isValidMove({ xIndex, yIndex })) {
-      const playerColor = selectedShape.color
-      giveElementToPlayer({ playerColor, element })
-      moveSelectedShape({ xIndex, yIndex })
-      return
-    }
+    this.handleHexClick({ hex: this.getHex({ xIndex, yIndex }) })
   };
 
   handleHexClick = ({ hex }) => {
@@ -210,7 +205,6 @@ mapStateToSelectors({
   whiteElements: selectors.whiteElementsSelector,
 }),
 (dispatch) => bindActionCreators({
-  giveElementToPlayer: actions.giveElementToPlayer,
   loadElements: actions.loadElements,
   loadMap: actions.loadMap,
   loadShapes: actions.loadShapes,

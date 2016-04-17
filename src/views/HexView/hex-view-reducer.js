@@ -10,19 +10,6 @@ const initialState = {
 }
 
 export default createReducer(initialState, {
-  [actionTypes.GIVE_ELEMENT_TO_PLAYER]: (state, { playerColor, element }) => {
-    const newMap = _.map(_.cloneDeep(state.map), (row) => (
-      _.map(row, (hex) => (
-        hex.type === element.type
-          ? _.assign(hex, { ownedBy: playerColor })
-          : hex
-      ))
-    ))
-    return {
-      ...state,
-      map: newMap,
-    }
-  },
   [actionTypes.LOAD_ELEMENTS]: (state, { elements }) => {
     return { ...state, elements }
   },
