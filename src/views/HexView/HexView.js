@@ -13,6 +13,7 @@ import styles from './hex-view.scss'
 
 class HexView extends React.Component {
   static propTypes = {
+    blackElements: PropTypes.array,
     elements: PropTypes.array,
     fields: PropTypes.object,
     giveElementToPlayer: PropTypes.func.isRequired,
@@ -27,10 +28,12 @@ class HexView extends React.Component {
     showNumbers: PropTypes.bool,
     toggleNumbers: PropTypes.func.isRequired,
     unSelectShape: PropTypes.func.isRequired,
+    whiteElements: PropTypes.array,
   };
 
   render () {
     const {
+      blackElements,
       elements,
       fields: {
         viewBoxHeight,
@@ -42,6 +45,7 @@ class HexView extends React.Component {
       selectedShape,
       shapes,
       showNumbers,
+      whiteElements,
     } = this.props
     const viewBox = _.map(
       [viewBoxMinX, viewBoxMinY, viewBoxWidth, viewBoxHeight], 'value'
@@ -69,11 +73,13 @@ class HexView extends React.Component {
                 y={offset}
               />
               <Elements
+                blackElements={blackElements}
                 elements={elements}
                 onElementClick={this.handleElementClick}
                 selectedShape={selectedShape}
                 x={offset}
                 y={offset}
+                whiteElements={whiteElements}
               />
               {showNumbers && <Numbers data={map} x={offset} y={offset} />}
             </g>
@@ -195,11 +201,13 @@ export default reduxForm({
   },
 },
 mapStateToSelectors({
+  blackElements: selectors.blackElementsSelector,
   elements: selectors.elementsSelector,
   map: selectors.mapSelector,
   selectedShape: selectors.selectedShapeSelector,
   shapes: selectors.shapesSelector,
   showNumbers: selectors.showNumbersSelector,
+  whiteElements: selectors.whiteElementsSelector,
 }),
 (dispatch) => bindActionCreators({
   giveElementToPlayer: actions.giveElementToPlayer,

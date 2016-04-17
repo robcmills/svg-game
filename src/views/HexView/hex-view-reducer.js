@@ -11,9 +11,6 @@ const initialState = {
 
 export default createReducer(initialState, {
   [actionTypes.GIVE_ELEMENT_TO_PLAYER]: (state, { playerColor, element }) => {
-    const newElements = _.cloneDeep(state.elements)
-    const elementToGive = _.find(newElements, { type: element.type })
-    elementToGive.ownedBy = playerColor
     const newMap = _.map(_.cloneDeep(state.map), (row) => (
       _.map(row, (hex) => (
         hex.type === element.type
@@ -23,7 +20,6 @@ export default createReducer(initialState, {
     ))
     return {
       ...state,
-      elements: newElements,
       map: newMap,
     }
   },

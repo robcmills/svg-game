@@ -5,9 +5,15 @@ import { HEX_RADIUS, SHAPE_RADIUS, SHAPE_STROKE_WIDTH } from 'data/constants'
 import { xIndexToX, yIndexToY } from 'utils/hex'
 import { colorLuminance } from 'utils/color'
 
-const Elements = ({ elements, onElementClick, selectedShape, x, y }) => {
-  const blackElements = _.filter(elements, { ownedBy: 'black' })
-  const whiteElements = _.filter(elements, { ownedBy: 'white' })
+const Elements = ({
+  blackElements,
+  elements,
+  onElementClick,
+  selectedShape,
+  x,
+  y,
+  whiteElements,
+}) => {
   const freeElements = _.difference(elements, blackElements, whiteElements)
   return (
     <g>
@@ -76,11 +82,13 @@ const Elements = ({ elements, onElementClick, selectedShape, x, y }) => {
 }
 
 Elements.propTypes = {
+  blackElements: PropTypes.array,
   elements: PropTypes.array,
   onElementClick: PropTypes.func.isRequired,
   selectedShape: PropTypes.object,
   x: PropTypes.number,
   y: PropTypes.number,
+  whiteElements: PropTypes.array,
 }
 
 export default Elements
