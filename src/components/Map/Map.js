@@ -1,9 +1,8 @@
 import React, { PropTypes } from 'react'
 import _ from 'lodash'
 
-import { HEX_RADIUS, SIN_60 } from 'data/constants'
+import { SHAPE_RADIUS, HEX_RADIUS, SIN_60 } from 'data/constants'
 import { Hex } from 'components'
-// import hexStyles from 'styles/hex-styles.scss'
 
 const Map = ({ hexes, onHexClick, x, y }) => {
   return (
@@ -12,15 +11,29 @@ const Map = ({ hexes, onHexClick, x, y }) => {
         _.map(hexes, (row, yIndex) => (
           _.map(row, (hex, xIndex) => {
             const isEvenRow = yIndex % 2 === 0
-            const { color } = hex
+            const { color, ownedBy } = hex
+            const hx = HEX_RADIUS * 3 * xIndex + (isEvenRow ? 0 : HEX_RADIUS * 1.5) + x
+            const hy = SIN_60 * HEX_RADIUS * yIndex + y
             return (
-              <Hex
-                fill={color}
-                onClick={() => onHexClick({ hex })}
-                radius={HEX_RADIUS}
-                x={HEX_RADIUS * 3 * xIndex + (isEvenRow ? 0 : HEX_RADIUS * 1.5) + x}
-                y={SIN_60 * HEX_RADIUS * yIndex + y}
-              />
+              <g>
+                <Hex
+                  fill={color}
+                  onClick={() => onHexClick({ hex })}
+                  radius={HEX_RADIUS}
+                  x={hx}
+                  y={hy}
+                />
+                {
+                  ownedBy &&
+                    <circle
+                      fill={ownedBy}
+                      onClick={() => onHexClick({ hex })}
+                      r={SHAPE_RADIUS / 2}
+                      cx={hx}
+                      cy={hy}
+                    />
+                }
+              </g>
             )
           })
         ))

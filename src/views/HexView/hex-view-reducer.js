@@ -15,9 +15,11 @@ export default createReducer(initialState, {
     const elementToGive = _.find(newElements, { type: element.type })
     elementToGive.ownedBy = playerColor
     const newMap = _.map(_.cloneDeep(state.map), (row) => (
-      _.map(row, (hex) => _.assign(hex, {
-        ownedBy: hex.type === element.type ? playerColor : undefined
-      }))
+      _.map(row, (hex) => (
+        hex.type === element.type
+          ? _.assign(hex, { ownedBy: playerColor })
+          : hex
+      ))
     ))
     return {
       ...state,
