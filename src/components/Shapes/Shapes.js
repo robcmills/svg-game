@@ -6,11 +6,11 @@ import { xIndexToX, yIndexToY } from 'utils/hex'
 import { Triangle } from 'components'
 import styles from './shapes.scss'
 
-const Shapes = ({ data, onShapeClick, selectedShape, x, y }) => {
+const Shapes = ({ shapes, onShapeClick, selectedShape, x, y }) => {
   return (
     <g>
       {
-        _.map(data, (shape, i) => {
+        _.map(shapes, (shape, i) => {
           const { color, type, xIndex, yIndex } = shape
           const isEvenRow = yIndex % 2 === 0
           let fill = color
@@ -69,7 +69,7 @@ const Shapes = ({ data, onShapeClick, selectedShape, x, y }) => {
 }
 
 Shapes.propTypes = {
-  data: PropTypes.array,
+  shapes: PropTypes.array,
   onShapeClick: PropTypes.func.isRequired,
   selectedShape: PropTypes.object,
   x: PropTypes.number,

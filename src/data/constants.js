@@ -19,6 +19,7 @@ export const colors = {
   Red: '#FF0000',
   Silver: '#C0C0C0',
   SlateBlue: '#6A5ACD',
+  Transparent: 'transparent',
 }
 
 export const elementColors = {
@@ -32,7 +33,7 @@ export const elementColors = {
 export const elementNames = _.keys(elementColors)
 
 export const hexColors = {
-  empty: 0,
+  empty: colors.Transparent,
   neutral: colors.Silver,
   neutral2: colors.LightGray,
   neutral3: colors.DarkGray,

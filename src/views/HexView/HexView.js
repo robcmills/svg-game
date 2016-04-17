@@ -56,13 +56,13 @@ class HexView extends React.Component {
             width={HEX_RADIUS * 19}>
             <g>
               <Map
-                data={map}
+                hexes={map}
                 onHexClick={this.handleHexClick}
                 x={offset}
                 y={offset}
               />
               <Shapes
-                data={shapes}
+                shapes={shapes}
                 onShapeClick={this.handleShapeClick}
                 selectedShape={selectedShape}
                 x={offset}
@@ -120,7 +120,8 @@ class HexView extends React.Component {
     }
   };
 
-  handleHexClick = ({ xIndex, yIndex }) => {
+  handleHexClick = ({ hex }) => {
+    const { xIndex, yIndex } = hex
     const {
       selectedShape,
       moveSelectedShape,
@@ -134,7 +135,6 @@ class HexView extends React.Component {
     if (shape) {
       selectShape({ shape })
     }
-    // todo : if element
   };
 
   handleShapeClick = ({ shape }) => {
@@ -147,7 +147,7 @@ class HexView extends React.Component {
     this.props.toggleNumbers()
   }
 
-  isElementHex = ({ hex }) => _.indexOf(elementNames, hex) > -1
+  isElementHex = ({ hex }) => _.indexOf(elementNames, hex.type) > -1
 
   isValidMove = ({ xIndex, yIndex }) => {
     const { selectedShape } = this.props
@@ -158,14 +158,14 @@ class HexView extends React.Component {
       return false // is selected shape
     }
     const hex = this.getHex({ xIndex, yIndex })
-    if (hex === 'empty') {
+    if (hex.type === 'empty') {
       return false
     }
     if (this.isElementHex({ hex })) { // todo && !player.elements contains element
       return false
     }
     const shape = this.getShape({ xIndex, yIndex })
-    if (shape && !this.isElementShape({ shape })) { // todo isEnemyShape
+    if (shape) { // todo isEnemyShape
       return false
     }
     // todo shape movements

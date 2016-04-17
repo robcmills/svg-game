@@ -1,4 +1,9 @@
-export default [
+import _ from 'lodash'
+import { elementColors, hexColors } from 'data/constants'
+
+const colors = _.merge(elementColors, hexColors)
+
+export const mapHexTypes = [
   ['empty'],
   ['empty', 'empty', 'neutral'],
   ['empty', 'empty', 'neutral2', 'neutral2'],
@@ -22,3 +27,12 @@ export default [
   ['empty', 'empty', 'neutral2', 'neutral2'],
   ['empty', 'empty', 'neutral3'],
 ]
+
+export default _.map(mapHexTypes, (row, y) => (
+  _.map(row, (type, x) => _.assign({}, {
+    color: colors[type],
+    type,
+    xIndex: x,
+    yIndex: y,
+  }))
+))
