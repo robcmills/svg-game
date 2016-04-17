@@ -151,7 +151,7 @@ class HexView extends React.Component {
   isElementHex = ({ hex }) => _.indexOf(elementNames, hex.type) > -1
 
   isValidMove = ({ xIndex, yIndex }) => {
-    const { selectedShape } = this.props
+    const { blackElements, selectedShape, whiteElements } = this.props
     if (!selectedShape) {
       throw new Error('A shape must be selected when calling isValidMove')
     }
@@ -162,7 +162,9 @@ class HexView extends React.Component {
     if (hex.type === 'empty') {
       return false
     }
-    if (this.isElementHex({ hex })) { // todo && !player.elements contains element
+    const playerElements = selectedShape.color === 'black' ? blackElements : whiteElements
+    if (this.isElementHex({ hex }) &&
+      !_.find(playerElements, { type: hex.type })) {
       return false
     }
     const shape = this.getShape({ xIndex, yIndex })
