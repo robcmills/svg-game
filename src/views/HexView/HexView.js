@@ -14,6 +14,7 @@ import styles from './hex-view.scss'
 class HexView extends React.Component {
   static propTypes = {
     blackElements: PropTypes.array,
+    convertShape: PropTypes.func.isRequired,
     elements: PropTypes.array,
     fields: PropTypes.object,
     loadElements: PropTypes.func.isRequired,
@@ -123,32 +124,48 @@ class HexView extends React.Component {
 
   handleHexClick = ({ hex }) => {
     const { xIndex, yIndex } = hex
-    const {
-      selectedShape,
-      moveSelectedShape,
-      selectShape,
-    } = this.props
-    if (selectedShape && this.isValidMove({ xIndex, yIndex })) {
-      moveSelectedShape({ xIndex, yIndex })
-      return
-    }
     const shape = this.getShape({ xIndex, yIndex })
     if (shape) {
-      selectShape({ shape })
+      this.handleShapeClick({ shape })
+      return
+    }
+    const { selectedShape, moveSelectedShape } = this.props
+    if (selectedShape && this.isValidMove({ xIndex, yIndex })) {
+      moveSelectedShape({ xIndex, yIndex })
     }
   };
 
   handleShapeClick = ({ shape }) => {
-    const { selectShape, unSelectShape } = this.props
+    const { convertShape, selectedShape, selectShape, unSelectShape } = this.props
+    if (
+      selectedShape &&
+      selectedShape.color !== shape.color &&
+      this.isValidMove({ xIndex: shape.xIndex, yIndex: shape.yIndex })
+    ) {
+      convertShape({ shape, toColor: selectedShape.color })
+      unSelectShape({ shape: selectedShape })
+      return
+    }
     // todo : respect turn order
     shape.selected ? unSelectShape({ shape }) : selectShape({ shape })
   };
 
   handleShowNumbersClick = () => {
     this.props.toggleNumbers()
-  }
+  };
 
-  isElementHex = ({ hex }) => _.indexOf(elementNames, hex.type) > -1
+  isElementHex = ({ hex }) => _.indexOf(elementNames, hex.type) > -1;
+
+  isValidConversion = ({ converter, convertee }) => {
+    switch (converter) {
+      case 'circle':
+        return convertee === 'triangle'
+      case 'square':
+        return convertee === 'circle'
+      case 'triangle':
+        return convertee === 'square'
+    }
+  };
 
   isValidMove = ({ xIndex, yIndex }) => {
     const { blackElements, selectedShape, whiteElements } = this.props
@@ -168,12 +185,16 @@ class HexView extends React.Component {
       return false
     }
     const shape = this.getShape({ xIndex, yIndex })
-    if (shape) { // todo isEnemyShape
-      return false
+    if (shape && shape.color !== selectedShape.color) {
+      return this.isValidConversion({
+        converter: selectedShape.type,
+        convertee: shape.type,
+      })
     }
     // todo shape movements
+    // todo rock paper scissor mechanic
     return true
-  }
+  };
 }
 
 const fields = [
@@ -207,6 +228,7 @@ mapStateToSelectors({
   whiteElements: selectors.whiteElementsSelector,
 }),
 (dispatch) => bindActionCreators({
+  convertShape: actions.convertShape,
   loadElements: actions.loadElements,
   loadMap: actions.loadMap,
   loadShapes: actions.loadShapes,

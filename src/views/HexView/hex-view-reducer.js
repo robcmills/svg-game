@@ -10,6 +10,12 @@ const initialState = {
 }
 
 export default createReducer(initialState, {
+  [actionTypes.CONVERT_SHAPE]: (state, { shape, toColor }) => {
+    const newShapes = _.cloneDeep(state.shapes)
+    const shapeToConvert = _.find(newShapes, shape)
+    _.assign(shapeToConvert, { color: toColor })
+    return { ...state, shapes: newShapes }
+  },
   [actionTypes.LOAD_ELEMENTS]: (state, { elements }) => {
     return { ...state, elements }
   },

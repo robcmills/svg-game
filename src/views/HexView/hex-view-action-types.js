@@ -1,3 +1,4 @@
+export const CONVERT_SHAPE = 'hex-view/CONVERT_SHAPE'
 export const LOAD_ELEMENTS = 'hex-view/LOAD_ELEMENTS'
 export const LOAD_MAP = 'hex-view/LOAD_MAP'
 export const LOAD_SHAPES = 'hex-view/LOAD_SHAPES'

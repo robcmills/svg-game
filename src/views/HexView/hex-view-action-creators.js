@@ -1,5 +1,14 @@
 import * as actionTypes from './hex-view-action-types'
 
+export function convertShape (payload) {
+  return (dispatch) => {
+    dispatch({
+      type: actionTypes.CONVERT_SHAPE,
+      payload: payload,
+    })
+  }
+}
+
 export function loadElements ({ elements }) {
   return (dispatch) => {
     dispatch({
