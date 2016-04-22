@@ -146,7 +146,7 @@ class HexView extends React.Component {
       unSelectShape({ shape: selectedShape })
       return
     }
-    // todo : respect turn order
+    // todo turn order
     shape.selected ? unSelectShape({ shape }) : selectShape({ shape })
   };
 
@@ -159,11 +159,11 @@ class HexView extends React.Component {
   isValidConversion = ({ converter, convertee }) => {
     switch (converter) {
       case 'circle':
-        return convertee === 'triangle'
+        return convertee === 'triangle'  // scissors
       case 'square':
-        return convertee === 'circle'
+        return convertee === 'circle'  // rock
       case 'triangle':
-        return convertee === 'square'
+        return convertee === 'square'  // paper
     }
   };
 
@@ -192,7 +192,6 @@ class HexView extends React.Component {
       })
     }
     // todo shape movements
-    // todo rock paper scissor mechanic
     return true
   };
 }

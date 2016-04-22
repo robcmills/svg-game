@@ -13,10 +13,10 @@ const Map = ({ blackElements, hexes, onHexClick, x, y, whiteElements }) => {
             const isEvenRow = yIndex % 2 === 0
             const { color, type } = hex
             let ownedBy
-            if (_.find(blackElements, { type: type })) {
+            if (_.find(blackElements, { type })) {
               ownedBy = 'black'
             }
-            if (_.find(whiteElements, { type: type })) {
+            if (_.find(whiteElements, { type })) {
               ownedBy = 'white'
             }
             const hx = HEX_RADIUS * 3 * xIndex + (isEvenRow ? 0 : HEX_RADIUS * 1.5) + x

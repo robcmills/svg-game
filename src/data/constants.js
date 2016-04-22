@@ -16,6 +16,7 @@ export const colors = {
   empty: 0,
   Green: '#008000',
   LightGray: '#D3D3D3',
+  Orange: '#FFA500',
   Red: '#FF0000',
   Silver: '#C0C0C0',
   SlateBlue: '#6A5ACD',
@@ -39,4 +40,4 @@ export const hexColors = {
   neutral3: colors.DarkGray,
 }
 
-export const SELECTED_COLOR = colors.SlateBlue
+export const SELECTED_COLOR = colors.Orange
