@@ -56,3 +56,7 @@ export const whiteElementsSelector = createSelector(
   )
 )
 
+export const turnSelector = createSelector(
+  hexViewSelector,
+  (hevView) => hevView.turn
+)

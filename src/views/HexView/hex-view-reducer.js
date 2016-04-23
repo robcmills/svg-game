@@ -7,6 +7,7 @@ const initialState = {
   map: [],
   shapes: [],
   showNumbers: false,
+  turn: 'white',
 }
 
 export default createReducer(initialState, {

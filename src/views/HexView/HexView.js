@@ -27,6 +27,7 @@ class HexView extends React.Component {
     shapes: PropTypes.array,
     showNumbers: PropTypes.bool,
     toggleNumbers: PropTypes.func.isRequired,
+    turn: PropTypes.string,
     unSelectShape: PropTypes.func.isRequired,
     whiteElements: PropTypes.array,
   };
@@ -45,6 +46,7 @@ class HexView extends React.Component {
       selectedShape,
       shapes,
       showNumbers,
+      turn,
       whiteElements,
     } = this.props
     const viewBox = _.map(
@@ -53,6 +55,7 @@ class HexView extends React.Component {
     const offset = HEX_RADIUS * 2
     return (
       <div className={styles.root}>
+        <div className={styles.turn}>{`${turn} to play`}</div>
         <div className={styles.svgWrap}>
           <Svg
             height={HEX_RADIUS * 24}
@@ -224,6 +227,7 @@ mapStateToSelectors({
   selectedShape: selectors.selectedShapeSelector,
   shapes: selectors.shapesSelector,
   showNumbers: selectors.showNumbersSelector,
+  turn: selectors.turnSelector,
   whiteElements: selectors.whiteElementsSelector,
 }),
 (dispatch) => bindActionCreators({
