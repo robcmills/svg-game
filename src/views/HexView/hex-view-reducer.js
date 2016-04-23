@@ -51,6 +51,12 @@ export default createReducer(initialState, {
       showNumbers: !state.showNumbers,
     }
   },
+  [actionTypes.TOGGLE_TURN]: (state) => {
+    return {
+      ...state,
+      turn: state.turn === 'black' ? 'white' : 'black',
+    }
+  },
   [actionTypes.UNSELECT_SHAPE]: (state, { shape: { xIndex, yIndex } }) => {
     const newShapes = _.map(_.cloneDeep(state.shapes), (shape) => {
       shape.selected = false

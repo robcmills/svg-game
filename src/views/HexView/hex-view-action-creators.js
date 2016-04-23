@@ -62,6 +62,14 @@ export function toggleNumbers () {
   }
 }
 
+export function toggleTurn () {
+  return (dispatch) => {
+    dispatch({
+      type: actionTypes.TOGGLE_TURN,
+    })
+  }
+}
+
 export function unSelectShape (payload) {
   return (dispatch) => {
     dispatch({

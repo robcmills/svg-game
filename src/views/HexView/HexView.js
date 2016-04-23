@@ -27,6 +27,7 @@ class HexView extends React.Component {
     shapes: PropTypes.array,
     showNumbers: PropTypes.bool,
     toggleNumbers: PropTypes.func.isRequired,
+    toggleTurn: PropTypes.func.isRequired,
     turn: PropTypes.string,
     unSelectShape: PropTypes.func.isRequired,
     whiteElements: PropTypes.array,
@@ -132,14 +133,15 @@ class HexView extends React.Component {
       this.handleShapeClick({ shape })
       return
     }
-    const { selectedShape, moveSelectedShape } = this.props
+    const { selectedShape, moveSelectedShape, toggleTurn } = this.props
     if (selectedShape && this.isValidMove({ xIndex, yIndex })) {
       moveSelectedShape({ xIndex, yIndex })
+      toggleTurn()
     }
   };
 
   handleShapeClick = ({ shape }) => {
-    const { convertShape, selectedShape, selectShape, unSelectShape } = this.props
+    const { convertShape, selectedShape, selectShape, turn, unSelectShape } = this.props
     if (
       selectedShape &&
       selectedShape.color !== shape.color &&
@@ -149,7 +151,9 @@ class HexView extends React.Component {
       unSelectShape({ shape: selectedShape })
       return
     }
-    // todo turn order
+    if (shape.color !== turn) { // respect turn order
+      return
+    }
     shape.selected ? unSelectShape({ shape }) : selectShape({ shape })
   };
 
@@ -238,6 +242,7 @@ mapStateToSelectors({
   moveSelectedShape: actions.moveSelectedShape,
   selectShape: actions.selectShape,
   toggleNumbers: actions.toggleNumbers,
+  toggleTurn: actions.toggleTurn,
   unSelectShape: actions.unSelectShape,
 }, dispatch),
 )(HexView)
