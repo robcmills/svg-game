@@ -6,7 +6,7 @@ import _ from 'lodash'
 import mapStateToSelectors from 'utils/map-state-to-selectors'
 import * as selectors from './hex-view-selectors'
 import * as actions from './hex-view-action-creators'
-import { Elements, Map, Numbers, Shapes, Svg } from 'components'
+import { Elements, Map, Numbers, Shapes, Svg, ValidMoves } from 'components'
 import { elements1, map1, shapes1 } from 'data/maps/map1'
 import { elementNames, HEX_RADIUS } from 'data/constants'
 import styles from './hex-view.scss'
@@ -30,6 +30,7 @@ class HexView extends React.Component {
     toggleTurn: PropTypes.func.isRequired,
     turn: PropTypes.string,
     unSelectShape: PropTypes.func.isRequired,
+    validMoves: PropTypes.array,
     whiteElements: PropTypes.array,
   };
 
@@ -48,6 +49,7 @@ class HexView extends React.Component {
       shapes,
       showNumbers,
       turn,
+      validMoves,
       whiteElements,
     } = this.props
     const viewBox = _.map(
@@ -87,6 +89,7 @@ class HexView extends React.Component {
                 y={offset}
                 whiteElements={whiteElements}
               />
+              <ValidMoves moves={validMoves} x={offset} y={offset} />
               {showNumbers && <Numbers data={map} x={offset} y={offset} />}
             </g>
           </Svg>
@@ -232,6 +235,7 @@ mapStateToSelectors({
   shapes: selectors.shapesSelector,
   showNumbers: selectors.showNumbersSelector,
   turn: selectors.turnSelector,
+  validMoves: selectors.validMovesSelector,
   whiteElements: selectors.whiteElementsSelector,
 }),
 (dispatch) => bindActionCreators({

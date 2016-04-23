@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect'
+import { getValidShapeMoves } from 'utils/valid-moves'
 import _ from 'lodash'
 
 export const hexViewSelector = (state) => state.views.hexView
@@ -26,6 +27,18 @@ export const shapesSelector = createSelector(
 export const selectedShapeSelector = createSelector(
   shapesSelector,
   (shapes) => _.find(shapes, 'selected')
+)
+
+export const validMovesSelector = createSelector(
+  selectedShapeSelector,
+  (shape) => {
+    const validMoves = []
+    if (!shape) {  // no shape selected
+      return validMoves
+    }
+    validMoves.push(...getValidShapeMoves({ shape }))
+    return validMoves
+  }
 )
 
 export const blackElementsSelector = createSelector(
