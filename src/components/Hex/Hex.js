@@ -3,7 +3,7 @@ import _ from 'lodash'
 
 import { COS_60, SIN_60 } from 'data/constants'
 
-const Hex = ({ fill, onClick, radius, style, x, y }) => {
+const Hex = ({ fill, onClick, radius, stroke, strokeWidth, style, x, y }) => {
   const adjacent = radius * COS_60
   const opposite = radius * SIN_60
   const points = _.map([
@@ -19,6 +19,8 @@ const Hex = ({ fill, onClick, radius, style, x, y }) => {
       fill={fill}
       onClick={onClick}
       points={points}
+      stroke={stroke}
+      strokeWidth={strokeWidth}
       style={style}
     />
   )
@@ -26,8 +28,10 @@ const Hex = ({ fill, onClick, radius, style, x, y }) => {
 
 Hex.propTypes = {
   fill: PropTypes.string,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   radius: PropTypes.number,
+  stroke: PropTypes.number,
+  strokeWidth: PropTypes.number,
   style: PropTypes.object,
   x: PropTypes.number,
   y: PropTypes.number,
