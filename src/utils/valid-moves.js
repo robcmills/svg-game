@@ -133,6 +133,9 @@ export const getAdjacentHexes = (args) => {
     const nextHex = getAdjacentHex({
       cardinal, map, xIndex: center.xIndex, yIndex: center.yIndex,
     })
+    if (!nextHex) {
+      return allowInvalid
+    }
     if (allowInvalid || isValidMove({
       selectedShape,
       xIndex: nextHex.xIndex,
