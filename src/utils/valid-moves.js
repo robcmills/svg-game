@@ -13,6 +13,23 @@ export const getShape = ({ shapes, xIndex, yIndex }) => {
   return _.find(shapes, { xIndex, yIndex })
 }
 
+export const getOppositeCardinal = ({ cardinal }) => {
+  switch (cardinal) {
+    case 'north':
+      return 'south'
+    case 'northEast':
+      return 'southWest'
+    case 'southEast':
+      return 'northWest'
+    case 'south':
+      return 'north'
+    case 'southWest':
+      return 'northEast'
+    case 'northWest':
+      return 'southEast'
+  }
+}
+
 export const isElementHex = ({ hex }) => _.indexOf(elementNames, hex.type) > -1
 
 export const isValidConversion = ({ converter, convertee }) => {
@@ -27,7 +44,6 @@ export const isValidConversion = ({ converter, convertee }) => {
 }
 
 export const isValidMove = (args) => {
-  console.log('isValidMove', args)
   // { selectedShape, xIndex, yIndex, hex, blackElements, whiteElements, shapes } = args
   const { selectedShape } = args
   if (!selectedShape) {
@@ -49,7 +65,6 @@ export const isValidMove = (args) => {
   const playerElements = selectedShape.color === 'black' ? blackElements : whiteElements
   if (isElementHex({ hex }) &&
     !_.find(playerElements, { type: hex.type })) {
-    console.log('isElement')
     return false
   }
   const { shapes } = args
@@ -58,7 +73,6 @@ export const isValidMove = (args) => {
     return false
   }
   if (shape && shape.color !== selectedShape.color) {
-    console.log('conversion')
     return isValidConversion({
       converter: selectedShape.type,
       convertee: shape.type,
@@ -68,18 +82,19 @@ export const isValidMove = (args) => {
 }
 
 export const getCardinalRange = ({ isClockwise, start, end }) => {
-  console.log('getCardinalRange', isClockwise, start, end)
   const range = []
   const cardinals = isClockwise ? HEX_CARDINALS_CLOCKWISE : HEX_CARDINALS_COUNTER_CLOCKWISE
   const startIndex = _.indexOf(cardinals, start)
   range.push(..._.slice(cardinals, startIndex))
   range.push(..._.slice(cardinals, 0, startIndex))
-  const endIndex = _.indexOf(range, end) + 1
-  return _.slice(range, 0, endIndex)
+  if (end) {
+    const endIndex = _.indexOf(range, end) + 1
+    return _.slice(range, 0, endIndex)
+  }
+  return _.slice(range, 0, range.length - 1)
 }
 
 export const getAdjacentHex = ({ cardinal, map, xIndex, yIndex }) => {
-  console.log('getAdjacentHex', cardinal, xIndex, yIndex)
   const isEvenRow = yIndex % 2 === 0
   const xAdjustA = isEvenRow ? 0 : 1
   const xAdjustB = isEvenRow ? 1 : 0
@@ -102,16 +117,25 @@ export const getAdjacentHex = ({ cardinal, map, xIndex, yIndex }) => {
 export const getNorthEastHex = ({ xIndex, yIndex }) => ({ xIndex, yIndex: yIndex - 1 })
 
 export const getAdjacentHexes = (args) => {
-  console.log('getAdjacentHexes', args)
-  const { center, isClockwise, map, start, end } = args
+  const {
+    allowInvalid,
+    blackElements,
+    center,
+    end,
+    isClockwise,
+    map,
+    selectedShape,
+    shapes,
+    start,
+    whiteElements
+  } = args
   const hexes = []
   const cardinalRange = getCardinalRange({ isClockwise, start, end })
-  const { blackElements, selectedShape, shapes, whiteElements } = args
   _.forEach(cardinalRange, (cardinal) => {
     const nextHex = getAdjacentHex({
       cardinal, map, xIndex: center.xIndex, yIndex: center.yIndex,
     })
-    if (isValidMove({
+    if (allowInvalid || isValidMove({
       selectedShape,
       xIndex: nextHex.xIndex,
       yIndex: nextHex.yIndex,
@@ -120,73 +144,55 @@ export const getAdjacentHexes = (args) => {
       whiteElements,
       shapes,
     })) {
-      hexes.push(nextHex)
+      hexes.push(_.assign({}, nextHex, { cardinal }))
     } else {
       return false
     }
   })
-  console.log('hexes', hexes)
   return hexes
 }
 
-// export const getCircleNorthClockwise = ({ map, selectedShape }) => {
-//   const validMoves = []
-//   const center = getAdjacentHex({
-//     cardinal: 'northEast',
-//     map,
-//     xIndex: selectedShape.xIndex,
-//     yIndex: selectedShape.yIndex
-//   })
-//   const start = 'north'
-//   const end = 'south'
-//   const clockwiseHexes = getAdjacentHexes({ map, center, start, end })
-//   validMoves.push(...clockwiseHexes)
-//   return validMoves
-// }
-
-// export const getCircleNorthMoves = (args) => {
-//   const validMoves = []
-//   const { selectedShape } = args
-//   const northHex1 = { xIndex: selectedShape.xIndex, yIndex: selectedShape.yIndex - 2 }
-//   if (isValidMove({
-//     xIndex: northHex1.xIndex,
-//     yIndex: northHex1.yIndex,
-//     ...args
-//   })) {
-//     validMoves.push(northHex1)
-//   } else {
-//     return validMoves
-//   }
-//   validMoves.push(...getCircleNorthClockwise(args))
-//   // validMoves.push(...getCircleNorthCounterClockwise())
-//   return validMoves
-// }
-
 export const getValidCircleMoves = (args) => {
-  console.log('getValidCircleMoves', args)
   const validMoves = []
-  const { map, selectedShape } = args
-  const center = getAdjacentHex({
-    cardinal: 'northEast',
-    map,
-    xIndex: selectedShape.xIndex,
-    yIndex: selectedShape.yIndex,
-  })
-  console.log('center', center)
-  validMoves.push(...getAdjacentHexes({
+  const { selectedShape } = args
+  const adjacentHexes = getAdjacentHexes({
     ...args,
-    center,
+    allowInvalid: true,
+    center: selectedShape,
     isClockwise: true,
-    map,
-    start: 'northWest',
-    end: 'south'
-  }))
-  console.log('validMoves', validMoves)
+    start: 'north',
+    end: 'northWest'
+  })
+  _.forEach(adjacentHexes, (adjacentHex) => {
+    const sharedArgs = {
+      ...args,
+      allowInvalid: false,
+      center: adjacentHex,
+    }
+    const oppositeCardinal = getOppositeCardinal({
+      cardinal: adjacentHex.cardinal
+    })
+    const clockwiseCardinalRange = getCardinalRange({
+      isClockwise: true, start: oppositeCardinal
+    })
+    const counterClockwiseCardinalRange = getCardinalRange({
+      isClockwise: false, start: oppositeCardinal
+    })
+    validMoves.push(...getAdjacentHexes({
+      ...sharedArgs,
+      isClockwise: true,
+      start: clockwiseCardinalRange[1],
+    }))
+    validMoves.push(...getAdjacentHexes({
+      ...sharedArgs,
+      isClockwise: false,
+      start: counterClockwiseCardinalRange[1],
+    }))
+  })
   return validMoves
 }
 
 export const getValidShapeMoves = (args) => {
-  console.log('getValidShapeMoves', args)
   const validMoves = []
   const { selectedShape } = args
   switch (selectedShape.type) {
@@ -198,6 +204,5 @@ export const getValidShapeMoves = (args) => {
     case 'triangle':
       break
   }
-  console.log('validMoves', validMoves)
   return validMoves
 }
