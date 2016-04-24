@@ -52,3 +52,14 @@ export const hexColors = {
 }
 
 export const SELECTED_COLOR = colors.Orange
+
+export const HEX_CARDINALS_CLOCKWISE = [
+  'north',
+  'northEast',
+  'southEast',
+  'south',
+  'southWest',
+  'northWest',
+]
+
+export const HEX_CARDINALS_COUNTER_CLOCKWISE = _.reverse(_.slice(HEX_CARDINALS_CLOCKWISE))
