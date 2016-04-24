@@ -89,7 +89,12 @@ class HexView extends React.Component {
                 y={offset}
                 whiteElements={whiteElements}
               />
-              <ValidMoves moves={validMoves} x={offset} y={offset} />
+              <ValidMoves
+                onValidMoveClick={this.handleValidMoveClick}
+                moves={validMoves}
+                x={offset}
+                y={offset}
+              />
               {showNumbers && <Numbers data={map} x={offset} y={offset} />}
             </g>
           </Svg>
@@ -162,6 +167,10 @@ class HexView extends React.Component {
 
   handleShowNumbersClick = () => {
     this.props.toggleNumbers()
+  };
+
+  handleValidMoveClick = ({ xIndex, yIndex }) => {
+    this.handleHexClick({ hex: this.getHex({ xIndex, yIndex }) })
   };
 
   isElementHex = ({ hex }) => _.indexOf(elementNames, hex.type) > -1;

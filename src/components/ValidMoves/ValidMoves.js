@@ -3,7 +3,7 @@ import _ from 'lodash'
 
 import { SELECTED_COLOR, SHAPE_RADIUS, HEX_RADIUS, SIN_60 } from 'data/constants'
 
-const ValidMoves = ({ moves, x, y }) => {
+const ValidMoves = ({ onValidMoveClick, moves, x, y }) => {
   return (
     <g>
       {
@@ -16,6 +16,7 @@ const ValidMoves = ({ moves, x, y }) => {
             <circle
               fill={SELECTED_COLOR}
               key={i}
+              onClick={() => onValidMoveClick({ xIndex, yIndex })}
               r={SHAPE_RADIUS / 2}
               cx={hx}
               cy={hy}
@@ -28,6 +29,7 @@ const ValidMoves = ({ moves, x, y }) => {
 }
 
 ValidMoves.propTypes = {
+  onValidMoveClick: PropTypes.func.isRequired,
   moves: PropTypes.array,
   x: PropTypes.number,
   y: PropTypes.number,
