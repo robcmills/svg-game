@@ -29,18 +29,6 @@ export const selectedShapeSelector = createSelector(
   (shapes) => _.find(shapes, 'selected')
 )
 
-export const validMovesSelector = createSelector(
-  selectedShapeSelector,
-  (shape) => {
-    const validMoves = []
-    if (!shape) {  // no shape selected
-      return validMoves
-    }
-    validMoves.push(...getValidShapeMoves({ shape }))
-    return validMoves
-  }
-)
-
 export const blackElementsSelector = createSelector(
   shapesSelector,
   elementsSelector,
@@ -72,4 +60,26 @@ export const whiteElementsSelector = createSelector(
 export const turnSelector = createSelector(
   hexViewSelector,
   (hevView) => hevView.turn
+)
+
+export const validMovesSelector = createSelector(
+  blackElementsSelector,
+  mapSelector,
+  selectedShapeSelector,
+  shapesSelector,
+  whiteElementsSelector,
+  (blackElements, map, selectedShape, shapes, whiteElements) => {
+    const validMoves = []
+    if (!selectedShape) {  // no shape selected
+      return validMoves
+    }
+    validMoves.push(...getValidShapeMoves({
+      blackElements,
+      map,
+      selectedShape,
+      shapes,
+      whiteElements,
+    }))
+    return validMoves
+  }
 )
