@@ -114,8 +114,6 @@ export const getAdjacentHex = ({ cardinal, map, xIndex, yIndex }) => {
   }
 }
 
-export const getNorthEastHex = ({ xIndex, yIndex }) => ({ xIndex, yIndex: yIndex - 1 })
-
 export const getAdjacentHexes = (args) => {
   const {
     allowInvalid,
@@ -178,16 +176,26 @@ export const getValidCircleMoves = (args) => {
     const counterClockwiseCardinalRange = getCardinalRange({
       isClockwise: false, start: oppositeCardinal
     })
-    validMoves.push(...getAdjacentHexes({
+    const clockwiseHexes = getAdjacentHexes({
       ...sharedArgs,
       isClockwise: true,
       start: clockwiseCardinalRange[1],
-    }))
-    validMoves.push(...getAdjacentHexes({
+    })
+    _.forEach(clockwiseHexes, (hex) => {
+      if (!_.find(validMoves, { xIndex: hex.xIndex, yIndex: hex.yIndex })) {
+        validMoves.push(hex)
+      }
+    })
+    const counterClockwiseHexes = getAdjacentHexes({
       ...sharedArgs,
       isClockwise: false,
       start: counterClockwiseCardinalRange[1],
-    }))
+    })
+    _.forEach(counterClockwiseHexes, (hex) => {
+      if (!_.find(validMoves, { xIndex: hex.xIndex, yIndex: hex.yIndex })) {
+        validMoves.push(hex)
+      }
+    })
   })
   return validMoves
 }
