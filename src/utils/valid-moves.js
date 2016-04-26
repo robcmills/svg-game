@@ -203,6 +203,49 @@ export const getValidCircleMoves = (args) => {
   return validMoves
 }
 
+export const getCardinalHexes = ({
+  blackElements,
+  cardinal,
+  map,
+  selectedShape,
+  shapes,
+  whiteElements,
+}) => {
+  const validMoves = []
+  let nextHex = getAdjacentHex({
+    cardinal, map, xIndex: selectedShape.xIndex, yIndex: selectedShape.yIndex,
+  })
+  while (nextHex && isValidMove({
+    selectedShape,
+    xIndex: nextHex.xIndex,
+    yIndex: nextHex.yIndex,
+    hex: nextHex,
+    blackElements,
+    whiteElements,
+    shapes,
+  })) {
+    validMoves.push(nextHex)
+    nextHex = getAdjacentHex({
+      cardinal, map, xIndex: nextHex.xIndex, yIndex: nextHex.yIndex,
+    })
+  }
+  return validMoves
+}
+
+export const getValidSquareMoves = (args) => {
+  const validMoves = []
+  const { selectedShape } = args
+  _.forEach(HEX_CARDINALS_CLOCKWISE, (cardinal) => {
+    validMoves.push(...getCardinalHexes({
+      ...args,
+      cardinal,
+      xIndex: selectedShape.xIndex,
+      yIndex: selectedShape.yIndex,
+    }))
+  })
+  return validMoves
+}
+
 export const getValidShapeMoves = (args) => {
   const validMoves = []
   const { selectedShape } = args
@@ -211,6 +254,7 @@ export const getValidShapeMoves = (args) => {
       validMoves.push(...getValidCircleMoves(args))
       break
     case 'square':
+      validMoves.push(...getValidSquareMoves(args))
       break
     case 'triangle':
       break
