@@ -215,6 +215,10 @@ export const getCardinalHexes = ({
   let nextHex = getAdjacentHex({
     cardinal, map, xIndex: selectedShape.xIndex, yIndex: selectedShape.yIndex,
   })
+  let nextShape
+  if (nextHex) {
+    nextShape = getShape({ shapes, xIndex: nextHex.xIndex, yIndex: nextHex.yIndex })
+  }
   while (nextHex && isValidMove({
     selectedShape,
     xIndex: nextHex.xIndex,
@@ -225,9 +229,15 @@ export const getCardinalHexes = ({
     shapes,
   })) {
     validMoves.push(nextHex)
+    if (nextShape) {
+      break
+    }
     nextHex = getAdjacentHex({
       cardinal, map, xIndex: nextHex.xIndex, yIndex: nextHex.yIndex,
     })
+    if (nextHex) {
+      nextShape = getShape({ shapes, xIndex: nextHex.xIndex, yIndex: nextHex.yIndex })
+    }
   }
   return validMoves
 }
