@@ -136,7 +136,12 @@ export const getAdjacentHexes = (args) => {
     if (!nextHex) {
       return allowInvalid
     }
-    if (allowInvalid || isValidMove({
+    if (allowInvalid) {
+      hexes.push(_.assign({}, nextHex, { cardinal }))
+      return
+    }
+    const nextShape = getShape({ shapes, xIndex: nextHex.xIndex, yIndex: nextHex.yIndex })
+    if (isValidMove({
       selectedShape,
       xIndex: nextHex.xIndex,
       yIndex: nextHex.yIndex,
@@ -146,6 +151,9 @@ export const getAdjacentHexes = (args) => {
       shapes,
     })) {
       hexes.push(_.assign({}, nextHex, { cardinal }))
+      if (nextShape) {
+        return false
+      }
     } else {
       return false
     }
