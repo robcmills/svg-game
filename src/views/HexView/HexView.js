@@ -16,6 +16,7 @@ class HexView extends React.Component {
     blackElements: PropTypes.array,
     convertShape: PropTypes.func.isRequired,
     elements: PropTypes.array,
+    enforceValidMoves: PropTypes.bool,
     fields: PropTypes.object,
     loadElements: PropTypes.func.isRequired,
     loadMap: PropTypes.func.isRequired,
@@ -28,6 +29,7 @@ class HexView extends React.Component {
     showNumbers: PropTypes.bool,
     toggleNumbers: PropTypes.func.isRequired,
     toggleTurn: PropTypes.func.isRequired,
+    toggleValidMoves: PropTypes.func.isRequired,
     turn: PropTypes.string,
     unSelectShape: PropTypes.func.isRequired,
     validMoves: PropTypes.array,
@@ -38,6 +40,7 @@ class HexView extends React.Component {
     const {
       blackElements,
       elements,
+      enforceValidMoves,
       fields: {
         viewBoxHeight,
         viewBoxWidth,
@@ -98,6 +101,11 @@ class HexView extends React.Component {
               {showNumbers && <Numbers data={map} x={offset} y={offset} />}
             </g>
           </Svg>
+        </div>
+        <div>
+          <a onClick={this.handleToggleValidMovesClick}>
+            {`${enforceValidMoves ? 'Allow invalid' : 'Enforce valid'} moves`}
+          </a>
         </div>
         <div>
           <a onClick={this.handleShowNumbersClick}>
@@ -167,6 +175,10 @@ class HexView extends React.Component {
 
   handleShowNumbersClick = () => {
     this.props.toggleNumbers()
+  };
+
+  handleToggleValidMovesClick = () => {
+    this.props.toggleValidMoves()
   };
 
   handleValidMoveClick = ({ xIndex, yIndex }) => {
@@ -239,6 +251,7 @@ export default reduxForm({
 mapStateToSelectors({
   blackElements: selectors.blackElementsSelector,
   elements: selectors.elementsSelector,
+  enforceValidMoves: selectors.enforceValidMovesSelector,
   map: selectors.mapSelector,
   selectedShape: selectors.selectedShapeSelector,
   shapes: selectors.shapesSelector,
@@ -256,6 +269,7 @@ mapStateToSelectors({
   selectShape: actions.selectShape,
   toggleNumbers: actions.toggleNumbers,
   toggleTurn: actions.toggleTurn,
+  toggleValidMoves: actions.toggleValidMoves,
   unSelectShape: actions.unSelectShape,
 }, dispatch),
 )(HexView)

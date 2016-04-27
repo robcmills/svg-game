@@ -62,6 +62,11 @@ export const turnSelector = createSelector(
   (hevView) => hevView.turn
 )
 
+export const enforceValidMovesSelector = createSelector(
+  hexViewSelector,
+  (hevView) => hevView.enforceValidMoves
+)
+
 export const validMovesSelector = createSelector(
   blackElementsSelector,
   mapSelector,

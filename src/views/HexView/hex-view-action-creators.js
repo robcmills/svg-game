@@ -70,6 +70,14 @@ export function toggleTurn () {
   }
 }
 
+export function toggleValidMoves () {
+  return (dispatch) => {
+    dispatch({
+      type: actionTypes.TOGGLE_VALID_MOVES,
+    })
+  }
+}
+
 export function unSelectShape (payload) {
   return (dispatch) => {
     dispatch({
