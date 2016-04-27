@@ -54,6 +54,14 @@ export function selectShape (payload) {
   }
 }
 
+export function toggleEnforceTurnOrder () {
+  return (dispatch) => {
+    dispatch({
+      type: actionTypes.TOGGLE_ENFORCE_TURN_ORDER,
+    })
+  }
+}
+
 export function toggleNumbers () {
   return (dispatch) => {
     dispatch({

@@ -16,6 +16,7 @@ class HexView extends React.Component {
     blackElements: PropTypes.array,
     convertShape: PropTypes.func.isRequired,
     elements: PropTypes.array,
+    enforceTurnOrder: PropTypes.bool,
     enforceValidMoves: PropTypes.bool,
     fields: PropTypes.object,
     loadElements: PropTypes.func.isRequired,
@@ -28,6 +29,7 @@ class HexView extends React.Component {
     shapes: PropTypes.array,
     showNumbers: PropTypes.bool,
     toggleNumbers: PropTypes.func.isRequired,
+    toggleEnforceTurnOrder: PropTypes.func.isRequired,
     toggleTurn: PropTypes.func.isRequired,
     toggleValidMoves: PropTypes.func.isRequired,
     turn: PropTypes.string,
@@ -40,6 +42,7 @@ class HexView extends React.Component {
     const {
       blackElements,
       elements,
+      enforceTurnOrder,
       enforceValidMoves,
       fields: {
         viewBoxHeight,
@@ -61,7 +64,9 @@ class HexView extends React.Component {
     const offset = HEX_RADIUS * 2
     return (
       <div className={styles.root}>
-        <div className={styles.turn}>{`${turn} to play`}</div>
+        <div className={styles.turn}>
+          {enforceTurnOrder && `${turn} to play`}
+        </div>
         <div className={styles.svgWrap}>
           <Svg
             height={HEX_RADIUS * 24}
@@ -101,6 +106,11 @@ class HexView extends React.Component {
               {showNumbers && <Numbers data={map} x={offset} y={offset} />}
             </g>
           </Svg>
+        </div>
+        <div>
+          <a onClick={this.handleToggleEnforceTurnOrderClick}>
+            {`${enforceTurnOrder ? 'Do not enforce' : 'Enforce'} turn order`}
+          </a>
         </div>
         <div>
           <a onClick={this.handleToggleValidMovesClick}>
@@ -157,7 +167,14 @@ class HexView extends React.Component {
   };
 
   handleShapeClick = ({ shape }) => {
-    const { convertShape, selectedShape, selectShape, turn, unSelectShape } = this.props
+    const {
+      convertShape,
+      enforceTurnOrder,
+      selectedShape,
+      selectShape,
+      turn,
+      unSelectShape,
+    } = this.props
     if (
       selectedShape &&
       selectedShape.color !== shape.color &&
@@ -167,7 +184,7 @@ class HexView extends React.Component {
       unSelectShape({ shape: selectedShape })
       return
     }
-    if (shape.color !== turn) { // respect turn order
+    if (enforceTurnOrder && shape.color !== turn) { // respect turn order
       return
     }
     shape.selected ? unSelectShape({ shape }) : selectShape({ shape })
@@ -175,6 +192,10 @@ class HexView extends React.Component {
 
   handleShowNumbersClick = () => {
     this.props.toggleNumbers()
+  };
+
+  handleToggleEnforceTurnOrderClick = () => {
+    this.props.toggleEnforceTurnOrder()
   };
 
   handleToggleValidMovesClick = () => {
@@ -218,6 +239,7 @@ export default reduxForm({
 mapStateToSelectors({
   blackElements: selectors.blackElementsSelector,
   elements: selectors.elementsSelector,
+  enforceTurnOrder: selectors.enforceTurnOrderSelector,
   enforceValidMoves: selectors.enforceValidMovesSelector,
   map: selectors.mapSelector,
   selectedShape: selectors.selectedShapeSelector,
@@ -235,6 +257,7 @@ mapStateToSelectors({
   moveSelectedShape: actions.moveSelectedShape,
   selectShape: actions.selectShape,
   toggleNumbers: actions.toggleNumbers,
+  toggleEnforceTurnOrder: actions.toggleEnforceTurnOrder,
   toggleTurn: actions.toggleTurn,
   toggleValidMoves: actions.toggleValidMoves,
   unSelectShape: actions.unSelectShape,

@@ -4,6 +4,7 @@ import _ from 'lodash'
 import * as actionTypes from './hex-view-action-types'
 
 const initialState = {
+  enforceTurnOrder: true,
   enforceValidMoves: true,
   map: [],
   shapes: [],
@@ -44,6 +45,12 @@ export default createReducer(initialState, {
     return {
       ...state,
       shapes: newShapes,
+    }
+  },
+  [actionTypes.TOGGLE_ENFORCE_TURN_ORDER]: (state) => {
+    return {
+      ...state,
+      enforceTurnOrder: !state.enforceTurnOrder,
     }
   },
   [actionTypes.TOGGLE_NUMBERS]: (state) => {
