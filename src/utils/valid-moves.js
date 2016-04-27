@@ -264,6 +264,24 @@ export const getValidSquareMoves = (args) => {
   return validMoves
 }
 
+export const getValidTriangleMoves = (args) => {
+  const validMoves = []
+  validMoves.push(...getValidSquareMoves(args))
+  const { selectedShape, shapes } = args
+  _.forEach(validMoves, (move) => {
+    const shape = getShape({ shapes, xIndex: move.xIndex, yIndex: move.yIndex })
+    if (shape) {
+      return
+    }
+    validMoves.push(...getValidSquareMoves({
+      ...args,
+      shapes,
+      selectedShape: _.assign({}, selectedShape, { xIndex: move.xIndex, yIndex: move.yIndex }),
+    }))
+  })
+  return validMoves
+}
+
 export const getValidShapeMoves = (args) => {
   const validMoves = []
   const { selectedShape } = args
@@ -275,6 +293,7 @@ export const getValidShapeMoves = (args) => {
       validMoves.push(...getValidSquareMoves(args))
       break
     case 'triangle':
+      validMoves.push(...getValidTriangleMoves(args))
       break
   }
   return validMoves
