@@ -195,6 +195,10 @@ class HexView extends React.Component {
   };
 
   handleToggleEnforceTurnOrderClick = () => {
+    const { selectedShape, unSelectShape } = this.props
+    if (selectedShape) {
+      unSelectShape({ shape: selectedShape })
+    }
     this.props.toggleEnforceTurnOrder()
   };
 
