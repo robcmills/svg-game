@@ -8,7 +8,7 @@ import * as selectors from './hex-view-selectors'
 import * as actions from './hex-view-action-creators'
 import { Elements, Map, Numbers, Shapes, Svg, ValidMoves } from 'components'
 import { elements1, map1, shapes1 } from 'data/maps/map1'
-import { elementNames, HEX_RADIUS } from 'data/constants'
+import { HEX_RADIUS } from 'data/constants'
 import styles from './hex-view.scss'
 
 class HexView extends React.Component {
@@ -185,44 +185,11 @@ class HexView extends React.Component {
     this.handleHexClick({ hex: this.getHex({ xIndex, yIndex }) })
   };
 
-  isElementHex = ({ hex }) => _.indexOf(elementNames, hex.type) > -1;
-
-  isValidConversion = ({ converter, convertee }) => {
-    switch (converter) {
-      case 'circle':
-        return convertee === 'triangle'  // scissors
-      case 'square':
-        return convertee === 'circle'  // rock
-      case 'triangle':
-        return convertee === 'square'  // paper
-    }
-  };
-
   isValidMove = ({ xIndex, yIndex }) => {
-    const { blackElements, selectedShape, whiteElements } = this.props
-    if (!selectedShape) {
-      throw new Error('A shape must be selected when calling isValidMove')
+    const { enforceValidMoves, validMoves } = this.props
+    if (enforceValidMoves) {
+      return _.find(validMoves, { xIndex, yIndex })
     }
-    if (selectedShape.xIndex === xIndex && selectedShape.yIndex === yIndex) {
-      return false // is selected shape
-    }
-    const hex = this.getHex({ xIndex, yIndex })
-    if (hex.type === 'empty') {
-      return false
-    }
-    const playerElements = selectedShape.color === 'black' ? blackElements : whiteElements
-    if (this.isElementHex({ hex }) &&
-      !_.find(playerElements, { type: hex.type })) {
-      return false
-    }
-    const shape = this.getShape({ xIndex, yIndex })
-    if (shape && shape.color !== selectedShape.color) {
-      return this.isValidConversion({
-        converter: selectedShape.type,
-        convertee: shape.type,
-      })
-    }
-    // todo shape movements
     return true
   };
 }
