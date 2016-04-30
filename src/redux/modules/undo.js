@@ -1,34 +1,42 @@
-import { diff } from 'deep-diff'
+import { diff, revertChange } from 'deep-diff'
 import _ from 'lodash'
-import { createReducer } from 'utils/create-reducer'
 
 export const undoActionTypes = {
-  ADD_DIFF: 'undo/ADD_DIFF',
+  UNDO: 'undo/UNDO',
 }
 
-export const undoMiddleware = ({ dispatch, getState }) => next => action => {
-  const prevState = getState()
-  const result = next(action)
-  if (_.indexOf(_.values(undoActionTypes), action.type) > -1) {
-    return result
-  }
-  const nextState = getState()
-  const stateDiff = diff(prevState, nextState)
-  dispatch({
-    type: undoActionTypes.ADD_DIFF,
-    payload: { diff: stateDiff },
-  })
-  return result
+export const undoActionCreators = {
+  undo: () => dispatch => dispatch({ type: undoActionTypes.UNDO }),
 }
 
 const initialState = {
+  currentIndex: 0,
   diffs: [],
 }
 
-export const undoReducer = createReducer(initialState, {
-  [undoActionTypes.ADD_DIFF]: (state, { diff }) => {
-    const newDiffs = _.cloneDeep(state.diffs)
-    newDiffs.push(diff)
-    return { ...state, diffs: newDiffs }
-  },
-})
+export const undoable = reducer => {
+  return (state, action) => {
+    // handlers
+    if (action.type === undoActionTypes.UNDO) {
+      const newState = _.cloneDeep(state)
+      const newUndo = newState.undo
+      const lastIndex = newUndo.currentIndex - 1
+      const lastDiff = _.get(newUndo.diffs, `[${lastIndex}]`)
+      if (lastDiff) {
+        _.forEach(lastDiff, change => revertChange(newState, true, change))
+        newUndo.currentIndex--
+      }
+      return { ...newState, undo: newUndo }
+    }
+
+    const prevState = _.omit(state, 'undo')
+    const newState = reducer(prevState, action)
+    const newDiff = diff(prevState, newState)
+    const newUndo = _.cloneDeep(_.get(state, 'undo', initialState))
+    if (newDiff) {
+      newUndo.diffs.push(newDiff)
+      newUndo.currentIndex++
+    }
+    return { ...newState, undo: newUndo }
+  }
+}

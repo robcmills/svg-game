@@ -6,6 +6,7 @@ import _ from 'lodash'
 import mapStateToSelectors from 'utils/map-state-to-selectors'
 import * as selectors from './hex-view-selectors'
 import * as actions from './hex-view-action-creators'
+import { undoActionCreators } from 'redux/modules/undo'
 import { Elements, Map, Numbers, Shapes, Svg, ValidMoves } from 'components'
 import { elements1, map1, shapes1 } from 'data/maps/map1'
 import { HEX_RADIUS } from 'data/constants'
@@ -33,6 +34,7 @@ class HexView extends React.Component {
     toggleTurn: PropTypes.func.isRequired,
     toggleValidMoves: PropTypes.func.isRequired,
     turn: PropTypes.string,
+    undo: PropTypes.func.isRequired,
     unSelectShape: PropTypes.func.isRequired,
     validMoves: PropTypes.array,
     whiteElements: PropTypes.array,
@@ -56,6 +58,7 @@ class HexView extends React.Component {
       shapes,
       showNumbers,
       turn,
+      undo,
       validMoves,
       whiteElements,
       winner,
@@ -109,6 +112,9 @@ class HexView extends React.Component {
         <div className={styles.turn}>
           {winner && `${winner} wins`}
           {!winner && enforceTurnOrder && `${turn} to play`}
+        </div>
+        <div>
+          <a onClick={undo}>Undo</a>
         </div>
         <div>
           <a onClick={this.handleToggleEnforceTurnOrderClick}>
@@ -268,6 +274,7 @@ mapStateToSelectors({
   toggleEnforceTurnOrder: actions.toggleEnforceTurnOrder,
   toggleTurn: actions.toggleTurn,
   toggleValidMoves: actions.toggleValidMoves,
+  undo: undoActionCreators.undo,
   unSelectShape: actions.unSelectShape,
 }, dispatch),
 )(HexView)
