@@ -36,6 +36,7 @@ class HexView extends React.Component {
     unSelectShape: PropTypes.func.isRequired,
     validMoves: PropTypes.array,
     whiteElements: PropTypes.array,
+    winner: PropTypes.string,
   };
 
   render () {
@@ -57,6 +58,7 @@ class HexView extends React.Component {
       turn,
       validMoves,
       whiteElements,
+      winner,
     } = this.props
     const viewBox = _.map(
       [viewBoxMinX, viewBoxMinY, viewBoxWidth, viewBoxHeight], 'value'
@@ -64,9 +66,6 @@ class HexView extends React.Component {
     const offset = HEX_RADIUS * 2
     return (
       <div className={styles.root}>
-        <div className={styles.turn}>
-          {enforceTurnOrder && `${turn} to play`}
-        </div>
         <div className={styles.svgWrap}>
           <Svg
             height={HEX_RADIUS * 24}
@@ -106,6 +105,10 @@ class HexView extends React.Component {
               {showNumbers && <Numbers data={map} x={offset} y={offset} />}
             </g>
           </Svg>
+        </div>
+        <div className={styles.turn}>
+          {winner && `${winner} wins`}
+          {!winner && enforceTurnOrder && `${turn} to play`}
         </div>
         <div>
           <a onClick={this.handleToggleEnforceTurnOrderClick}>
@@ -252,6 +255,7 @@ mapStateToSelectors({
   turn: selectors.turnSelector,
   validMoves: selectors.validMovesSelector,
   whiteElements: selectors.whiteElementsSelector,
+  winner: selectors.winnerSelector,
 }),
 (dispatch) => bindActionCreators({
   convertShape: actions.convertShape,

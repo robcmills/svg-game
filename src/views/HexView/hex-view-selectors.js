@@ -11,7 +11,7 @@ export const showNumbersSelector = createSelector(
 
 export const elementsSelector = createSelector(
   hexViewSelector,
-  (hexView) => hexView.elements
+  (hexView) => hexView.elements || []
 )
 
 export const mapSelector = createSelector(
@@ -91,5 +91,26 @@ export const validMovesSelector = createSelector(
       whiteElements,
     }))
     return validMoves
+  }
+)
+
+export const winnerSelector = createSelector(
+  blackElementsSelector,
+  elementsSelector,
+  shapesSelector,
+  whiteElementsSelector,
+  (blackElements, elements, shapes, whiteElements) => {
+    if (blackElements.length === elements.length) {
+      return 'black'
+    }
+    if (whiteElements.length === elements.length) {
+      return 'white'
+    }
+    if (_.filter(shapes, ['color', 'white']).length === 0) {
+      return 'black'
+    }
+    if (_.filter(shapes, ['color', 'black']).length === 0) {
+      return 'white'
+    }
   }
 )
