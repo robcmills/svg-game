@@ -25,6 +25,7 @@ class HexView extends React.Component {
     loadShapes: PropTypes.func.isRequired,
     map: PropTypes.array,
     moveSelectedShape: PropTypes.func.isRequired,
+    redo: PropTypes.func.isRequired,
     selectedShape: PropTypes.object,
     selectShape: PropTypes.func.isRequired,
     shapes: PropTypes.array,
@@ -54,6 +55,7 @@ class HexView extends React.Component {
         viewBoxMinY,
       },
       map,
+      redo,
       selectedShape,
       shapes,
       showNumbers,
@@ -115,6 +117,9 @@ class HexView extends React.Component {
         </div>
         <div>
           <a onClick={undo}>Undo</a>
+        </div>
+        <div>
+          <a onClick={redo}>Redo</a>
         </div>
         <div>
           <a onClick={this.handleToggleEnforceTurnOrderClick}>
@@ -269,6 +274,7 @@ mapStateToSelectors({
   loadMap: actions.loadMap,
   loadShapes: actions.loadShapes,
   moveSelectedShape: actions.moveSelectedShape,
+  redo: undoActionCreators.redo,
   selectShape: actions.selectShape,
   toggleNumbers: actions.toggleNumbers,
   toggleEnforceTurnOrder: actions.toggleEnforceTurnOrder,

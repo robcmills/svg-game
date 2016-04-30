@@ -1,12 +1,14 @@
-import { diff, revertChange } from 'deep-diff'
+import { diff, applyChange, revertChange } from 'deep-diff'
 import _ from 'lodash'
 
 export const undoActionTypes = {
   UNDO: 'undo/UNDO',
+  REDO: 'undo/REDO',
 }
 
 export const undoActionCreators = {
   undo: () => dispatch => dispatch({ type: undoActionTypes.UNDO }),
+  redo: () => dispatch => dispatch({ type: undoActionTypes.REDO }),
 }
 
 const initialState = {
@@ -25,6 +27,17 @@ export const undoable = reducer => {
       if (lastDiff) {
         _.forEach(lastDiff, change => revertChange(newState, true, change))
         newUndo.currentIndex--
+      }
+      return { ...newState, undo: newUndo }
+    }
+    if (action.type === undoActionTypes.REDO) {
+      const newState = _.cloneDeep(state)
+      const newUndo = newState.undo
+      const lastIndex = newUndo.currentIndex
+      const lastDiff = _.get(newUndo.diffs, `[${lastIndex}]`)
+      if (lastDiff) {
+        _.forEach(lastDiff, change => applyChange(newState, true, change))
+        newUndo.currentIndex++
       }
       return { ...newState, undo: newUndo }
     }
