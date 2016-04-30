@@ -55,7 +55,7 @@ const Shapes = ({ shapes, onShapeClick, selectedShape, x, y }) => {
                   fill={fill}
                   stroke={color === 'white' ? 'black' : 'white'}
                   strokeWidth={SHAPE_STROKE_WIDTH}
-                  r={SHAPE_RADIUS}
+                  r={SHAPE_RADIUS + 3}
                   x={xIndexToX({ xIndex, isEvenRow }) + x}
                   y={yIndexToY({ yIndex }) + y}
                 />
