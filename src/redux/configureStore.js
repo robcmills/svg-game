@@ -4,8 +4,10 @@ import rootReducer from './rootReducer'
 import { routerMiddleware } from 'react-router-redux'
 import createLogger from 'redux-logger'
 
+import { undoMiddleware } from 'redux/modules/undo'
+
 export default function configureStore (initialState = {}, history) {
-  let middleware = [thunk, routerMiddleware(history)]
+  let middleware = [thunk, routerMiddleware(history), undoMiddleware]
 
   if (__DEBUG__) {
     const logger = createLogger({ collapsed: true })

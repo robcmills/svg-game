@@ -66,6 +66,7 @@
   "dependencies": {
     "classnames": "^2.2.3",
     "debug": "^2.2.0",
+    "deep-diff": "^0.3.3",
     "history": "^2.1.0",
     "koa": "^2.0.0",
     "koa-connect-history-api-fallback": "^0.3.0",
