@@ -36,10 +36,10 @@ export function loadShapes ({ shapes }) {
   }
 }
 
-export function moveSelectedShape ({ xIndex, yIndex }) {
+export function moveShape ({ xIndex, yIndex }) {
   return (dispatch) => {
     dispatch({
-      type: actionTypes.MOVE_SELECTED_SHAPE,
+      type: actionTypes.MOVE_SHAPE,
       payload: { xIndex, yIndex },
     })
   }
@@ -66,14 +66,6 @@ export function toggleNumbers () {
   return (dispatch) => {
     dispatch({
       type: actionTypes.TOGGLE_NUMBERS,
-    })
-  }
-}
-
-export function toggleTurn () {
-  return (dispatch) => {
-    dispatch({
-      type: actionTypes.TOGGLE_TURN,
     })
   }
 }

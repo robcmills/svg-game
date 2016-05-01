@@ -43,7 +43,7 @@ export const undoable = (reducer, config = defaultConfig) => {
       return { ...newState, undo: newUndo }
     }
 
-    const prevState = _.omit(state, 'undo')
+    const prevState = state ? _.omit(state, 'undo') : state
     const newState = reducer(prevState, action)
     const newDiff = diff(prevState, newState)
     const newUndo = _.cloneDeep(_.get(state, 'undo', initialState))

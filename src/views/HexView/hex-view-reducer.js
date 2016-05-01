@@ -28,13 +28,14 @@ export default createReducer(initialState, {
   [actionTypes.LOAD_SHAPES]: (state, { shapes }) => {
     return { ...state, shapes }
   },
-  [actionTypes.MOVE_SELECTED_SHAPE]: (state, { xIndex, yIndex }) => {
+  [actionTypes.MOVE_SHAPE]: (state, { xIndex, yIndex }) => {
     const newShapes = _.cloneDeep(state.shapes)
     const selectedShape = _.find(newShapes, 'selected')
     _.assign(selectedShape, { xIndex, yIndex, selected: false })
     return {
       ...state,
       shapes: newShapes,
+      turn: state.turn === 'black' ? 'white' : 'black',
     }
   },
   [actionTypes.SELECT_SHAPE]: (state, { shape: { xIndex, yIndex } }) => {
@@ -57,12 +58,6 @@ export default createReducer(initialState, {
     return {
       ...state,
       showNumbers: !state.showNumbers,
-    }
-  },
-  [actionTypes.TOGGLE_TURN]: (state) => {
-    return {
-      ...state,
-      turn: state.turn === 'black' ? 'white' : 'black',
     }
   },
   [actionTypes.TOGGLE_VALID_MOVES]: (state) => {

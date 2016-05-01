@@ -24,7 +24,7 @@ class HexView extends React.Component {
     loadMap: PropTypes.func.isRequired,
     loadShapes: PropTypes.func.isRequired,
     map: PropTypes.array,
-    moveSelectedShape: PropTypes.func.isRequired,
+    moveShape: PropTypes.func.isRequired,
     redo: PropTypes.func.isRequired,
     selectedShape: PropTypes.object,
     selectShape: PropTypes.func.isRequired,
@@ -32,7 +32,6 @@ class HexView extends React.Component {
     showNumbers: PropTypes.bool,
     toggleNumbers: PropTypes.func.isRequired,
     toggleEnforceTurnOrder: PropTypes.func.isRequired,
-    toggleTurn: PropTypes.func.isRequired,
     toggleValidMoves: PropTypes.func.isRequired,
     turn: PropTypes.string,
     undo: PropTypes.func.isRequired,
@@ -173,10 +172,9 @@ class HexView extends React.Component {
       this.handleShapeClick({ shape })
       return
     }
-    const { selectedShape, moveSelectedShape, toggleTurn } = this.props
+    const { selectedShape, moveShape } = this.props
     if (selectedShape && this.isValidMove({ xIndex, yIndex })) {
-      moveSelectedShape({ xIndex, yIndex })
-      toggleTurn()
+      moveShape({ xIndex, yIndex })
     }
   };
 
@@ -273,12 +271,11 @@ mapStateToSelectors({
   loadElements: actions.loadElements,
   loadMap: actions.loadMap,
   loadShapes: actions.loadShapes,
-  moveSelectedShape: actions.moveSelectedShape,
+  moveShape: actions.moveShape,
   redo: undoActionCreators.redo,
   selectShape: actions.selectShape,
   toggleNumbers: actions.toggleNumbers,
   toggleEnforceTurnOrder: actions.toggleEnforceTurnOrder,
-  toggleTurn: actions.toggleTurn,
   toggleValidMoves: actions.toggleValidMoves,
   undo: undoActionCreators.undo,
   unSelectShape: actions.unSelectShape,
