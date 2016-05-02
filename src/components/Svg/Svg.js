@@ -1,24 +1,29 @@
-import React, { PropTypes } from 'react'
+import React, { Component, PropTypes } from 'react'
 
 import styles from './svg.scss'
 
-const Svg = ({ children, height, viewBox, width }) => {
-  return (
-    <svg
-      className={styles.root}
-      height={height}
-      viewBox={viewBox}
-      width={width}>
-      {children}
-    </svg>
-  )
-}
+class Svg extends Component {
+  static propTypes = {
+    children: PropTypes.object,
+    viewBox: PropTypes.string,
+  };
 
-Svg.propTypes = {
-  children: PropTypes.object,
-  height: PropTypes.number,
-  viewBox: PropTypes.string,
-  width: PropTypes.number,
+  render () {
+    const { children, viewBox } = this.props
+    // const { height, width } = this.refs.root.getBoundingClientRect()
+    return (
+      <div className={styles.root} ref='root'>
+        <svg
+          className={styles.root}
+          viewBox={viewBox}>
+          {children}
+        </svg>
+      </div>
+    )
+  }
+
+  getHeight = () => this.refs.root.getBoundingClientRect().height
+  getWidth = () => this.refs.root.getBoundingClientRect().width
 }
 
 export default Svg

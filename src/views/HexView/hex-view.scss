@@ -1,12 +1,20 @@
 .root {
+	display: flex;
+	flex-direction: column;
 	height: 100%;
+	position: relative;
+}
+
+.svgWrap {
+	display: flex;
+	justify-content: center;
 }
 
 .turn {
 	text-align: center;
 }
 
-.svgWrap {
+.undo {
 	display: flex;
-	justify-content: center;
+	justify-content: space-around;
 }

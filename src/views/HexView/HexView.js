@@ -7,7 +7,7 @@ import mapStateToSelectors from 'utils/map-state-to-selectors'
 import * as selectors from './hex-view-selectors'
 import * as actions from './hex-view-action-creators'
 import { undoActionCreators } from 'redux/modules/undo'
-import { Elements, Map, Numbers, Shapes, Svg, ValidMoves } from 'components'
+import { Elements, Map, Menu, Numbers, Shapes, Svg, ValidMoves } from 'components'
 import { elements1, map1, shapes1 } from 'data/maps/map1'
 import { HEX_RADIUS } from 'data/constants'
 import styles from './hex-view.scss'
@@ -114,27 +114,22 @@ class HexView extends React.Component {
           {winner && `${winner} wins`}
           {!winner && enforceTurnOrder && `${turn} to play`}
         </div>
-        <div>
-          <a onClick={undo}>Undo</a>
+        <div className={styles.undo}>
+          <div>
+            <a onClick={undo}>Undo</a>
+          </div>
+          <div>
+            <a onClick={redo}>Redo</a>
+          </div>
         </div>
-        <div>
-          <a onClick={redo}>Redo</a>
-        </div>
-        <div>
-          <a onClick={this.handleToggleEnforceTurnOrderClick}>
-            {`${enforceTurnOrder ? 'Do not enforce' : 'Enforce'} turn order`}
-          </a>
-        </div>
-        <div>
-          <a onClick={this.handleToggleValidMovesClick}>
-            {`${enforceValidMoves ? 'Allow invalid' : 'Enforce valid'} moves`}
-          </a>
-        </div>
-        <div>
-          <a onClick={this.handleShowNumbersClick}>
-            {`${showNumbers ? 'Hide' : 'Show'} numbers`}
-          </a>
-        </div>
+        <Menu
+          enforceTurnOrder={enforceTurnOrder}
+          enforceValidMoves={enforceValidMoves}
+          onShowNumbersClick={this.handleShowNumbersClick}
+          onToggleEnforceTurnOrderClick={this.handleToggleEnforceTurnOrderClick}
+          onToggleValidMovesClick={this.handleToggleValidMovesClick}
+          showNumbers={showNumbers}
+        />
       </div>
     )
   }
@@ -158,12 +153,12 @@ class HexView extends React.Component {
   handleKeydown = (event) => {
     // todo
     // console.log('handleKeydown', event)
-  };
+  }
 
   handleElementClick = ({ element }) => {
     const { xIndex, yIndex } = element
     this.handleHexClick({ hex: this.getHex({ xIndex, yIndex }) })
-  };
+  }
 
   handleHexClick = ({ hex }) => {
     const { xIndex, yIndex } = hex
@@ -176,7 +171,7 @@ class HexView extends React.Component {
     if (selectedShape && this.isValidMove({ xIndex, yIndex })) {
       moveShape({ xIndex, yIndex })
     }
-  };
+  }
 
   handleShapeClick = ({ shape }) => {
     const {
@@ -200,11 +195,11 @@ class HexView extends React.Component {
       return
     }
     shape.selected ? unSelectShape({ shape }) : selectShape({ shape })
-  };
+  }
 
   handleShowNumbersClick = () => {
     this.props.toggleNumbers()
-  };
+  }
 
   handleToggleEnforceTurnOrderClick = () => {
     const { selectedShape, unSelectShape } = this.props
@@ -212,15 +207,15 @@ class HexView extends React.Component {
       unSelectShape({ shape: selectedShape })
     }
     this.props.toggleEnforceTurnOrder()
-  };
+  }
 
   handleToggleValidMovesClick = () => {
     this.props.toggleValidMoves()
-  };
+  }
 
   handleValidMoveClick = ({ xIndex, yIndex }) => {
     this.handleHexClick({ hex: this.getHex({ xIndex, yIndex }) })
-  };
+  }
 
   isValidMove = ({ xIndex, yIndex }) => {
     const { enforceValidMoves, validMoves } = this.props
@@ -228,7 +223,7 @@ class HexView extends React.Component {
       return _.find(validMoves, { xIndex, yIndex })
     }
     return true
-  };
+  }
 }
 
 const fields = [
