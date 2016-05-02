@@ -54,6 +54,7 @@ export const undoable = (reducer, config = defaultConfig) => {
     const newDiff = diff(prevState, newState)
     const newUndo = _.cloneDeep(_.get(state, 'undo', initialState))
     if (newDiff) {
+      newUndo.diffs = _.slice(newUndo.diffs, 0, newUndo.currentIndex)
       newUndo.diffs.push(newDiff)
       newUndo.currentIndex++
     }
