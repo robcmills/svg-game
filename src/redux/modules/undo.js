@@ -41,9 +41,12 @@ const initialState = {
   diffs: [],
 }
 
-const defaultConfig = {}
+const defaultConfig = {
+  actionsFilter: () => true,
+}
 
 export const undoable = (reducer, config = defaultConfig) => {
+  const { actionsFilter } = config
   return (state, action) => {
     const handler = undoActionHandlers[action.type]
     if (handler) {
@@ -51,12 +54,14 @@ export const undoable = (reducer, config = defaultConfig) => {
     }
     const prevState = state ? _.omit(state, 'undo') : state
     const newState = reducer(prevState, action)
-    const newDiff = diff(prevState, newState)
     const newUndo = _.cloneDeep(_.get(state, 'undo', initialState))
-    if (newDiff) {
-      newUndo.diffs = _.slice(newUndo.diffs, 0, newUndo.currentIndex)
-      newUndo.diffs.push(newDiff)
-      newUndo.currentIndex++
+    if (actionsFilter(action)) {
+      const newDiff = diff(prevState, newState)
+      if (newDiff) {
+        newUndo.diffs = _.slice(newUndo.diffs, 0, newUndo.currentIndex)
+        newUndo.diffs.push(newDiff)
+        newUndo.currentIndex++
+      }
     }
     return { ...newState, undo: newUndo }
   }
