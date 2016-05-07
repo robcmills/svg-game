@@ -104,21 +104,15 @@ class HexView extends React.Component {
           {winner && `${winner} wins`}
           {!winner && enforceTurnOrder && `${turn} to play`}
         </div>
-        <div className={styles.undo}>
-          <div>
-            <a onClick={undo}>Undo</a>
-          </div>
-          <div>
-            <a onClick={redo}>Redo</a>
-          </div>
-        </div>
         <Menu
           enforceTurnOrder={enforceTurnOrder}
           enforceValidMoves={enforceValidMoves}
           onShowNumbersClick={this.handleShowNumbersClick}
           onToggleEnforceTurnOrderClick={this.handleToggleEnforceTurnOrderClick}
           onToggleValidMovesClick={this.handleToggleValidMovesClick}
+          redo={redo}
           showNumbers={showNumbers}
+          undo={undo}
         />
       </div>
     )
