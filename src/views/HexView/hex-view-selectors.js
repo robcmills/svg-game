@@ -4,6 +4,11 @@ import _ from 'lodash'
 
 export const hexViewSelector = (state) => state.views.hexView
 
+export const showMenuSelector = createSelector(
+  hexViewSelector,
+  (hexView) => hexView.showMenu
+)
+
 export const showNumbersSelector = createSelector(
   hexViewSelector,
   (hexView) => hexView.showNumbers

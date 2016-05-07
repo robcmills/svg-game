@@ -62,6 +62,14 @@ export function toggleEnforceTurnOrder () {
   }
 }
 
+export function toggleMenu () {
+  return (dispatch) => {
+    dispatch({
+      type: actionTypes.TOGGLE_MENU,
+    })
+  }
+}
+
 export function toggleNumbers () {
   return (dispatch) => {
     dispatch({

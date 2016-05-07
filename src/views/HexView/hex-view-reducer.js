@@ -8,6 +8,7 @@ const initialState = {
   enforceValidMoves: true,
   map: [],
   shapes: [],
+  showMenu: false,
   showNumbers: false,
   turn: 'white',
 }
@@ -52,6 +53,12 @@ export default createReducer(initialState, {
     return {
       ...state,
       enforceTurnOrder: !state.enforceTurnOrder,
+    }
+  },
+  [actionTypes.TOGGLE_MENU]: (state) => {
+    return {
+      ...state,
+      showMenu: !state.showMenu,
     }
   },
   [actionTypes.TOGGLE_NUMBERS]: (state) => {

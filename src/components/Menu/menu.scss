@@ -1,8 +1,14 @@
-.root {
+.menu {
 	position: absolute;
 	top: 0;
 }
 
 .item {
+	background-color: white;
 	padding: 1rem;
+
+	&:hover {
+		color: DarkOrange;
+		cursor: pointer;
+	}
 }

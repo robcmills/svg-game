@@ -6,7 +6,6 @@ import _ from 'lodash'
 import mapStateToSelectors from 'utils/map-state-to-selectors'
 import * as selectors from './hex-view-selectors'
 import * as actions from './hex-view-action-creators'
-import { undoActionCreators } from 'redux/modules/undo'
 import { Elements, Map, Menu, Numbers, Shapes, Svg, ValidMoves } from 'components'
 import { elements1, map1, shapes1 } from 'data/maps/map1'
 import { HEX_RADIUS } from 'data/constants'
@@ -25,16 +24,15 @@ class HexView extends React.Component {
     loadShapes: PropTypes.func.isRequired,
     map: PropTypes.array,
     moveShape: PropTypes.func.isRequired,
-    redo: PropTypes.func.isRequired,
     selectedShape: PropTypes.object,
     selectShape: PropTypes.func.isRequired,
     shapes: PropTypes.array,
     showNumbers: PropTypes.bool,
+    toggleMenu: PropTypes.func.isRequired,
     toggleNumbers: PropTypes.func.isRequired,
     toggleEnforceTurnOrder: PropTypes.func.isRequired,
     toggleValidMoves: PropTypes.func.isRequired,
     turn: PropTypes.string,
-    undo: PropTypes.func.isRequired,
     unSelectShape: PropTypes.func.isRequired,
     validMoves: PropTypes.array,
     whiteElements: PropTypes.array,
@@ -46,14 +44,11 @@ class HexView extends React.Component {
       blackElements,
       elements,
       enforceTurnOrder,
-      enforceValidMoves,
       map,
-      redo,
       selectedShape,
       shapes,
       showNumbers,
       turn,
-      undo,
       validMoves,
       whiteElements,
       winner,
@@ -104,16 +99,7 @@ class HexView extends React.Component {
           {winner && `${winner} wins`}
           {!winner && enforceTurnOrder && `${turn} to play`}
         </div>
-        <Menu
-          enforceTurnOrder={enforceTurnOrder}
-          enforceValidMoves={enforceValidMoves}
-          onShowNumbersClick={this.handleShowNumbersClick}
-          onToggleEnforceTurnOrderClick={this.handleToggleEnforceTurnOrderClick}
-          onToggleValidMovesClick={this.handleToggleValidMovesClick}
-          redo={redo}
-          showNumbers={showNumbers}
-          undo={undo}
-        />
+        <Menu />
       </div>
     )
   }
@@ -251,12 +237,11 @@ mapStateToSelectors({
   loadMap: actions.loadMap,
   loadShapes: actions.loadShapes,
   moveShape: actions.moveShape,
-  redo: undoActionCreators.redo,
   selectShape: actions.selectShape,
+  toggleMenu: actions.toggleMenu,
   toggleNumbers: actions.toggleNumbers,
   toggleEnforceTurnOrder: actions.toggleEnforceTurnOrder,
   toggleValidMoves: actions.toggleValidMoves,
-  undo: undoActionCreators.undo,
   unSelectShape: actions.unSelectShape,
 }, dispatch),
 )(HexView)
