@@ -47,12 +47,6 @@ class HexView extends React.Component {
       elements,
       enforceTurnOrder,
       enforceValidMoves,
-      fields: {
-        viewBoxHeight,
-        viewBoxWidth,
-        viewBoxMinX,
-        viewBoxMinY,
-      },
       map,
       redo,
       selectedShape,
@@ -64,17 +58,13 @@ class HexView extends React.Component {
       whiteElements,
       winner,
     } = this.props
-    const viewBox = _.map(
-      [viewBoxMinX, viewBoxMinY, viewBoxWidth, viewBoxHeight], 'value'
-    )
     const offset = HEX_RADIUS * 2
+    const height = HEX_RADIUS * 23
+    const width = HEX_RADIUS * 19
     return (
       <div className={styles.root}>
         <div className={styles.svgWrap}>
-          <Svg
-            height={HEX_RADIUS * 24}
-            viewBox={viewBox[0] ? viewBox.join(',') : null}
-            width={HEX_RADIUS * 19}>
+          <Svg viewBox={`0, 0, ${width}, ${height}`}>
             <g>
               <Map
                 blackElements={blackElements}
