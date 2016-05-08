@@ -1,5 +1,5 @@
-import React, { PropTypes } from 'react'
-import { reduxForm } from 'redux-form'
+import React, { Component, PropTypes } from 'react'
+import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import _ from 'lodash'
 
@@ -11,14 +11,13 @@ import { elements1, map1, shapes1 } from 'data/maps/map1'
 import { HEX_RADIUS } from 'data/constants'
 import styles from './hex-view.scss'
 
-class HexView extends React.Component {
+class HexView extends Component {
   static propTypes = {
     blackElements: PropTypes.array,
     convertShape: PropTypes.func.isRequired,
     elements: PropTypes.array,
     enforceTurnOrder: PropTypes.bool,
     enforceValidMoves: PropTypes.bool,
-    fields: PropTypes.object,
     loadElements: PropTypes.func.isRequired,
     loadMap: PropTypes.func.isRequired,
     loadShapes: PropTypes.func.isRequired,
@@ -196,28 +195,7 @@ class HexView extends React.Component {
   }
 }
 
-const fields = [
-  'svgHeight',
-  'svgWidth',
-  'viewBoxHeight',
-  'viewBoxWidth',
-  'viewBoxMinX',
-  'viewBoxMinY',
-]
-
-export default reduxForm({
-  form: 'hexViewForm',
-  fields: fields,
-  initialValues: {
-    svgWidth: 500,
-    svgHeight: 550,
-    viewBoxMinX: 0,
-    viewBoxMinY: 0,
-    viewBoxWidth: 500,
-    viewBoxHeight: 550,
-  },
-},
-mapStateToSelectors({
+export default connect(mapStateToSelectors({
   blackElements: selectors.blackElementsSelector,
   elements: selectors.elementsSelector,
   enforceTurnOrder: selectors.enforceTurnOrderSelector,

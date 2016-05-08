@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
+import { Link } from 'react-router'
 
 import mapStateToSelectors from 'utils/map-state-to-selectors'
 import * as selectors from 'views/HexView/hex-view-selectors'
@@ -42,6 +43,9 @@ class Menu extends Component {
       <div className={styles.menu}>
         <div className={styles.item} onClick={toggleMenu}>
           <a>Close</a>
+        </div>
+        <div className={styles.item}>
+          <Link to='/rules'>How to play</Link>
         </div>
         <div className={styles.item} onClick={undo}>
           <a>Undo</a>
