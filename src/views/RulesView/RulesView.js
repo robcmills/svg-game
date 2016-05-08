@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { Map, Shapes, Svg } from 'components'
+import { Map, Shapes, Svg, ValidMoves } from 'components'
 import {
   circleMovementMap,
   circleMovementShapes,
+  circleMovementValidMoves,
 } from 'data/maps/circle-movement'
 import styles from './rules-view.scss'
 
@@ -14,7 +15,7 @@ export class Rules extends Component {
       <div className={styles.rules}>
         <h2>Shape movements</h2>
         <p>
-          <b>Circle</b> - The circle moves in a circular fashion
+          The <b>Circle</b> moves in a circular fashion
         </p>
         <div className={styles.svgWrap}>
           <Svg viewBox={`0, 0, ${circleMovementMap.width}, ${circleMovementMap.height}`}>
@@ -27,6 +28,11 @@ export class Rules extends Component {
               <Shapes
                 shapes={circleMovementShapes}
                 selectedShape={circleMovementShapes[0]}
+                x={circleMovementMap.offset}
+                y={circleMovementMap.offset}
+              />
+              <ValidMoves
+                moves={circleMovementValidMoves}
                 x={circleMovementMap.offset}
                 y={circleMovementMap.offset}
               />
