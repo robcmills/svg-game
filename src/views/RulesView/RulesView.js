@@ -14,6 +14,7 @@ export class Rules extends Component {
     return (
       <div className={styles.rules}>
         <h2>Shape movements</h2>
+
         <p>
           The <b>Circle</b> moves in a circular fashion
         </p>
@@ -39,6 +40,10 @@ export class Rules extends Component {
             </g>
           </Svg>
         </div>
+
+        <p>
+          The <b>Square</b> moves in straight lines
+        </p>
       </div>
     )
   }

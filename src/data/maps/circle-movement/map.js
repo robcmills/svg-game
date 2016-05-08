@@ -9,7 +9,7 @@ export const mapHexTypes = [
   ['empty'],
   ['neutral1'],
   ['neutral2', 'neutral2'],
-  ['neutral3'],
+  ['empty'],
   ['neutral1', 'neutral1'],
   ['neutral2'],
 ]
