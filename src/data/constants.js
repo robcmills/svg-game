@@ -44,6 +44,7 @@ export const elementNames = _.keys(elementColors)
 export const hexColors = {
   empty: colors.Transparent,
   neutral: colors.Silver,
+  neutral1: colors.Silver,
   neutral2: colors.LightGray,
   neutral3: colors.DarkGray,
   // neutral: colors.Gray15,
