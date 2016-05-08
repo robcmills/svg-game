@@ -58,4 +58,8 @@ Map.propTypes = {
   whiteElements: PropTypes.array,
 }
 
+Map.defaultProps = {
+  onHexClick: () => undefined,
+}
+
 export default Map

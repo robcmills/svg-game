@@ -76,4 +76,8 @@ Shapes.propTypes = {
   y: PropTypes.number,
 }
 
+Shapes.defaultProps = {
+  onShapeClick: () => undefined,
+}
+
 export default Shapes
