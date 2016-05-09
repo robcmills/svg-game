@@ -8,7 +8,6 @@ import * as selectors from './hex-view-selectors'
 import * as actions from './hex-view-action-creators'
 import { Elements, Map, Menu, Numbers, Shapes, Svg, ValidMoves } from 'components'
 import { elements1, map1, shapes1 } from 'data/maps/map1'
-import { HEX_RADIUS } from 'data/constants'
 import styles from './hex-view.scss'
 
 class HexView extends Component {
@@ -21,7 +20,6 @@ class HexView extends Component {
     loadElements: PropTypes.func.isRequired,
     loadMap: PropTypes.func.isRequired,
     loadShapes: PropTypes.func.isRequired,
-    map: PropTypes.array,
     moveShape: PropTypes.func.isRequired,
     selectedShape: PropTypes.object,
     selectShape: PropTypes.func.isRequired,
@@ -43,7 +41,6 @@ class HexView extends Component {
       blackElements,
       elements,
       enforceTurnOrder,
-      map,
       selectedShape,
       shapes,
       showNumbers,
@@ -52,45 +49,43 @@ class HexView extends Component {
       whiteElements,
       winner,
     } = this.props
-    const offset = HEX_RADIUS * 2
-    const height = HEX_RADIUS * 23
-    const width = HEX_RADIUS * 19
+
     return (
       <div className={styles.root}>
         <div className={styles.svgWrap}>
-          <Svg viewBox={`0, 0, ${width}, ${height}`}>
+          <Svg viewBox={`0, 0, ${map1.width}, ${map1.height}`}>
             <g>
               <Map
                 blackElements={blackElements}
-                hexes={map}
+                hexes={map1.hexes}
                 onHexClick={this.handleHexClick}
-                x={offset}
-                y={offset}
+                x={map1.offset}
+                y={map1.offset}
                 whiteElements={whiteElements}
               />
               <Shapes
                 shapes={shapes}
                 onShapeClick={this.handleShapeClick}
                 selectedShape={selectedShape}
-                x={offset}
-                y={offset}
+                x={map1.offset}
+                y={map1.offset}
               />
               <Elements
                 blackElements={blackElements}
                 elements={elements}
                 onElementClick={this.handleElementClick}
                 selectedShape={selectedShape}
-                x={offset}
-                y={offset}
+                x={map1.offset}
+                y={map1.offset}
                 whiteElements={whiteElements}
               />
               <ValidMoves
                 onValidMoveClick={this.handleValidMoveClick}
                 moves={validMoves}
-                x={offset}
-                y={offset}
+                x={map1.offset}
+                y={map1.offset}
               />
-              {showNumbers && <Numbers data={map} x={offset} y={offset} />}
+              {showNumbers && <Numbers data={map1.hexes} x={map1.offset} y={map1.offset} />}
             </g>
           </Svg>
         </div>
@@ -104,14 +99,13 @@ class HexView extends Component {
   }
 
   componentDidMount () {
-    this.props.loadMap({ map: map1 })
+    this.props.loadMap({ map: map1.hexes })
     this.props.loadShapes({ shapes: shapes1 })
     this.props.loadElements({ elements: elements1 })
   }
 
   getHex = ({ xIndex, yIndex }) => {
-    const { map } = this.props
-    return _.get(map, `[${yIndex}][${xIndex}]`)
+    return _.get(map1.hexes, `[${yIndex}][${xIndex}]`)
   }
 
   getShape = ({ xIndex, yIndex }) => {
@@ -200,7 +194,6 @@ export default connect(mapStateToSelectors({
   elements: selectors.elementsSelector,
   enforceTurnOrder: selectors.enforceTurnOrderSelector,
   enforceValidMoves: selectors.enforceValidMovesSelector,
-  map: selectors.mapSelector,
   selectedShape: selectors.selectedShapeSelector,
   shapes: selectors.shapesSelector,
   showNumbers: selectors.showNumbersSelector,

@@ -35,4 +35,8 @@ ValidMoves.propTypes = {
   y: PropTypes.number,
 }
 
+ValidMoves.defaultProps = {
+  onValidMoveClick: () => undefined,
+}
+
 export default ValidMoves

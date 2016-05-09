@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import { elementColors, hexColors } from 'data/constants'
 
+import { HEX_RADIUS } from 'data/constants'
 const colors = _.merge(elementColors, hexColors)
 
 export const mapHexTypes = [
@@ -28,11 +29,16 @@ export const mapHexTypes = [
   ['empty', 'empty', 'neutral3'],
 ]
 
-export default _.map(mapHexTypes, (row, y) => (
-  _.map(row, (type, x) => _.assign({}, {
-    color: colors[type],
-    type,
-    xIndex: x,
-    yIndex: y,
-  }))
-))
+export default {
+  offset: HEX_RADIUS * 2,
+  height: HEX_RADIUS * 23,
+  hexes: _.map(mapHexTypes, (row, y) => (
+    _.map(row, (type, x) => _.assign({}, {
+      color: colors[type],
+      type,
+      xIndex: x,
+      yIndex: y,
+    }))
+  )),
+  width: HEX_RADIUS * 19,
+}
