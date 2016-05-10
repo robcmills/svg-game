@@ -90,7 +90,7 @@ export const validMovesSelector = createSelector(
     }
     validMoves.push(...getValidShapeMoves({
       blackElements,
-      map,
+      map: map.hexes,
       selectedShape,
       shapes,
       whiteElements,

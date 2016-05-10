@@ -6,7 +6,12 @@ import * as actionTypes from './hex-view-action-types'
 const initialState = {
   enforceTurnOrder: true,
   enforceValidMoves: true,
-  map: [],
+  map: {
+    offset: 0,
+    height: 0,
+    hexes: [],
+    width: 0,
+  },
   shapes: [],
   showMenu: false,
   showNumbers: false,
