@@ -1,6 +1,6 @@
 export { default as Elements } from './Elements/elements'
 export { default as Hex } from './Hex/hex'
-export { default as Map } from './Map/map'
+export { default as Hexes } from './Hexes/hexes'
 export { default as Menu } from './Menu/menu'
 export { default as Numbers } from './Numbers/numbers'
 export { default as Shapes } from './Shapes/shapes'

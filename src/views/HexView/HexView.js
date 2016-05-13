@@ -6,7 +6,7 @@ import _ from 'lodash'
 import mapStateToSelectors from 'utils/map-state-to-selectors'
 import * as selectors from './hex-view-selectors'
 import * as actions from './hex-view-action-creators'
-import { Elements, Map, Menu, Numbers, Shapes, Svg, ValidMoves } from 'components'
+import { Elements, Hexes, Menu, Numbers, Shapes, Svg, ValidMoves } from 'components'
 import { elements1, map1, shapes1 } from 'data/maps/map1'
 import styles from './hex-view.scss'
 
@@ -57,7 +57,7 @@ class HexView extends Component {
         <div className={styles.svgWrap}>
           <Svg viewBox={`0, 0, ${map.width}, ${map.height}`}>
             <g>
-              <Map
+              <Hexes
                 blackElements={blackElements}
                 hexes={map.hexes}
                 onHexClick={this.handleHexClick}

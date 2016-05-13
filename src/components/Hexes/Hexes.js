@@ -4,7 +4,7 @@ import _ from 'lodash'
 import { SHAPE_RADIUS, HEX_RADIUS, SIN_60 } from 'data/constants'
 import { Hex } from 'components'
 
-const Map = ({ blackElements, hexes, onHexClick, x, y, whiteElements }) => {
+const Hexes = ({ blackElements, hexes, onHexClick, x, y, whiteElements }) => {
   return (
     <g>
       {
@@ -49,7 +49,7 @@ const Map = ({ blackElements, hexes, onHexClick, x, y, whiteElements }) => {
   )
 }
 
-Map.propTypes = {
+Hexes.propTypes = {
   blackElements: PropTypes.array,
   hexes: PropTypes.array,
   onHexClick: PropTypes.func.isRequired,
@@ -58,8 +58,8 @@ Map.propTypes = {
   whiteElements: PropTypes.array,
 }
 
-Map.defaultProps = {
+Hexes.defaultProps = {
   onHexClick: () => undefined,
 }
 
-export default Map
+export default Hexes

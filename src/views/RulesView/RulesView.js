@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { Map, Shapes, Svg, ValidMoves } from 'components'
+import { Hexes, Shapes, Svg, ValidMoves } from 'components'
 import {
   circleMovementMap,
   circleMovementShapes,
@@ -21,7 +21,7 @@ export class Rules extends Component {
         <div className={styles.svgWrap}>
           <Svg viewBox={`0, 0, ${circleMovementMap.width}, ${circleMovementMap.height}`}>
             <g>
-              <Map
+              <Hexes
                 hexes={circleMovementMap.hexes}
                 x={circleMovementMap.offset}
                 y={circleMovementMap.offset}
