@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import { Board } from 'components'
 import circleMovementBoard from 'data/boards/circle-movement'
 import circleMovementValidMoves from 'data/boards/circle-movement/valid-moves'
+import squareMovementBoard from 'data/boards/square-movement'
+import squareMovementValidMoves from 'data/boards/square-movement/valid-moves'
 import styles from './rules-view.scss'
 
 export class Rules extends Component {
@@ -27,6 +29,14 @@ export class Rules extends Component {
         <p>
           The <b>Square</b> moves in straight lines
         </p>
+        <div className={styles.svgWrap}>
+          <Board
+            board={squareMovementBoard}
+            selectedShape={squareMovementBoard.shapes[0]}
+            shapes={squareMovementBoard.shapes}
+            validMoves={squareMovementValidMoves}
+          />
+        </div>
       </div>
     )
   }

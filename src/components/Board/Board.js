@@ -79,6 +79,7 @@ Board.defaultProps = {
   handleShapeClick: _.noop,
   handleValidMoveClick: _.noop,
   showNumbers: false,
+  validMoves: [],
   whiteElements: [],
 }
 
