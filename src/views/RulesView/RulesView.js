@@ -1,12 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { Hexes, Shapes, Svg, ValidMoves } from 'components'
-import {
-  circleMovementMap,
-  circleMovementShapes,
-  circleMovementValidMoves,
-} from 'data/maps/circle-movement'
+import { Board } from 'components'
+import circleMovementBoard from 'data/boards/circle-movement'
+import circleMovementValidMoves from 'data/boards/circle-movement/valid-moves'
 import styles from './rules-view.scss'
 
 export class Rules extends Component {
@@ -19,26 +16,12 @@ export class Rules extends Component {
           The <b>Circle</b> moves in a circular fashion
         </p>
         <div className={styles.svgWrap}>
-          <Svg viewBox={`0, 0, ${circleMovementMap.width}, ${circleMovementMap.height}`}>
-            <g>
-              <Hexes
-                hexes={circleMovementMap.hexes}
-                x={circleMovementMap.offset}
-                y={circleMovementMap.offset}
-              />
-              <Shapes
-                shapes={circleMovementShapes}
-                selectedShape={circleMovementShapes[0]}
-                x={circleMovementMap.offset}
-                y={circleMovementMap.offset}
-              />
-              <ValidMoves
-                moves={circleMovementValidMoves}
-                x={circleMovementMap.offset}
-                y={circleMovementMap.offset}
-              />
-            </g>
-          </Svg>
+          <Board
+            board={circleMovementBoard}
+            selectedShape={circleMovementBoard.shapes[0]}
+            shapes={circleMovementBoard.shapes}
+            validMoves={circleMovementValidMoves}
+          />
         </div>
 
         <p>

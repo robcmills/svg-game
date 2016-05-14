@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react'
+import _ from 'lodash'
 
 import { Elements, Hexes, Numbers, Shapes, Svg, ValidMoves } from 'components'
 
@@ -68,6 +69,17 @@ Board.propTypes = {
   showNumbers: PropTypes.bool.isRequired,
   validMoves: PropTypes.array.isRequired,
   whiteElements: PropTypes.array.isRequired,
+}
+
+Board.defaultProps = {
+  blackElements: [],
+  elements: [],
+  handleElementClick: _.noop,
+  handleHexClick: _.noop,
+  handleShapeClick: _.noop,
+  handleValidMoveClick: _.noop,
+  showNumbers: false,
+  whiteElements: [],
 }
 
 export default Board

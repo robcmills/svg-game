@@ -5,7 +5,7 @@ import { HEX_RADIUS } from 'data/constants'
 
 const colors = _.merge(elementColors, hexColors)
 
-export const mapHexTypes = [
+export const hexTypes = [
   ['empty'],
   ['neutral1'],
   ['neutral2', 'neutral2'],
@@ -14,18 +14,10 @@ export const mapHexTypes = [
   ['neutral2'],
 ]
 
-export const validMoves = [
-  { xIndex: 0, yIndex: 1 },
-  { xIndex: 0, yIndex: 2 },
-  { xIndex: 1, yIndex: 2 },
-  { xIndex: 0, yIndex: 4 },
-  { xIndex: 1, yIndex: 4 },
-]
-
-export default {
+const hexes = {
   offset: HEX_RADIUS,
   height: HEX_RADIUS * 7,
-  hexes: _.map(mapHexTypes, (row, y) => (
+  hexes: _.map(hexTypes, (row, y) => (
     _.map(row, (type, x) => _.assign({}, {
       color: colors[type],
       type,
@@ -35,3 +27,5 @@ export default {
   )),
   width: HEX_RADIUS * 5,
 }
+
+export default hexes
