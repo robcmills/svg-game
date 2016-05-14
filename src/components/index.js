@@ -1,3 +1,4 @@
+export { default as Board } from './Board/board'
 export { default as Elements } from './Elements/elements'
 export { default as Hex } from './Hex/hex'
 export { default as Hexes } from './Hexes/hexes'

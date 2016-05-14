@@ -6,7 +6,7 @@ import _ from 'lodash'
 import mapStateToSelectors from 'utils/map-state-to-selectors'
 import * as selectors from './hex-view-selectors'
 import * as actions from './hex-view-action-creators'
-import { Elements, Hexes, Menu, Numbers, Shapes, Svg, ValidMoves } from 'components'
+import { Board, Menu } from 'components'
 import { elements1, map1, shapes1 } from 'data/maps/map1'
 import styles from './hex-view.scss'
 
@@ -55,41 +55,20 @@ class HexView extends Component {
     return (
       <div className={styles.root}>
         <div className={styles.svgWrap}>
-          <Svg viewBox={`0, 0, ${map.width}, ${map.height}`}>
-            <g>
-              <Hexes
-                blackElements={blackElements}
-                hexes={map.hexes}
-                onHexClick={this.handleHexClick}
-                x={map.offset}
-                y={map.offset}
-                whiteElements={whiteElements}
-              />
-              <Shapes
-                shapes={shapes}
-                onShapeClick={this.handleShapeClick}
-                selectedShape={selectedShape}
-                x={map.offset}
-                y={map.offset}
-              />
-              <Elements
-                blackElements={blackElements}
-                elements={elements}
-                onElementClick={this.handleElementClick}
-                selectedShape={selectedShape}
-                x={map.offset}
-                y={map.offset}
-                whiteElements={whiteElements}
-              />
-              <ValidMoves
-                onValidMoveClick={this.handleValidMoveClick}
-                moves={validMoves}
-                x={map.offset}
-                y={map.offset}
-              />
-              {showNumbers && <Numbers data={map.hexes} x={map.offset} y={map.offset} />}
-            </g>
-          </Svg>
+          <Board
+            blackElements={blackElements}
+            elements={elements}
+            handleElementClick={this.handleElementClick}
+            handleHexClick={this.handleHexClick}
+            handleShapeClick={this.handleShapeClick}
+            handleValidMoveClick={this.handleValidMoveClick}
+            map={map}
+            selectedShape={selectedShape}
+            shapes={shapes}
+            showNumbers={showNumbers}
+            validMoves={validMoves}
+            whiteElements={whiteElements}
+          />
         </div>
         <div className={styles.turn}>
           {winner && `${winner} wins`}
