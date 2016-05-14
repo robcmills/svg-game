@@ -14,14 +14,14 @@ export const showNumbersSelector = createSelector(
   (hexView) => hexView.showNumbers
 )
 
-export const elementsSelector = createSelector(
+export const boardSelector = createSelector(
   hexViewSelector,
-  (hexView) => hexView.elements || []
+  (hexView) => hexView.board
 )
 
-export const mapSelector = createSelector(
-  hexViewSelector,
-  (hexView) => hexView.map
+export const elementsSelector = createSelector(
+  boardSelector,
+  (board) => board.elements
 )
 
 export const shapesSelector = createSelector(
@@ -79,18 +79,18 @@ export const enforceValidMovesSelector = createSelector(
 
 export const validMovesSelector = createSelector(
   blackElementsSelector,
-  mapSelector,
+  boardSelector,
   selectedShapeSelector,
   shapesSelector,
   whiteElementsSelector,
-  (blackElements, map, selectedShape, shapes, whiteElements) => {
+  (blackElements, board, selectedShape, shapes, whiteElements) => {
     const validMoves = []
     if (!selectedShape) {  // no shape selected
       return validMoves
     }
     validMoves.push(...getValidShapeMoves({
       blackElements,
-      map: map.hexes,
+      hexes: board.hexes,
       selectedShape,
       shapes,
       whiteElements,

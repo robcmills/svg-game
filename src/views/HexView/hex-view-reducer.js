@@ -6,10 +6,11 @@ import * as actionTypes from './hex-view-action-types'
 const initialState = {
   enforceTurnOrder: true,
   enforceValidMoves: true,
-  map: {
-    offset: 0,
+  board: {
+    elements: [],
     height: 0,
     hexes: [],
+    offset: 0,
     width: 0,
   },
   shapes: [],
@@ -25,14 +26,8 @@ export default createReducer(initialState, {
     _.assign(shapeToConvert, { color: toColor })
     return { ...state, shapes: newShapes }
   },
-  [actionTypes.LOAD_ELEMENTS]: (state, { elements }) => {
-    return { ...state, elements }
-  },
-  [actionTypes.LOAD_MAP]: (state, { map }) => {
-    return { ...state, map }
-  },
-  [actionTypes.LOAD_SHAPES]: (state, { shapes }) => {
-    return { ...state, shapes }
+  [actionTypes.LOAD_BOARD]: (state, { board }) => {
+    return { ...state, board: _.omit(board, 'shapes'), shapes: board.shapes }
   },
   [actionTypes.MOVE_SHAPE]: (state, { xIndex, yIndex }) => {
     const newShapes = _.cloneDeep(state.shapes)

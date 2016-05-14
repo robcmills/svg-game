@@ -5,8 +5,8 @@ import {
   HEX_CARDINALS_COUNTER_CLOCKWISE,
 } from 'data/constants'
 
-export const getHex = ({ map, xIndex, yIndex }) => {
-  return _.get(map, `[${yIndex}][${xIndex}]`)
+export const getHex = ({ hexes, xIndex, yIndex }) => {
+  return _.get(hexes, `[${yIndex}][${xIndex}]`)
 }
 
 export const getShape = ({ shapes, xIndex, yIndex }) => {
@@ -55,8 +55,8 @@ export const isValidMove = (args) => {
   }
   let { hex } = args
   if (!hex) {
-    const { map } = args
-    hex = getHex({ map, xIndex, yIndex })
+    const { hexes } = args
+    hex = getHex({ hexes, xIndex, yIndex })
   }
   if (hex.type === 'empty') {
     return false
@@ -94,23 +94,23 @@ export const getCardinalRange = ({ isClockwise, start, end }) => {
   return _.slice(range, 0, range.length - 1)
 }
 
-export const getAdjacentHex = ({ cardinal, map, xIndex, yIndex }) => {
+export const getAdjacentHex = ({ cardinal, hexes, xIndex, yIndex }) => {
   const isEvenRow = yIndex % 2 === 0
   const xAdjustA = isEvenRow ? 0 : 1
   const xAdjustB = isEvenRow ? 1 : 0
   switch (cardinal) {
     case 'north':
-      return getHex({ map, xIndex, yIndex: yIndex - 2 })
+      return getHex({ hexes, xIndex, yIndex: yIndex - 2 })
     case 'northEast':
-      return getHex({ map, xIndex: xIndex + xAdjustA, yIndex: yIndex - 1 })
+      return getHex({ hexes, xIndex: xIndex + xAdjustA, yIndex: yIndex - 1 })
     case 'southEast':
-      return getHex({ map, xIndex: xIndex + xAdjustA, yIndex: yIndex + 1 })
+      return getHex({ hexes, xIndex: xIndex + xAdjustA, yIndex: yIndex + 1 })
     case 'south':
-      return getHex({ map, xIndex, yIndex: yIndex + 2 })
+      return getHex({ hexes, xIndex, yIndex: yIndex + 2 })
     case 'southWest':
-      return getHex({ map, xIndex: xIndex - xAdjustB, yIndex: yIndex + 1 })
+      return getHex({ hexes, xIndex: xIndex - xAdjustB, yIndex: yIndex + 1 })
     case 'northWest':
-      return getHex({ map, xIndex: xIndex - xAdjustB, yIndex: yIndex - 1 })
+      return getHex({ hexes, xIndex: xIndex - xAdjustB, yIndex: yIndex - 1 })
   }
 }
 
@@ -121,23 +121,23 @@ export const getAdjacentHexes = (args) => {
     center,
     end,
     isClockwise,
-    map,
+    hexes,
     selectedShape,
     shapes,
     start,
     whiteElements
   } = args
-  const hexes = []
+  const adjacentHexes = []
   const cardinalRange = getCardinalRange({ isClockwise, start, end })
   _.forEach(cardinalRange, (cardinal) => {
     const nextHex = getAdjacentHex({
-      cardinal, map, xIndex: center.xIndex, yIndex: center.yIndex,
+      cardinal, hexes, xIndex: center.xIndex, yIndex: center.yIndex,
     })
     if (!nextHex) {
       return allowInvalid
     }
     if (allowInvalid) {
-      hexes.push(_.assign({}, nextHex, { cardinal }))
+      adjacentHexes.push(_.assign({}, nextHex, { cardinal }))
       return
     }
     const nextShape = getShape({ shapes, xIndex: nextHex.xIndex, yIndex: nextHex.yIndex })
@@ -150,7 +150,7 @@ export const getAdjacentHexes = (args) => {
       whiteElements,
       shapes,
     })) {
-      hexes.push(_.assign({}, nextHex, { cardinal }))
+      adjacentHexes.push(_.assign({}, nextHex, { cardinal }))
       if (nextShape) {
         return false
       }
@@ -158,7 +158,7 @@ export const getAdjacentHexes = (args) => {
       return false
     }
   })
-  return hexes
+  return adjacentHexes
 }
 
 export const getValidCircleMoves = (args) => {
@@ -214,14 +214,14 @@ export const getValidCircleMoves = (args) => {
 export const getCardinalHexes = ({
   blackElements,
   cardinal,
-  map,
+  hexes,
   selectedShape,
   shapes,
   whiteElements,
 }) => {
   const validMoves = []
   let nextHex = getAdjacentHex({
-    cardinal, map, xIndex: selectedShape.xIndex, yIndex: selectedShape.yIndex,
+    cardinal, hexes, xIndex: selectedShape.xIndex, yIndex: selectedShape.yIndex,
   })
   let nextShape
   if (nextHex) {
@@ -241,7 +241,7 @@ export const getCardinalHexes = ({
       break
     }
     nextHex = getAdjacentHex({
-      cardinal, map, xIndex: nextHex.xIndex, yIndex: nextHex.yIndex,
+      cardinal, hexes, xIndex: nextHex.xIndex, yIndex: nextHex.yIndex,
     })
     if (nextHex) {
       nextShape = getShape({ shapes, xIndex: nextHex.xIndex, yIndex: nextHex.yIndex })

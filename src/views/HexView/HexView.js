@@ -7,7 +7,7 @@ import mapStateToSelectors from 'utils/map-state-to-selectors'
 import * as selectors from './hex-view-selectors'
 import * as actions from './hex-view-action-creators'
 import { Board, Menu } from 'components'
-import { elements1, map1, shapes1 } from 'data/maps/map1'
+import board1 from 'data/boards/board1'
 import styles from './hex-view.scss'
 
 class HexView extends Component {
@@ -17,10 +17,8 @@ class HexView extends Component {
     elements: PropTypes.array,
     enforceTurnOrder: PropTypes.bool,
     enforceValidMoves: PropTypes.bool,
-    loadElements: PropTypes.func.isRequired,
-    loadMap: PropTypes.func.isRequired,
-    loadShapes: PropTypes.func.isRequired,
-    map: PropTypes.object.isRequired,
+    loadBoard: PropTypes.func.isRequired,
+    board: PropTypes.object.isRequired,
     moveShape: PropTypes.func.isRequired,
     selectedShape: PropTypes.object,
     selectShape: PropTypes.func.isRequired,
@@ -42,7 +40,7 @@ class HexView extends Component {
       blackElements,
       elements,
       enforceTurnOrder,
-      map,
+      board,
       selectedShape,
       shapes,
       showNumbers,
@@ -62,7 +60,7 @@ class HexView extends Component {
             handleHexClick={this.handleHexClick}
             handleShapeClick={this.handleShapeClick}
             handleValidMoveClick={this.handleValidMoveClick}
-            map={map}
+            board={board}
             selectedShape={selectedShape}
             shapes={shapes}
             showNumbers={showNumbers}
@@ -80,14 +78,12 @@ class HexView extends Component {
   }
 
   componentDidMount () {
-    this.props.loadMap({ map: map1 })
-    this.props.loadShapes({ shapes: shapes1 })
-    this.props.loadElements({ elements: elements1 })
+    this.props.loadBoard({ board: board1 })
   }
 
   getHex = ({ xIndex, yIndex }) => {
-    const { map } = this.props
-    return _.get(map, `hexes[${yIndex}][${xIndex}]`)
+    const { board } = this.props
+    return _.get(board, `hexes[${yIndex}][${xIndex}]`)
   }
 
   getShape = ({ xIndex, yIndex }) => {
@@ -176,7 +172,7 @@ export default connect(mapStateToSelectors({
   elements: selectors.elementsSelector,
   enforceTurnOrder: selectors.enforceTurnOrderSelector,
   enforceValidMoves: selectors.enforceValidMovesSelector,
-  map: selectors.mapSelector,
+  board: selectors.boardSelector,
   selectedShape: selectors.selectedShapeSelector,
   shapes: selectors.shapesSelector,
   showNumbers: selectors.showNumbersSelector,
@@ -187,9 +183,7 @@ export default connect(mapStateToSelectors({
 }),
 (dispatch) => bindActionCreators({
   convertShape: actions.convertShape,
-  loadElements: actions.loadElements,
-  loadMap: actions.loadMap,
-  loadShapes: actions.loadShapes,
+  loadBoard: actions.loadBoard,
   moveShape: actions.moveShape,
   selectShape: actions.selectShape,
   toggleMenu: actions.toggleMenu,

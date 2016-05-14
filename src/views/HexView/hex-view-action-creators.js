@@ -9,29 +9,11 @@ export function convertShape (payload) {
   }
 }
 
-export function loadElements ({ elements }) {
+export function loadBoard ({ board }) {
   return (dispatch) => {
     dispatch({
-      type: actionTypes.LOAD_ELEMENTS,
-      payload: { elements },
-    })
-  }
-}
-
-export function loadMap ({ map }) {
-  return (dispatch) => {
-    dispatch({
-      type: actionTypes.LOAD_MAP,
-      payload: { map },
-    })
-  }
-}
-
-export function loadShapes ({ shapes }) {
-  return (dispatch) => {
-    dispatch({
-      type: actionTypes.LOAD_SHAPES,
-      payload: { shapes },
+      type: actionTypes.LOAD_BOARD,
+      payload: { board },
     })
   }
 }

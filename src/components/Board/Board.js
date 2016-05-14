@@ -9,7 +9,7 @@ const Board = ({
   handleHexClick,
   handleShapeClick,
   handleValidMoveClick,
-  map,
+  board,
   selectedShape,
   shapes,
   showNumbers,
@@ -17,39 +17,39 @@ const Board = ({
   whiteElements,
 }) => {
   return (
-    <Svg viewBox={`0, 0, ${map.width}, ${map.height}`}>
+    <Svg viewBox={`0, 0, ${board.width}, ${board.height}`}>
       <g>
         <Hexes
           blackElements={blackElements}
-          hexes={map.hexes}
+          hexes={board.hexes}
           onHexClick={handleHexClick}
-          x={map.offset}
-          y={map.offset}
+          x={board.offset}
+          y={board.offset}
           whiteElements={whiteElements}
         />
         <Shapes
           shapes={shapes}
           onShapeClick={handleShapeClick}
           selectedShape={selectedShape}
-          x={map.offset}
-          y={map.offset}
+          x={board.offset}
+          y={board.offset}
         />
         <Elements
           blackElements={blackElements}
           elements={elements}
           onElementClick={handleElementClick}
           selectedShape={selectedShape}
-          x={map.offset}
-          y={map.offset}
+          x={board.offset}
+          y={board.offset}
           whiteElements={whiteElements}
         />
         <ValidMoves
           onValidMoveClick={handleValidMoveClick}
           moves={validMoves}
-          x={map.offset}
-          y={map.offset}
+          x={board.offset}
+          y={board.offset}
         />
-        {showNumbers && <Numbers data={map.hexes} x={map.offset} y={map.offset} />}
+        {showNumbers && <Numbers data={board.hexes} x={board.offset} y={board.offset} />}
       </g>
     </Svg>
   )
@@ -62,7 +62,7 @@ Board.propTypes = {
   handleHexClick: PropTypes.func.isRequired,
   handleShapeClick: PropTypes.func.isRequired,
   handleValidMoveClick: PropTypes.func.isRequired,
-  map: PropTypes.object.isRequired,
+  board: PropTypes.object.isRequired,
   selectedShape: PropTypes.object,
   shapes: PropTypes.array.isRequired,
   showNumbers: PropTypes.bool.isRequired,
