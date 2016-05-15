@@ -16,7 +16,7 @@ export const hexTypes = [
 
 const hexes = {
   offset: HEX_RADIUS,
-  height: HEX_RADIUS * 7,
+  height: HEX_RADIUS * 8,
   hexes: _.map(hexTypes, (row, y) => (
     _.map(row, (type, x) => _.assign({}, {
       color: colors[type],

@@ -51,6 +51,23 @@ export class Rules extends Component {
             validMoves={triangleMovementValidMoves}
           />
         </div>
+
+        <h2>Conversions</h2>
+        <p>
+          If an opponent shape is located on a hex that is a valid move for one of your shapes,
+          selecting your shape and then selecting the opponent shape will immediately convert it
+          to your color, and it remains your turn. You may then use the newly converted shape to
+          continue converting other nearby opponent shapes, in potentially long chains of
+          conversions that drastically sway the game.
+        </p>
+
+        <h2>Rock, Paper, Scissor Mechanic</h2>
+        <p>
+          Each shape type can only convert one other type:<br />
+          Circle (rock) can convert Triangle (scissor)<br />
+          Square (paper) can convert Circle (rock)<br />
+          Triangle (scissor) can convert Square (paper)<br />
+        </p>
       </div>
     )
   }
