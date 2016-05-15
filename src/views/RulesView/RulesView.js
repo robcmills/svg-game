@@ -6,6 +6,8 @@ import circleMovementBoard from 'data/boards/circle-movement'
 import circleMovementValidMoves from 'data/boards/circle-movement/valid-moves'
 import squareMovementBoard from 'data/boards/square-movement'
 import squareMovementValidMoves from 'data/boards/square-movement/valid-moves'
+import triangleMovementBoard from 'data/boards/triangle-movement'
+import triangleMovementValidMoves from 'data/boards/triangle-movement/valid-moves'
 import styles from './rules-view.scss'
 
 export class Rules extends Component {
@@ -35,6 +37,18 @@ export class Rules extends Component {
             selectedShape={squareMovementBoard.shapes[0]}
             shapes={squareMovementBoard.shapes}
             validMoves={squareMovementValidMoves}
+          />
+        </div>
+
+        <p>
+          The <b>Triangle</b> moves by angles
+        </p>
+        <div className={styles.svgWrap}>
+          <Board
+            board={triangleMovementBoard}
+            selectedShape={triangleMovementBoard.shapes[0]}
+            shapes={triangleMovementBoard.shapes}
+            validMoves={triangleMovementValidMoves}
           />
         </div>
       </div>
