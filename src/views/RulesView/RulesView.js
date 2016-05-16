@@ -58,16 +58,38 @@ export class Rules extends Component {
           selecting your shape and then selecting the opponent shape will immediately convert it
           to your color, and it remains your turn. You may then use the newly converted shape to
           continue converting other nearby opponent shapes, in potentially long chains of
-          conversions that drastically sway the game.
+          conversions that drastically sway the game. Your turn ends when you move a shape.
         </p>
 
         <h2>Rock, Paper, Scissor Mechanic</h2>
         <p>
           Each shape type can only convert one other type:<br />
-          Circle (rock) can convert Triangle (scissor)<br />
-          Square (paper) can convert Circle (rock)<br />
-          Triangle (scissor) can convert Square (paper)<br />
+          Circles (rock) can convert Triangles (scissor)<br />
+          Squares (paper) can convert Circles (rock)<br />
+          Triangles (scissor) can convert Squares (paper)<br />
         </p>
+
+        <h2>Elements</h2>
+        <p>
+          There are four elements:<br />
+          Fire (red)<br />
+          Water (blue)<br />
+          Sky (light blue)<br />
+          Earth (green)<br />
+          There are two types of each element on the board:<br />
+          Element hexes (colored hexes)<br />
+          Element tokens (small colored circles)<br />
+          A player may not move his shapes onto or through element hexes unless
+          he owns the corresponding element token by moving any of his shapes
+          onto the hex containing it.
+        </p>
+
+        <h2>Winning</h2>
+        <p>
+          The first player to own all four elements or convert all opponent shapes wins.
+        </p>
+
+        <a href='/hex'>Back</a>
       </div>
     )
   }
