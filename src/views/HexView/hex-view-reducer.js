@@ -16,6 +16,7 @@ const initialState = {
   shapes: [],
   showMenu: false,
   showNumbers: false,
+  showRules: false,
   turn: 'white',
 }
 
@@ -65,6 +66,12 @@ export default createReducer(initialState, {
     return {
       ...state,
       showNumbers: !state.showNumbers,
+    }
+  },
+  [actionTypes.TOGGLE_RULES]: (state) => {
+    return {
+      ...state,
+      showRules: !state.showRules,
     }
   },
   [actionTypes.TOGGLE_VALID_MOVES]: (state) => {

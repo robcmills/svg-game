@@ -14,6 +14,11 @@ export const showNumbersSelector = createSelector(
   (hexView) => hexView.showNumbers
 )
 
+export const showRulesSelector = createSelector(
+  hexViewSelector,
+  (hexView) => hexView.showRules
+)
+
 export const boardSelector = createSelector(
   hexViewSelector,
   (hexView) => hexView.board

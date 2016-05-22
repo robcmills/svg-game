@@ -1,0 +1,31 @@
+.wrap {
+	background-color: white;
+	bottom: 0;
+	left: 0;
+	position: absolute;
+	right: 0;
+	text-align: center;
+	top: 0;
+}
+
+.rules {
+	margin: 0 auto;
+	margin-bottom: 2rem;
+	max-width: 500px;
+	text-align: center;
+}
+
+.svgWrap {
+	display: flex;
+	height: 200px;
+}
+
+.link {
+	padding: 1rem;
+
+	&:hover {
+		color: DarkOrange;
+		cursor: pointer;
+	}
+}
+

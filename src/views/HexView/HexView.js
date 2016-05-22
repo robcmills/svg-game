@@ -6,7 +6,7 @@ import _ from 'lodash'
 import mapStateToSelectors from 'utils/map-state-to-selectors'
 import * as selectors from './hex-view-selectors'
 import * as actions from './hex-view-action-creators'
-import { Board, Menu } from 'components'
+import { Board, Menu, Rules } from 'components'
 import board1 from 'data/boards/board1'
 import styles from './hex-view.scss'
 
@@ -24,8 +24,10 @@ class HexView extends Component {
     selectShape: PropTypes.func.isRequired,
     shapes: PropTypes.array,
     showNumbers: PropTypes.bool,
+    showRules: PropTypes.bool,
     toggleMenu: PropTypes.func.isRequired,
     toggleNumbers: PropTypes.func.isRequired,
+    toggleRules: PropTypes.func.isRequired,
     toggleEnforceTurnOrder: PropTypes.func.isRequired,
     toggleValidMoves: PropTypes.func.isRequired,
     turn: PropTypes.string,
@@ -44,6 +46,8 @@ class HexView extends Component {
       selectedShape,
       shapes,
       showNumbers,
+      showRules,
+      toggleRules,
       turn,
       validMoves,
       whiteElements,
@@ -73,6 +77,7 @@ class HexView extends Component {
           {!winner && enforceTurnOrder && `${turn} to play`}
         </div>
         <Menu />
+        {showRules && <Rules toggleRules={toggleRules} />}
       </div>
     )
   }
@@ -176,6 +181,7 @@ export default connect(mapStateToSelectors({
   selectedShape: selectors.selectedShapeSelector,
   shapes: selectors.shapesSelector,
   showNumbers: selectors.showNumbersSelector,
+  showRules: selectors.showRulesSelector,
   turn: selectors.turnSelector,
   validMoves: selectors.validMovesSelector,
   whiteElements: selectors.whiteElementsSelector,
@@ -188,6 +194,7 @@ export default connect(mapStateToSelectors({
   selectShape: actions.selectShape,
   toggleMenu: actions.toggleMenu,
   toggleNumbers: actions.toggleNumbers,
+  toggleRules: actions.toggleRules,
   toggleEnforceTurnOrder: actions.toggleEnforceTurnOrder,
   toggleValidMoves: actions.toggleValidMoves,
   unSelectShape: actions.unSelectShape,

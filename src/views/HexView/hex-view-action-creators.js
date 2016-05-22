@@ -60,6 +60,14 @@ export function toggleNumbers () {
   }
 }
 
+export function toggleRules () {
+  return (dispatch) => {
+    dispatch({
+      type: actionTypes.TOGGLE_RULES,
+    })
+  }
+}
+
 export function toggleValidMoves () {
   return (dispatch) => {
     dispatch({

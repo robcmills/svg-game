@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
-import { Link } from 'react-router'
 
 import mapStateToSelectors from 'utils/map-state-to-selectors'
 import * as selectors from 'views/HexView/hex-view-selectors'
@@ -21,6 +20,7 @@ class Menu extends Component {
     toggleNumbers: PropTypes.func.isRequired,
     toggleEnforceTurnOrder: PropTypes.func.isRequired,
     toggleMenu: PropTypes.func.isRequired,
+    toggleRules: PropTypes.func.isRequired,
     toggleValidMoves: PropTypes.func.isRequired,
     redo: PropTypes.func.isRequired,
     undo: PropTypes.func.isRequired,
@@ -30,13 +30,14 @@ class Menu extends Component {
     const {
       enforceTurnOrder,
       enforceValidMoves,
-      toggleNumbers,
-      toggleEnforceTurnOrder,
-      toggleValidMoves,
       redo,
       showMenu,
       showNumbers,
+      toggleEnforceTurnOrder,
       toggleMenu,
+      toggleNumbers,
+      toggleRules,
+      toggleValidMoves,
       undo,
     } = this.props
     return showMenu ? (
@@ -44,8 +45,8 @@ class Menu extends Component {
         <div className={styles.item} onClick={toggleMenu}>
           <a>Close</a>
         </div>
-        <div className={styles.item}>
-          <Link to='/rules'>How to play</Link>
+        <div className={styles.item} onClick={toggleRules}>
+          <a>How to play</a>
         </div>
         <div className={styles.item} onClick={undo}>
           <a>Undo</a>
@@ -87,6 +88,7 @@ export default connect(
     toggleNumbers: actions.toggleNumbers,
     toggleEnforceTurnOrder: actions.toggleEnforceTurnOrder,
     toggleMenu: actions.toggleMenu,
+    toggleRules: actions.toggleRules,
     toggleValidMoves: actions.toggleValidMoves,
     redo: undoActionCreators.redo,
     undo: undoActionCreators.undo,
