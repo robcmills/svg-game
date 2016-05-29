@@ -31,7 +31,7 @@ class HexView extends Component {
     toggleEnforceTurnOrder: PropTypes.func.isRequired,
     toggleValidMoves: PropTypes.func.isRequired,
     turn: PropTypes.string,
-    unSelectShape: PropTypes.func.isRequired,
+    unselectShape: PropTypes.func.isRequired,
     validMoves: PropTypes.array,
     whiteElements: PropTypes.array,
     winner: PropTypes.string,
@@ -126,7 +126,7 @@ class HexView extends Component {
       selectedShape,
       selectShape,
       turn,
-      unSelectShape,
+      unselectShape,
     } = this.props
     if (
       selectedShape &&
@@ -134,13 +134,13 @@ class HexView extends Component {
       this.isValidMove({ xIndex: shape.xIndex, yIndex: shape.yIndex })
     ) {
       convertShape({ shape, toColor: selectedShape.color })
-      unSelectShape({ shape: selectedShape })
+      unselectShape({ shape: selectedShape })
       return
     }
     if (enforceTurnOrder && shape.color !== turn) { // respect turn order
       return
     }
-    shape.selected ? unSelectShape({ shape }) : selectShape({ shape })
+    shape.selected ? unselectShape({ shape }) : selectShape({ shape })
   }
 
   handleShowNumbersClick = () => {
@@ -148,9 +148,9 @@ class HexView extends Component {
   }
 
   handleToggleEnforceTurnOrderClick = () => {
-    const { selectedShape, unSelectShape } = this.props
+    const { selectedShape, unselectShape } = this.props
     if (selectedShape) {
-      unSelectShape({ shape: selectedShape })
+      unselectShape({ shape: selectedShape })
     }
     this.props.toggleEnforceTurnOrder()
   }
@@ -197,6 +197,6 @@ export default connect(mapStateToSelectors({
   toggleRules: actions.toggleRules,
   toggleEnforceTurnOrder: actions.toggleEnforceTurnOrder,
   toggleValidMoves: actions.toggleValidMoves,
-  unSelectShape: actions.unSelectShape,
+  unselectShape: actions.unselectShape,
 }, dispatch),
 )(HexView)
