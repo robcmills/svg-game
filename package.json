@@ -10,6 +10,7 @@
   "scripts": {
     "clean": "rimraf dist",
     "compile": "better-npm-run compile",
+    "compile:prod": "better-npm-run compile:prod",
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
     "start": "better-npm-run start",
@@ -29,6 +30,13 @@
         "DEBUG": "app:*"
       }
     },
+    "compile:prod": {
+      "command": "npm run clean && npm run compile",
+      "env": {
+        "NODE_ENV": "production",
+        "DEBUG": "app:*"
+      }
+    },
     "dev": {
       "command": "nodemon --exec babel-node bin/server",
       "env": {
@@ -37,11 +45,7 @@
       }
     },
     "deploy": {
-      "command": "npm run clean && npm run compile",
-      "env": {
-        "NODE_ENV": "production",
-        "DEBUG": "app:*"
-      }
+      "command": "bin/s3-sync.sh"
     },
     "start": {
       "command": "babel-node bin/server",
