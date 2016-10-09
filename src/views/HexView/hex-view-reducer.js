@@ -4,8 +4,6 @@ import _ from 'lodash'
 import * as actionTypes from './hex-view-action-types'
 
 const initialState = {
-  enforceTurnOrder: true,
-  enforceValidMoves: true,
   board: {
     elements: [],
     height: 0,
@@ -13,6 +11,10 @@ const initialState = {
     offset: 0,
     width: 0,
   },
+  enforceTurnOrder: true,
+  enforceValidMoves: true,
+  isTimeTravelExpanded: false,
+  isSettingsExpanded: false,
   shapes: [],
   showMenu: false,
   showNumbers: false,
@@ -72,6 +74,18 @@ export default createReducer(initialState, {
     return {
       ...state,
       showRules: !state.showRules,
+    }
+  },
+  [actionTypes.TOGGLE_SETTINGS]: (state) => {
+    return {
+      ...state,
+      isSettingsExpanded: !state.isSettingsExpanded,
+    }
+  },
+  [actionTypes.TOGGLE_TIME_TRAVEL]: (state) => {
+    return {
+      ...state,
+      isTimeTravelExpanded: !state.isTimeTravelExpanded,
     }
   },
   [actionTypes.TOGGLE_VALID_MOVES]: (state) => {

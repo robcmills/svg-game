@@ -9,11 +9,15 @@ import * as actions from 'views/HexView/hex-view-action-creators'
 import { undoActionCreators } from 'redux/modules/undo'
 import styles from './menu.scss'
 
+import MenuItem from './MenuItem'
+
 class Menu extends Component {
   static propTypes = {
     // state
     enforceTurnOrder: PropTypes.bool.isRequired,
     enforceValidMoves: PropTypes.bool.isRequired,
+    isTimeTravelExpanded: PropTypes.bool.isRequired,
+    isSettingsExpanded: PropTypes.bool.isRequired,
     showMenu: PropTypes.bool.isRequired,
     showNumbers: PropTypes.bool.isRequired,
     // actions
@@ -21,6 +25,8 @@ class Menu extends Component {
     toggleEnforceTurnOrder: PropTypes.func.isRequired,
     toggleMenu: PropTypes.func.isRequired,
     toggleRules: PropTypes.func.isRequired,
+    toggleSettings: PropTypes.func.isRequired,
+    toggleTimeTravel: PropTypes.func.isRequired,
     toggleValidMoves: PropTypes.func.isRequired,
     redo: PropTypes.func.isRequired,
     undo: PropTypes.func.isRequired,
@@ -30,6 +36,8 @@ class Menu extends Component {
     const {
       enforceTurnOrder,
       enforceValidMoves,
+      isTimeTravelExpanded,
+      isSettingsExpanded,
       redo,
       showMenu,
       showNumbers,
@@ -37,38 +45,41 @@ class Menu extends Component {
       toggleMenu,
       toggleNumbers,
       toggleRules,
+      toggleSettings,
+      toggleTimeTravel,
       toggleValidMoves,
       undo,
     } = this.props
     return showMenu ? (
       <div className={styles.menu}>
-        <div className={styles.item} onClick={toggleMenu}>
-          <a>Close</a>
-        </div>
-        <div className={styles.item} onClick={toggleRules}>
-          <a>How to play</a>
-        </div>
-        <div className={styles.item} onClick={undo}>
-          <a>Undo</a>
-        </div>
-        <div className={styles.item} onClick={redo}>
-          <a>Redo</a>
-        </div>
-        <div className={styles.item} onClick={toggleEnforceTurnOrder}>
-          <a>
-            {`${enforceTurnOrder ? 'Do not enforce' : 'Enforce'} turn order`}
-          </a>
-        </div>
-        <div className={styles.item} onClick={toggleValidMoves}>
-          <a>
-            {`${enforceValidMoves ? 'Allow invalid' : 'Enforce valid'} moves`}
-          </a>
-        </div>
-        <div className={styles.item} onClick={toggleNumbers}>
-          <a>
-            {`${showNumbers ? 'Hide' : 'Show'} numbers`}
-          </a>
-        </div>
+        <MenuItem onClick={toggleMenu} text='Close' />
+        <MenuItem onClick={toggleRules} text='How to Play' />
+        <MenuItem
+          isExpanded={isTimeTravelExpanded}
+          onClick={toggleTimeTravel}
+          text='Time Travel'
+        >
+          <MenuItem onClick={undo} text='Backwards' />
+          <MenuItem onClick={redo} text='Forwards' />
+        </MenuItem>
+        <MenuItem
+          isExpanded={isSettingsExpanded}
+          onClick={toggleSettings}
+          text='Settings'
+        >
+          <MenuItem
+            onClick={toggleEnforceTurnOrder}
+            text={`${enforceTurnOrder ? 'Do not enforce' : 'Enforce'} turn order`}
+          />
+          <MenuItem
+            onClick={toggleValidMoves}
+            text={`${enforceValidMoves ? 'Allow invalid' : 'Enforce valid'} moves`}
+          />
+          <MenuItem
+            onClick={toggleNumbers}
+            text={`${showNumbers ? 'Hide' : 'Show'} numbers`}
+          />
+        </MenuItem>
       </div>)
       : (<div className={classNames(styles.menu, styles.item)} onClick={toggleMenu}>
         <a>Menu</a>
@@ -80,6 +91,8 @@ export default connect(
   mapStateToSelectors({
     enforceTurnOrder: selectors.enforceTurnOrderSelector,
     enforceValidMoves: selectors.enforceValidMovesSelector,
+    isTimeTravelExpanded: selectors.isTimeTravelExpandedSelector,
+    isSettingsExpanded: selectors.isSettingsExpandedSelector,
     showMenu: selectors.showMenuSelector,
     showNumbers: selectors.showNumbersSelector,
   }),
@@ -89,6 +102,8 @@ export default connect(
     toggleEnforceTurnOrder: actions.toggleEnforceTurnOrder,
     toggleMenu: actions.toggleMenu,
     toggleRules: actions.toggleRules,
+    toggleSettings: actions.toggleSettings,
+    toggleTimeTravel: actions.toggleTimeTravel,
     toggleValidMoves: actions.toggleValidMoves,
     redo: undoActionCreators.redo,
     undo: undoActionCreators.undo,

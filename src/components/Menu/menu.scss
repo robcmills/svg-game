@@ -6,9 +6,37 @@
 
 .item {
 	padding: 1rem;
+}
+
+.link {
+	align-items: center;
+	display: flex;
 
 	&:hover {
 		color: DarkOrange;
 		cursor: pointer;
 	}
+}
+
+.children {
+	padding-left: 2rem;
+}
+
+.expandWrap {
+	line-height: 0;
+	margin-right: .5rem;
+}
+.triangle {
+	font-size: .75rem;
+	height: .75rem;
+	line-height: .75rem;
+	width: .75rem;
+}
+.collapsed {
+	transform: rotate(0deg);
+	transition: transform 0.2s;
+}
+.expanded {
+	transform: rotate(90deg);
+	transition: transform 0.2s;
 }
